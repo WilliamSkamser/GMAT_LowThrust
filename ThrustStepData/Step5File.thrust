@@ -1,0 +1,10 @@
+BeginThrust {ThrustSegment5}
+Start_Epoch = 14 Oct 2022 00:00:00.000
+Thrust_Vector_Coordinate_System = VNB   
+Thrust_Vector_Interpolation_Method  = None
+Mass_Flow_Rate_Interpolation_Method = None
+ModelThrustOnly
+0.0      10.0 0.0 0.0
+86400.0  10.0 0.0 0.0
+EndThrust {ThrustSegment5}
+
