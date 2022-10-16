@@ -1,0 +1,3 @@
+function GMAT_TestFunction(v)==[y]
+y=v;
+end
