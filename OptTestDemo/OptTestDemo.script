@@ -1,0 +1,494 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2022-10-15 19:00:54
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft Sat;
+GMAT Sat.DateFormat = UTCGregorian;
+GMAT Sat.Epoch = '10 Oct 2022 00:00:00.000';
+GMAT Sat.CoordinateSystem = EarthMJ2000Eq;
+GMAT Sat.DisplayStateType = Keplerian;
+GMAT Sat.SMA = 8000.000000000003;
+GMAT Sat.ECC = 2.852150321103345e-16;
+GMAT Sat.INC = 0;
+GMAT Sat.RAAN = 0;
+GMAT Sat.AOP = 0;
+GMAT Sat.TA = 0;
+GMAT Sat.DryMass = 850;
+GMAT Sat.Cd = 2.2;
+GMAT Sat.Cr = 1.8;
+GMAT Sat.DragArea = 15;
+GMAT Sat.SRPArea = 1;
+GMAT Sat.SPADDragScaleFactor = 1;
+GMAT Sat.SPADSRPScaleFactor = 1;
+GMAT Sat.Tanks = {ElectricTank};
+GMAT Sat.NAIFId = -10005001;
+GMAT Sat.NAIFIdReferenceFrame = -9005001;
+GMAT Sat.OrbitColor = Red;
+GMAT Sat.TargetColor = Teal;
+GMAT Sat.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT Sat.CdSigma = 1e+70;
+GMAT Sat.CrSigma = 1e+70;
+GMAT Sat.Id = 'SatId';
+GMAT Sat.Attitude = CoordinateSystemFixed;
+GMAT Sat.SPADSRPInterpolationMethod = Bilinear;
+GMAT Sat.SPADSRPScaleFactorSigma = 1e+70;
+GMAT Sat.SPADDragInterpolationMethod = Bilinear;
+GMAT Sat.SPADDragScaleFactorSigma = 1e+70;
+GMAT Sat.ModelFile = 'aura.3ds';
+GMAT Sat.ModelOffsetX = 0;
+GMAT Sat.ModelOffsetY = 0;
+GMAT Sat.ModelOffsetZ = 0;
+GMAT Sat.ModelRotationX = 0;
+GMAT Sat.ModelRotationY = 0;
+GMAT Sat.ModelRotationZ = 0;
+GMAT Sat.ModelScale = 1;
+GMAT Sat.AttitudeDisplayStateType = 'Quaternion';
+GMAT Sat.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT Sat.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT Sat.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Hardware Components
+%----------------------------------------
+
+Create ElectricTank ElectricTank;
+GMAT ElectricTank.AllowNegativeFuelMass = false;
+GMAT ElectricTank.FuelMass = 500;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+Create ForceModel InternalODEModel;
+GMAT InternalODEModel.CentralBody = Earth;
+GMAT InternalODEModel.PrimaryBodies = {Earth};
+GMAT InternalODEModel.Drag = None;
+GMAT InternalODEModel.SRP = Off;
+GMAT InternalODEModel.RelativisticCorrection = Off;
+GMAT InternalODEModel.ErrorControl = RSSStep;
+GMAT InternalODEModel.GravityField.Earth.Degree = 0;
+GMAT InternalODEModel.GravityField.Earth.Order = 0;
+GMAT InternalODEModel.GravityField.Earth.StmLimit = 100;
+GMAT InternalODEModel.GravityField.Earth.PotentialFile = 'JGM2.cof';
+GMAT InternalODEModel.GravityField.Earth.TideModel = 'None';
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+Create Propagator ThePropagator;
+GMAT ThePropagator.FM = InternalODEModel;
+GMAT ThePropagator.Type = RungeKutta89;
+GMAT ThePropagator.InitialStepSize = 86400;
+GMAT ThePropagator.Accuracy = 9.999999999999999e-10;
+GMAT ThePropagator.MinStep = 0.001;
+GMAT ThePropagator.MaxStep = 86400;
+GMAT ThePropagator.MaxStepAttempts = 50;
+GMAT ThePropagator.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create ImpulsiveBurn DefaultIB;
+GMAT DefaultIB.CoordinateSystem = Local;
+GMAT DefaultIB.Origin = Earth;
+GMAT DefaultIB.Axes = VNB;
+GMAT DefaultIB.Element1 = 0;
+GMAT DefaultIB.Element2 = 0;
+GMAT DefaultIB.Element3 = 0;
+GMAT DefaultIB.DecrementMass = false;
+GMAT DefaultIB.Isp = 300;
+GMAT DefaultIB.GravitationalAccel = 9.81;
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+Create CoordinateSystem VNB;
+GMAT VNB.Origin = Earth;
+GMAT VNB.Axes = ObjectReferenced;
+GMAT VNB.XAxis = V;
+GMAT VNB.YAxis = N;
+GMAT VNB.Primary = Earth;
+GMAT VNB.Secondary = Sat;
+%----------------------------------------
+%---------- Thrust Step
+%----------------------------------------
+%step1
+Create ThrustSegment ThrustSegment1;
+GMAT ThrustSegment1.ThrustScaleFactor = 1;
+GMAT ThrustSegment1.ThrustScaleFactorSigma = 1e+70;
+GMAT ThrustSegment1.ApplyThrustScaleToMassFlow = false;
+GMAT ThrustSegment1.MassFlowScaleFactor = 1;
+GMAT ThrustSegment1.MassSource = {'ElectricTank'};
+
+Create ThrustHistoryFile ThrustHistoryFile1;
+GMAT ThrustHistoryFile1.FileName = 'C:/GMAT_Repo/ReportOutput/ThrustProfile.thrust';
+GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
+
+
+
+
+%----------------------------------------
+%---------- Solvers
+%----------------------------------------
+
+Create FminconOptimizer SQP1;
+GMAT SQP1.ShowProgress = true;
+GMAT SQP1.ReportStyle = Normal;
+GMAT SQP1.ReportFile = 'FminconOptimizerSQP1.data';
+GMAT SQP1.MaximumIterations = 2;
+GMAT SQP1.DiffMaxChange = '0.1000';
+GMAT SQP1.DiffMinChange = '1.0000e-02';
+GMAT SQP1.MaxFunEvals = '1';
+GMAT SQP1.TolX = '1.0000e-02';
+GMAT SQP1.TolFun = '1.0000e-02';
+GMAT SQP1.TolCon = '1.0000e-02';
+
+Create DifferentialCorrector DefaultDC;
+GMAT DefaultDC.ShowProgress = true;
+GMAT DefaultDC.ReportStyle = Normal;
+GMAT DefaultDC.ReportFile = 'DifferentialCorrectorDefaultDC.data';
+GMAT DefaultDC.MaximumIterations = 25;
+GMAT DefaultDC.DerivativeMethod = ForwardDifference;
+GMAT DefaultDC.Algorithm = NewtonRaphson;
+
+Create VF13ad VF13ad1;
+GMAT VF13ad1.ShowProgress = true;
+GMAT VF13ad1.ReportStyle = Normal;
+GMAT VF13ad1.ReportFile = 'VF13adVF13ad1.data';
+GMAT VF13ad1.MaximumIterations = 2;
+GMAT VF13ad1.Tolerance = 1e-05;
+GMAT VF13ad1.UseCentralDifferences = false;
+GMAT VF13ad1.FeasibilityTolerance = 1;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+Create OrbitView EarthOrbitView;
+GMAT EarthOrbitView.SolverIterations = Current;
+GMAT EarthOrbitView.UpperLeft = [ 0 -0.5652797704447633 ];
+GMAT EarthOrbitView.Size = [ 0.674317617866005 1.579626972740316 ];
+GMAT EarthOrbitView.RelativeZOrder = 239;
+GMAT EarthOrbitView.Maximized = false;
+GMAT EarthOrbitView.Add = {Sat, Earth};
+GMAT EarthOrbitView.CoordinateSystem = EarthMJ2000Eq;
+GMAT EarthOrbitView.DrawObject = [ true true ];
+GMAT EarthOrbitView.DataCollectFrequency = 1;
+GMAT EarthOrbitView.UpdatePlotFrequency = 50;
+GMAT EarthOrbitView.NumPointsToRedraw = 0;
+GMAT EarthOrbitView.ShowPlot = true;
+GMAT EarthOrbitView.MaxPlotPoints = 20000;
+GMAT EarthOrbitView.ShowLabels = false;
+GMAT EarthOrbitView.ViewPointReference = Earth;
+GMAT EarthOrbitView.ViewPointVector = [ 0 0 30000 ];
+GMAT EarthOrbitView.ViewDirection = Earth;
+GMAT EarthOrbitView.ViewScaleFactor = 1;
+GMAT EarthOrbitView.ViewUpCoordinateSystem = EarthMJ2000Eq;
+GMAT EarthOrbitView.ViewUpAxis = Z;
+GMAT EarthOrbitView.EclipticPlane = Off;
+GMAT EarthOrbitView.XYPlane = Off;
+GMAT EarthOrbitView.WireFrame = Off;
+GMAT EarthOrbitView.Axes = Off;
+GMAT EarthOrbitView.Grid = Off;
+GMAT EarthOrbitView.SunLine = Off;
+GMAT EarthOrbitView.UseInitialView = On;
+GMAT EarthOrbitView.StarCount = 7000;
+GMAT EarthOrbitView.EnableStars = Off;
+GMAT EarthOrbitView.EnableConstellations = On;
+
+Create XYPlot RmagPlot;
+GMAT RmagPlot.SolverIterations = Current;
+GMAT RmagPlot.UpperLeft = [ 0 -0.5652797704447633 ];
+GMAT RmagPlot.Size = [ 0.1811414392059553 0.5236728837876614 ];
+GMAT RmagPlot.RelativeZOrder = 243;
+GMAT RmagPlot.Maximized = false;
+GMAT RmagPlot.XVariable = Sat.A1ModJulian;
+GMAT RmagPlot.YVariables = {Sat.Earth.RMAG};
+GMAT RmagPlot.ShowGrid = true;
+GMAT RmagPlot.ShowPlot = true;
+
+Create XYPlot EccentricityPlot;
+GMAT EccentricityPlot.SolverIterations = Current;
+GMAT EccentricityPlot.UpperLeft = [ 0 -0.5652797704447633 ];
+GMAT EccentricityPlot.Size = [ 0.1805210918114144 0.5222381635581061 ];
+GMAT EccentricityPlot.RelativeZOrder = 251;
+GMAT EccentricityPlot.Maximized = false;
+GMAT EccentricityPlot.XVariable = Sat.A1ModJulian;
+GMAT EccentricityPlot.YVariables = {Sat.Earth.ECC};
+GMAT EccentricityPlot.ShowGrid = true;
+GMAT EccentricityPlot.ShowPlot = true;
+
+Create GroundTrackPlot GroundTrackPlot1;
+GMAT GroundTrackPlot1.SolverIterations = Current;
+GMAT GroundTrackPlot1.UpperLeft = [ 0 -0.06599713055954089 ];
+GMAT GroundTrackPlot1.Size = [ 0.1805210918114144 0.5222381635581061 ];
+GMAT GroundTrackPlot1.RelativeZOrder = 247;
+GMAT GroundTrackPlot1.Maximized = false;
+GMAT GroundTrackPlot1.Add = {Sat};
+GMAT GroundTrackPlot1.DataCollectFrequency = 1;
+GMAT GroundTrackPlot1.UpdatePlotFrequency = 50;
+GMAT GroundTrackPlot1.NumPointsToRedraw = 0;
+GMAT GroundTrackPlot1.ShowPlot = true;
+GMAT GroundTrackPlot1.MaxPlotPoints = 20000;
+GMAT GroundTrackPlot1.CentralBody = Earth;
+GMAT GroundTrackPlot1.TextureMap = 'ModifiedBlueMarble.jpg';
+
+Create ReportFile ARRAY;
+GMAT ARRAY.SolverIterations = Current;
+GMAT ARRAY.UpperLeft = [ 0.1898263027295285 -0.1753731343283582 ];
+GMAT ARRAY.Size = [ 0.7946650124069479 0.9017412935323383 ];
+GMAT ARRAY.RelativeZOrder = 220;
+GMAT ARRAY.Maximized = false;
+GMAT ARRAY.Filename = 'C:\GMAT_Repo\OptTestDemo\ThrustProfileOUT.txt';
+GMAT ARRAY.Precision = 16;
+GMAT ARRAY.WriteHeaders = true;
+GMAT ARRAY.LeftJustify = On;
+GMAT ARRAY.ZeroFill = Off;
+GMAT ARRAY.FixedWidth = true;
+GMAT ARRAY.Delimiter = ' ';
+GMAT ARRAY.ColumnWidth = 23;
+GMAT ARRAY.WriteReport = true;
+
+Create ReportFile Report2;
+GMAT Report2.SolverIterations = Current;
+GMAT Report2.UpperLeft = [ 0 0 ];
+GMAT Report2.Size = [ 0 0 ];
+GMAT Report2.RelativeZOrder = 0;
+GMAT Report2.Maximized = false;
+GMAT Report2.Filename = 'ReportFile1.txt';
+GMAT Report2.Precision = 16;
+GMAT Report2.WriteHeaders = true;
+GMAT Report2.LeftJustify = On;
+GMAT Report2.ZeroFill = Off;
+GMAT Report2.FixedWidth = true;
+GMAT Report2.Delimiter = ' ';
+GMAT Report2.ColumnWidth = 23;
+GMAT Report2.WriteReport = true;
+
+%----------------------------------------
+%---------- Functions
+%----------------------------------------
+
+Create MatlabFunction ReadThrustProfileX;
+GMAT ReadThrustProfileX.FunctionPath = 'C:\GMAT_Repo\OptTestDemo\';
+
+Create MatlabFunction ReadThrustProfileY;
+GMAT ReadThrustProfileY.FunctionPath = 'C:\GMAT_Repo\OptTestDemo\';
+
+Create MatlabFunction ReadThrustProfileZ;
+GMAT ReadThrustProfileZ.FunctionPath = 'C:\GMAT_Repo\OptTestDemo\';
+
+Create MatlabFunction WriteThrustProfile;
+GMAT WriteThrustProfile.FunctionPath = 'C:\GMAT_Repo\OptTestDemo\';
+
+%----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+
+Create Array ThrustArray[10,4];
+Create Variable Test Z Cost;
+GMAT ThrustArray(1, 1) = 1;
+GMAT ThrustArray(2, 1) = 2;
+GMAT ThrustArray(3, 1) = 3;
+GMAT ThrustArray(4, 1) = 4;
+GMAT ThrustArray(5, 1) = 5;
+GMAT ThrustArray(6, 1) = 6;
+GMAT ThrustArray(7, 1) = 7;
+GMAT ThrustArray(8, 1) = 8;
+GMAT ThrustArray(9, 1) = 9;
+GMAT ThrustArray(10, 1) = 10;
+GMAT Test = 0;
+GMAT Z = 1;
+GMAT Cost = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+Optimize SQP1 {SolveMode = RunInitialGuess, ExitMode = SaveAndContinue, ShowProgressWindow = true};
+   %NonlinearConstraint 'Radius' SQP1(Sat.Earth.RMAG=42164.172);
+   %NonlinearConstraint 'Eccentricity' SQP1(Sat.Earth.ECC=0);
+   BeginScript 'ThrustFileProp'
+      BeginFileThrust ThrustHistoryFile1(Sat);
+      Propagate 'PropagateStep1' ThePropagator(Sat) {Sat.ElapsedDays = 10};
+      EndFileThrust ThrustHistoryFile1(Sat);
+   EndScript;
+   GMAT Cost = 1-((Sat.ElectricTank.FuelMass)/500.0);
+   %BeginScript 'Step 1'
+   GMAT [ThrustArray(1,2)] = ReadThrustProfileX(ThrustArray(1,1)); %X
+   GMAT [ThrustArray(1,3)] = ReadThrustProfileY(ThrustArray(1,1)); %Y
+   GMAT [ThrustArray(1,4)] = ReadThrustProfileZ(ThrustArray(1,1)); %Z
+   Vary SQP1(ThrustArray(1,2) = 5, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   Vary SQP1(ThrustArray(1,3) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   Vary SQP1(ThrustArray(1,4) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   %EndScript;
+   BeginScript 'Step 2'
+      GMAT [ThrustArray(2,2)] = ReadThrustProfileX(ThrustArray(2,1)); %X
+      GMAT [ThrustArray(2,3)] = ReadThrustProfileY(ThrustArray(2,1)); %Y
+      GMAT [ThrustArray(2,4)] = ReadThrustProfileZ(ThrustArray(2,1)); %Z
+      Vary SQP1(ThrustArray(2,2) = 5, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(2,3) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(2,4) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   EndScript;
+   BeginScript 'Step 3'
+      GMAT [ThrustArray(3,2)] = ReadThrustProfileX(ThrustArray(3,1)); %X
+      GMAT [ThrustArray(3,3)] = ReadThrustProfileY(ThrustArray(3,1)); %Y
+      GMAT [ThrustArray(3,4)] = ReadThrustProfileZ(ThrustArray(3,1)); %Z
+      Vary SQP1(ThrustArray(3,2) = 5, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(3,3) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(3,4) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   EndScript;
+   BeginScript 'Step 4'
+      GMAT [ThrustArray(4,2)] = ReadThrustProfileX(ThrustArray(4,1)); %X
+      GMAT [ThrustArray(4,3)] = ReadThrustProfileY(ThrustArray(4,1)); %Y
+      GMAT [ThrustArray(4,4)] = ReadThrustProfileZ(ThrustArray(4,1)); %Z
+      Vary SQP1(ThrustArray(4,2) = 5, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(4,3) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(4,4) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   EndScript;
+   BeginScript 'Step 5'
+      GMAT [ThrustArray(5,2)] = ReadThrustProfileX(ThrustArray(5,1)); %X
+      GMAT [ThrustArray(5,3)] = ReadThrustProfileY(ThrustArray(5,1)); %Y
+      GMAT [ThrustArray(5,4)] = ReadThrustProfileZ(ThrustArray(5,1)); %Z
+      Vary SQP1(ThrustArray(5,2) = 5, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(5,3) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(5,4) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   EndScript;
+   BeginScript 'Step 6'
+      GMAT [ThrustArray(6,2)] = ReadThrustProfileX(ThrustArray(6,1)); %X
+      GMAT [ThrustArray(6,3)] = ReadThrustProfileY(ThrustArray(6,1)); %Y
+      GMAT [ThrustArray(6,4)] = ReadThrustProfileZ(ThrustArray(6,1)); %Z
+      Vary SQP1(ThrustArray(6,2) = 5, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(6,3) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(6,4) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   EndScript;
+   BeginScript 'Step 7'
+      GMAT [ThrustArray(7,2)] = ReadThrustProfileX(ThrustArray(7,1)); %X
+      GMAT [ThrustArray(7,3)] = ReadThrustProfileY(ThrustArray(7,1)); %Y
+      GMAT [ThrustArray(7,4)] = ReadThrustProfileZ(ThrustArray(7,1)); %Z
+      Vary SQP1(ThrustArray(7,2) = 5, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(7,3) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(7,4) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   EndScript;
+   BeginScript 'Step 8'
+      GMAT [ThrustArray(8,2)] = ReadThrustProfileX(ThrustArray(8,1)); %X
+      GMAT [ThrustArray(8,3)] = ReadThrustProfileY(ThrustArray(8,1)); %Y
+      GMAT [ThrustArray(8,4)] = ReadThrustProfileZ(ThrustArray(8,1)); %Z
+      Vary SQP1(ThrustArray(8,2) = 5, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(8,3) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(8,4) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   EndScript;
+   BeginScript 'Step 9'
+      GMAT [ThrustArray(9,2)] = ReadThrustProfileX(ThrustArray(9,1)); %X
+      GMAT [ThrustArray(9,3)] = ReadThrustProfileY(ThrustArray(9,1)); %Y
+      GMAT [ThrustArray(9,4)] = ReadThrustProfileZ(ThrustArray(9,1)); %Z
+      Vary SQP1(ThrustArray(9,2) = 5, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(9,3) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(9,4) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   EndScript;
+   BeginScript 'Step 10'
+      GMAT [ThrustArray(10,2)] = ReadThrustProfileX(ThrustArray(10,1)); %X
+      GMAT [ThrustArray(10,3)] = ReadThrustProfileY(ThrustArray(10,1)); %Y
+      GMAT [ThrustArray(10,4)] = ReadThrustProfileZ(ThrustArray(10,1)); %Z
+      Vary SQP1(ThrustArray(10,2) = 5, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(10,3) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+      Vary SQP1(ThrustArray(10,4) = 0, {Lower = 0.0, Upper = 10.0, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   EndScript;
+   %Write  { Style = Concise, LogFile = false, MessageWindow = true }
+   Write ThrustArray { Style = Concise, LogFile = false, MessageWindow = true, ReportFile = ARRAY }
+   Write Sat.ElectricTank.FuelMass { Style = Concise, LogFile = false, MessageWindow = true, ReportFile = Report2 }
+   % Report ARRAY ThrustArray;
+   NonlinearConstraint 'Radius' SQP1(Sat.Earth.RMAG=42164.172);
+   NonlinearConstraint 'Eccentricity' SQP1(Sat.Earth.ECC=0);
+   GMAT 'WriteToThrustFile' [Test] = WriteThrustProfile(Z);
+   Minimize SQP1(Cost);
+
+
+
+
+
+
+
+%NonlinearConstraint 'VX' SQP1();
+%NonlinearConstraint 'VY' SQP1(Sat.SunICRF.VY=Mars.SunICRF.VY);
+%NonlinearConstraint 'VZ' SQP1(Sat.SunICRF.VZ=Mars.SunICRF.VZ);
+%NonlinearConstraint 'X' SQP1(Sat.SunICRF.X=Mars.SunICRF.X);
+% NonlinearConstraint 'Y' SQP1(Sat.SunICRF.X=Mars.SunICRF.X);
+% NonlinearConstraint 'Z' SQP1(Sat.SunICRF.X=Mars.SunICRF.X);
+% For I = 1:1:10;
+%Vary DC1(DefaultIB.Element1 = 0.5, {Perturbation = 0.0001, Lower = 0.0, Upper = 3.14159, MaxStep = 0.2, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+% EndFor;
+%Vary 'TX' SQP1(ThrustArray(1,2) = Inital, {Lower = 0.0, Upper = 3.14159, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+% Vary 'TY' SQP1(ThrustArray(1,2) = Inital, {Lower = 0.0, Upper = 3.14159, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+% Vary 'TZ' SQP1(ThrustArray(1,2) = Inital, {Lower = 0.0, Upper = 3.14159, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+EndOptimize;  % For optimizer SQP1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

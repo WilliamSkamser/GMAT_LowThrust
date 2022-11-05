@@ -1,0 +1,336 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2022-10-15 19:00:54
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft Sat;
+GMAT Sat.DateFormat = UTCGregorian;
+GMAT Sat.Epoch = '20 Jul 2023 00:00:00.000';
+GMAT Sat.CoordinateSystem = SunICRF;
+GMAT Sat.DisplayStateType = Cartesian;
+GMAT Sat.X = 68405277.7525657;
+GMAT Sat.Y = -124569338.82142;
+GMAT Sat.Z = -54000478.8230257;
+GMAT Sat.VX = 26.12608398815661;
+GMAT Sat.VY = 12.20163451293511;
+GMAT Sat.VZ = 5.289560433755932;
+GMAT Sat.DryMass = 1000;
+GMAT Sat.Cd = 2.2;
+GMAT Sat.Cr = 1.8;
+GMAT Sat.DragArea = 15;
+GMAT Sat.SRPArea = 1;
+GMAT Sat.SPADDragScaleFactor = 1;
+GMAT Sat.SPADSRPScaleFactor = 1;
+GMAT Sat.NAIFId = -10005001;
+GMAT Sat.NAIFIdReferenceFrame = -9005001;
+GMAT Sat.OrbitColor = Red;
+GMAT Sat.TargetColor = Teal;
+GMAT Sat.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT Sat.CdSigma = 1e+70;
+GMAT Sat.CrSigma = 1e+70;
+GMAT Sat.Id = 'SatId';
+GMAT Sat.Attitude = CoordinateSystemFixed;
+GMAT Sat.SPADSRPInterpolationMethod = Bilinear;
+GMAT Sat.SPADSRPScaleFactorSigma = 1e+70;
+GMAT Sat.SPADDragInterpolationMethod = Bilinear;
+GMAT Sat.SPADDragScaleFactorSigma = 1e+70;
+GMAT Sat.ModelFile = 'aura.3ds';
+GMAT Sat.ModelOffsetX = 0;
+GMAT Sat.ModelOffsetY = 0;
+GMAT Sat.ModelOffsetZ = 0;
+GMAT Sat.ModelRotationX = 0;
+GMAT Sat.ModelRotationY = 0;
+GMAT Sat.ModelRotationZ = 0;
+GMAT Sat.ModelScale = 1;
+GMAT Sat.AttitudeDisplayStateType = 'Quaternion';
+GMAT Sat.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT Sat.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT Sat.EulerAngleSequence = '321';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+Create ForceModel InternalODEModel;
+GMAT InternalODEModel.CentralBody = Sun;
+GMAT InternalODEModel.PointMasses = {Sun};
+GMAT InternalODEModel.Drag = None;
+GMAT InternalODEModel.SRP = Off;
+GMAT InternalODEModel.RelativisticCorrection = Off;
+GMAT InternalODEModel.ErrorControl = RSSStep;
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+Create Propagator ThePropagator;
+GMAT ThePropagator.FM = InternalODEModel;
+GMAT ThePropagator.Type = RungeKutta89;
+GMAT ThePropagator.InitialStepSize = 86400;
+GMAT ThePropagator.Accuracy = 9.999999999999999e-12;
+GMAT ThePropagator.MinStep = 86400;
+GMAT ThePropagator.MaxStep = 86400;
+GMAT ThePropagator.MaxStepAttempts = 50;
+GMAT ThePropagator.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create ImpulsiveBurn DefaultIB;
+GMAT DefaultIB.CoordinateSystem = Local;
+GMAT DefaultIB.Origin = Earth;
+GMAT DefaultIB.Axes = VNB;
+GMAT DefaultIB.Element1 = 0;
+GMAT DefaultIB.Element2 = 0;
+GMAT DefaultIB.Element3 = 0;
+GMAT DefaultIB.DecrementMass = false;
+GMAT DefaultIB.Isp = 300;
+GMAT DefaultIB.GravitationalAccel = 9.81;
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+Create CoordinateSystem VNB;
+GMAT VNB.Origin = Earth;
+GMAT VNB.Axes = ObjectReferenced;
+GMAT VNB.XAxis = V;
+GMAT VNB.YAxis = N;
+GMAT VNB.Primary = Earth;
+GMAT VNB.Secondary = Sat;
+
+Create CoordinateSystem SunInertial;
+GMAT SunInertial.Origin = Sun;
+GMAT SunInertial.Axes = BodyInertial;
+
+Create CoordinateSystem SunICRF;
+GMAT SunICRF.Origin = Sun;
+GMAT SunICRF.Axes = ICRF;
+%----------------------------------------
+%---------- Thrust Step
+%----------------------------------------
+%step1
+Create ThrustSegment ThrustSegment1;
+GMAT ThrustSegment1.ThrustScaleFactor = 1;
+GMAT ThrustSegment1.ThrustScaleFactorSigma = 1e+70;
+GMAT ThrustSegment1.ApplyThrustScaleToMassFlow = false;
+GMAT ThrustSegment1.MassFlowScaleFactor = 1;
+
+Create ThrustHistoryFile ThrustHistoryFile1;
+GMAT ThrustHistoryFile1.FileName = 'C:\GMAT_Repo\LowThrustProfile2\InitialThrustProfile.thrust';
+GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
+
+%----------------------------------------
+%---------- Solvers
+%----------------------------------------
+
+Create FminconOptimizer SQP1;
+GMAT SQP1.ShowProgress = true;
+GMAT SQP1.ReportStyle = Normal;
+GMAT SQP1.ReportFile = 'FminconOptimizerSQP1.data';
+GMAT SQP1.MaximumIterations = 10000;
+GMAT SQP1.DiffMaxChange = '0.1000';
+GMAT SQP1.DiffMinChange = '1.0000e-08';
+GMAT SQP1.MaxFunEvals = '5000';
+GMAT SQP1.TolX = '1.0000e-06';
+GMAT SQP1.TolFun = '1.0000e-04';
+GMAT SQP1.TolCon = '1.0000e-06';
+
+Create Yukon Yukon1;
+GMAT Yukon1.ShowProgress = true;
+GMAT Yukon1.ReportStyle = Normal;
+GMAT Yukon1.ReportFile = 'YukonYukon1.data';
+GMAT Yukon1.MaximumIterations = 200;
+GMAT Yukon1.UseCentralDifferences = false;
+GMAT Yukon1.FeasibilityTolerance = 0.0001;
+GMAT Yukon1.HessianUpdateMethod = SelfScaledBFGS;
+GMAT Yukon1.MaximumFunctionEvals = 1000;
+GMAT Yukon1.OptimalityTolerance = 0.0001;
+GMAT Yukon1.FunctionTolerance = 0.0001;
+GMAT Yukon1.MaximumElasticWeight = 10000;
+
+Create DifferentialCorrector DC1;
+GMAT DC1.ShowProgress = true;
+GMAT DC1.ReportStyle = Normal;
+GMAT DC1.ReportFile = 'DifferentialCorrectorDC1.data';
+GMAT DC1.MaximumIterations = 25;
+GMAT DC1.DerivativeMethod = ForwardDifference;
+GMAT DC1.Algorithm = NewtonRaphson;
+
+Create VF13ad VF13ad1;
+GMAT VF13ad1.ShowProgress = true;
+GMAT VF13ad1.ReportStyle = Normal;
+GMAT VF13ad1.ReportFile = 'VF13adVF13ad1.data';
+GMAT VF13ad1.MaximumIterations = 200;
+GMAT VF13ad1.Tolerance = 1e-05;
+GMAT VF13ad1.UseCentralDifferences = false;
+GMAT VF13ad1.FeasibilityTolerance = 1;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create ReportFile ReportFile1;
+GMAT ReportFile1.SolverIterations = Current;
+GMAT ReportFile1.UpperLeft = [ 0.036 0.07522697795071336 ];
+GMAT ReportFile1.Size = [ 0.5973333333333334 0.7937743190661478 ];
+GMAT ReportFile1.RelativeZOrder = 873;
+GMAT ReportFile1.Maximized = false;
+GMAT ReportFile1.Filename = 'C:\GMAT_Repo\ReportOutput\LowThrustProfile1.txt';
+GMAT ReportFile1.Precision = 16;
+GMAT ReportFile1.Add = {Sat.EarthMJ2000Eq.VX, Sat.EarthMJ2000Eq.VY, Sat.EarthMJ2000Eq.VZ, Sat.EarthMJ2000Eq.X, Sat.EarthMJ2000Eq.Y, Sat.EarthMJ2000Eq.Z, Sat.UTCGregorian};
+GMAT ReportFile1.WriteHeaders = true;
+GMAT ReportFile1.LeftJustify = On;
+GMAT ReportFile1.ZeroFill = Off;
+GMAT ReportFile1.FixedWidth = true;
+GMAT ReportFile1.Delimiter = ' ';
+GMAT ReportFile1.ColumnWidth = 23;
+GMAT ReportFile1.WriteReport = true;
+
+Create OrbitView OrbitView1;
+GMAT OrbitView1.SolverIterations = Current;
+GMAT OrbitView1.UpperLeft = [ 0.09352941176470589 0.04054054054054054 ];
+GMAT OrbitView1.Size = [ 0.6105882352941177 0.6683046683046683 ];
+GMAT OrbitView1.RelativeZOrder = 74;
+GMAT OrbitView1.Maximized = false;
+GMAT OrbitView1.Add = {Sat, Earth, Sun, Mars};
+GMAT OrbitView1.CoordinateSystem = SunICRF;
+GMAT OrbitView1.DrawObject = [ true true true true ];
+GMAT OrbitView1.DataCollectFrequency = 1;
+GMAT OrbitView1.UpdatePlotFrequency = 50;
+GMAT OrbitView1.NumPointsToRedraw = 0;
+GMAT OrbitView1.ShowPlot = true;
+GMAT OrbitView1.MaxPlotPoints = 50000;
+GMAT OrbitView1.ShowLabels = false;
+GMAT OrbitView1.ViewPointReference = Sun;
+GMAT OrbitView1.ViewPointVector = [ 0 0 500000000 ];
+GMAT OrbitView1.ViewDirection = Sun;
+GMAT OrbitView1.ViewScaleFactor = 1;
+GMAT OrbitView1.ViewUpCoordinateSystem = EarthMJ2000Eq;
+GMAT OrbitView1.ViewUpAxis = Z;
+GMAT OrbitView1.EclipticPlane = Off;
+GMAT OrbitView1.XYPlane = Off;
+GMAT OrbitView1.WireFrame = Off;
+GMAT OrbitView1.Axes = Off;
+GMAT OrbitView1.Grid = Off;
+GMAT OrbitView1.SunLine = Off;
+GMAT OrbitView1.UseInitialView = On;
+GMAT OrbitView1.StarCount = 7000;
+GMAT OrbitView1.EnableStars = Off;
+GMAT OrbitView1.EnableConstellations = On;
+
+Create ReportFile ThrustReport;
+GMAT ThrustReport.SolverIterations = Current;
+GMAT ThrustReport.UpperLeft = [ 0.1046666666666667 0.2036316472114137 ];
+GMAT ThrustReport.Size = [ 0.5973333333333334 0.795071335927367 ];
+GMAT ThrustReport.RelativeZOrder = 1096;
+GMAT ThrustReport.Maximized = false;
+GMAT ThrustReport.Filename = 'C:\GMAT_Repo\LowThrustProfile2\ThrustArrayOutput.txt';
+GMAT ThrustReport.Precision = 16;
+GMAT ThrustReport.WriteHeaders = true;
+GMAT ThrustReport.LeftJustify = On;
+GMAT ThrustReport.ZeroFill = Off;
+GMAT ThrustReport.FixedWidth = true;
+GMAT ThrustReport.Delimiter = ' ';
+GMAT ThrustReport.ColumnWidth = 23;
+GMAT ThrustReport.WriteReport = true;
+
+%----------------------------------------
+%---------- Functions
+%----------------------------------------
+
+Create MatlabFunction ThrustProfile;
+GMAT ThrustProfile.FunctionPath = 'C:\GMAT_Repo\LowThrustProfile2\MatlabFunction';
+
+%----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+
+Create Array ThrustArray[201,4];
+Create Variable Row Column Inital I;
+Create String File;
+GMAT Row = 145;
+GMAT Column = 2;
+GMAT Inital = 1;
+GMAT File = 'C:\GMAT_Repo\LowThrustProfile2\InitialThrustProfile.thrust';
+
+
+
+
+
+
+
+
+
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+BeginScript 'Step1'
+   BeginFileThrust ThrustHistoryFile1(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 83405339.69};
+   EndFileThrust ThrustHistoryFile1(Sat);
+EndScript;
+%GMAT [I] = ThrustProfile(Row,Column);
+%For Row = 1:1:10;
+%GMAT [ThrustArray] = ThrustProfile(File);    %can't load stupid array 
+%GMAT G = ThrustProfile(File);
+%EndFor;
+%Report ThrustReport ThrustArray;
+
+
+
+Optimize SQP1 {SolveMode = Solve, ExitMode = DiscardAndContinue, ShowProgressWindow = true};
+   NonlinearConstraint 'VX' SQP1(Sat.SunICRF.VX=Mars.SunICRF.VX);
+   NonlinearConstraint 'VY' SQP1(Sat.SunICRF.VY=Mars.SunICRF.VY);
+   NonlinearConstraint 'VZ' SQP1(Sat.SunICRF.VZ=Mars.SunICRF.VZ);
+   NonlinearConstraint 'X' SQP1(Sat.SunICRF.X=Mars.SunICRF.X);
+   NonlinearConstraint 'Y' SQP1(Sat.SunICRF.X=Mars.SunICRF.X);
+   NonlinearConstraint 'Z' SQP1(Sat.SunICRF.X=Mars.SunICRF.X);
+   For I = 1:1:10;
+      %Vary DC1(DefaultIB.Element1 = 0.5, {Perturbation = 0.0001, Lower = 0.0, Upper = 3.14159, MaxStep = 0.2, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   EndFor;
+   Vary 'TX' SQP1(ThrustArray(1,2) = Inital, {Lower = 0.0, Upper = 3.14159, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   Vary 'TY' SQP1(ThrustArray(1,2) = Inital, {Lower = 0.0, Upper = 3.14159, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   Vary 'TZ' SQP1(ThrustArray(1,2) = Inital, {Lower = 0.0, Upper = 3.14159, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+EndOptimize;  % For optimizer SQP1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

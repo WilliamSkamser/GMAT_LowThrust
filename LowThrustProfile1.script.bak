@@ -57,6 +57,8 @@ GMAT Sat.EulerAngleSequence = '321';
 
 
 
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -248,6 +250,15 @@ GMAT DC1.MaximumIterations = 25;
 GMAT DC1.DerivativeMethod = ForwardDifference;
 GMAT DC1.Algorithm = NewtonRaphson;
 
+Create VF13ad VF13ad1;
+GMAT VF13ad1.ShowProgress = true;
+GMAT VF13ad1.ReportStyle = Normal;
+GMAT VF13ad1.ReportFile = 'VF13adVF13ad1.data';
+GMAT VF13ad1.MaximumIterations = 200;
+GMAT VF13ad1.Tolerance = 1e-05;
+GMAT VF13ad1.UseCentralDifferences = false;
+GMAT VF13ad1.FeasibilityTolerance = 1;
+
 %----------------------------------------
 %---------- Subscribers
 %----------------------------------------
@@ -255,7 +266,7 @@ Create OrbitView EarthOrbitView;
 GMAT EarthOrbitView.SolverIterations = Current;
 GMAT EarthOrbitView.UpperLeft = [ 0 0 ];
 GMAT EarthOrbitView.Size = [ 0.7994117647058824 0.8488943488943489 ];
-GMAT EarthOrbitView.RelativeZOrder = 28;
+GMAT EarthOrbitView.RelativeZOrder = 44;
 GMAT EarthOrbitView.Maximized = false;
 GMAT EarthOrbitView.Add = {Sat, Earth};
 GMAT EarthOrbitView.CoordinateSystem = EarthMJ2000Eq;
@@ -287,7 +298,7 @@ Create XYPlot RmagPlot;
 GMAT RmagPlot.SolverIterations = Current;
 GMAT RmagPlot.UpperLeft = [ 0 0 ];
 GMAT RmagPlot.Size = [ 0.5 0.4496314496314496 ];
-GMAT RmagPlot.RelativeZOrder = 5;
+GMAT RmagPlot.RelativeZOrder = 27;
 GMAT RmagPlot.Maximized = false;
 GMAT RmagPlot.XVariable = Sat.A1ModJulian;
 GMAT RmagPlot.YVariables = {Sat.Earth.RMAG};
@@ -298,7 +309,7 @@ Create XYPlot EccentricityPlot;
 GMAT EccentricityPlot.SolverIterations = Current;
 GMAT EccentricityPlot.UpperLeft = [ 0 0 ];
 GMAT EccentricityPlot.Size = [ 0.4994117647058823 0.4484029484029484 ];
-GMAT EccentricityPlot.RelativeZOrder = 10;
+GMAT EccentricityPlot.RelativeZOrder = 32;
 GMAT EccentricityPlot.Maximized = false;
 GMAT EccentricityPlot.XVariable = Sat.A1ModJulian;
 GMAT EccentricityPlot.YVariables = {Sat.Earth.ECC};
@@ -307,9 +318,9 @@ GMAT EccentricityPlot.ShowPlot = true;
 
 Create GroundTrackPlot GroundTrackPlot1;
 GMAT GroundTrackPlot1.SolverIterations = Current;
-GMAT GroundTrackPlot1.UpperLeft = [ 0 0.4471744471744472 ];
+GMAT GroundTrackPlot1.UpperLeft = [ 0 0.4422604422604423 ];
 GMAT GroundTrackPlot1.Size = [ 0.4994117647058823 0.4484029484029484 ];
-GMAT GroundTrackPlot1.RelativeZOrder = 20;
+GMAT GroundTrackPlot1.RelativeZOrder = 42;
 GMAT GroundTrackPlot1.Maximized = false;
 GMAT GroundTrackPlot1.Add = {Sat};
 GMAT GroundTrackPlot1.DataCollectFrequency = 1;
@@ -339,9 +350,9 @@ GMAT ReportFile1.WriteReport = true;
 
 Create OrbitView OrbitView1;
 GMAT OrbitView1.SolverIterations = Current;
-GMAT OrbitView1.UpperLeft = [ 0.2847058823529412 0.1744471744471744 ];
+GMAT OrbitView1.UpperLeft = [ 0.42 0.339066339066339 ];
 GMAT OrbitView1.Size = [ 0.5 0.4496314496314496 ];
-GMAT OrbitView1.RelativeZOrder = 15;
+GMAT OrbitView1.RelativeZOrder = 37;
 GMAT OrbitView1.Maximized = false;
 GMAT OrbitView1.Add = {Sat, Earth, Sun};
 GMAT OrbitView1.CoordinateSystem = SunInertial;
@@ -372,7 +383,16 @@ GMAT OrbitView1.EnableConstellations = On;
 %---------- Functions
 %----------------------------------------
 
-Create MatlabFunction max floor isfield getfield;
+Create MatlabFunction GMAT_TestFunction;
+GMAT GMAT_TestFunction.FunctionPath = 'C:\GMAT_Repo\MatlabFunction';
+
+%----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+Create Variable Test;
+GMAT Test = 0;
+
+
 
 
 
@@ -443,3 +463,4 @@ BeginScript 'Step10'
 EndScript;
 MarkPoint 'Step10' EccentricityPlot RmagPlot;
 Propagate ThePropagator(Sat) {Sat.ElapsedDays = 30};
+GMAT [Test] = GMAT_TestFunction(Sat.Earth.RMAG);
