@@ -1,0 +1,2 @@
+Sat.Earth.ECC             Sat.Earth.RMAG            Sat.ElectricTank.FuelMass   Sat.ElapsedDays           
+0.01685308336934481       26212.17913491524         136.0000000003433           11                        
