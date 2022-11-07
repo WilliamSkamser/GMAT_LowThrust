@@ -1,6 +1,20 @@
-function [Rmag,Rmag_eq]=NonLinCons(ThrustProfileNew)
-%WRITE New Thrust File
+function [Rmag,Rmag_eq]=NonLinCons(Thrust)
 Headerlines=6;
+%READ Thrust File
+file='C:/GMAT_Repo/OptTestMATLAB/ThrustProfileInitalGuess.thrust';
+fID=fopen(file,'r');
+A=textscan(fID, '%f %f %f %f %f', 'headerlines',Headerlines);
+ThrustProfile=cell2mat(A);
+fclose(fID);
+
+%Converts back to Matrix;
+ThrustProfileNew(:,2)=Thrust(1:11);
+ThrustProfileNew(:,3)=Thrust(12:22);
+ThrustProfileNew(:,4)=Thrust(23:33);
+ThrustProfileNew(:,1)=ThrustProfile(:,1);
+ThrustProfileNew(:,5)=ThrustProfile(:,5);
+
+%WRITE New Thrust File
 file2='C:/GMAT_Repo/OptTestMATLAB/ThrustProfile.thrust';
 S = fileread(file2);
 SS = regexp(S, '\r?\n', 'split');
@@ -34,19 +48,15 @@ fclose(fID1);
 
 %42164km for GEO
 %Inequality constants
-Rmag(1)=42163-Data(2); 
-Rmag(2)=42165-Data(2);
-%Rmag=[];
+%Rmag(1)=42163-Data(2); 
+%Rmag(2)=42165-Data(2);
+Rmag=[];
 %Equality constants
-%Rmag_eq=42164-Data(2)
-Rmag_eq=[];
-
+Rmag_eq=42164-Data(2);
+%Rmag_eq=[];
 
 %function [c,ceq]=nlcons(x)
 %c(1) = x(1)^3 +2*x(2)^2 -x(1)*x(3);
 %ceq=[]; %no none linear Equality constraints 
 %end
-
-
-
 end 

@@ -1,6 +1,20 @@
-function e=ObjFunc(ThrustProfileNew)
-%WRITE New Thrust File
+function e=ObjFunc(Thrust)
 Headerlines=6;
+%READ Thrust File
+file='C:/GMAT_Repo/OptTestMATLAB/ThrustProfileInitalGuess.thrust';
+fID=fopen(file,'r');
+A=textscan(fID, '%f %f %f %f %f', 'headerlines',Headerlines);
+ThrustProfile=cell2mat(A);
+fclose(fID);
+
+%Converts back to Matrix;
+ThrustProfileNew(:,2)=Thrust(1:11);
+ThrustProfileNew(:,3)=Thrust(12:22);
+ThrustProfileNew(:,4)=Thrust(23:33);
+ThrustProfileNew(:,1)=ThrustProfile(:,1);
+ThrustProfileNew(:,5)=ThrustProfile(:,5);
+
+%WRITE New Thrust File
 file2='C:/GMAT_Repo/OptTestMATLAB/ThrustProfile.thrust';
 S = fileread(file2);
 SS = regexp(S, '\r?\n', 'split');
