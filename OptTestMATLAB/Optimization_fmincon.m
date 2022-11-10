@@ -22,7 +22,9 @@ options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter');
 load_gmat();
 Ans1=gmat.gmat.LoadScript("../OptTestMATLAB/OptTestMatlab.script");
 if Ans1 == 1
+    tic
     [xOpt, fOpt, exitflag, output, lambda]=fmincon("ObjFunc",x0, [],[],[],[],lb,ub,"NonLinCons",options);
+    toc
 else
     fprintf("Fail to load script\n");
 end

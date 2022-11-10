@@ -10,7 +10,7 @@ fclose(fID);
 ISP=1500;
 g=9.80665;
 %mdot= Tmag/(ISP*g0)?
-MassUsed=0;
+FuelBurn=0;
 
 %Converts back to Matrix;
 ThrustProfileNew(:,2)=Thrust(1:11);
@@ -20,8 +20,9 @@ ThrustProfileNew(:,1)=ThrustProfile(:,1);
 for i=1:10
     ThrustProfileNew(i,5)=norm(ThrustProfileNew(i,2:4)) / (ISP * g); %mass flow rate 
     
-    MassUsed=MassUsed+(ThrustProfileNew(i,5) * (ThrustProfile(i+1,1) - ThrustProfile(i,1)) );
+    FuelBurn=FuelBurn+(ThrustProfileNew(i,5) * 86400.0);
 end
+
 
 %WRITE New Thrust File
 %file2='../OptTestMATLAB/ThrustProfile.thrust';
@@ -51,7 +52,12 @@ end
 %Data=cell2mat(B);
 %fclose(fID1);
 
+%e=Data(1); %eccentricity  
+%Rmag_eq=42164-Data(2);
 TankMass_0=1000; %Mass of full tank
 %FuelMass=TankMass_0-Data(6);
-FuelMass=TankMass_0-MassUsed;
+
+
+FuelMass=TankMass_0-FuelBurn;
+
 end

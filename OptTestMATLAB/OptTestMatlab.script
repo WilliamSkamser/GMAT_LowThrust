@@ -10,9 +10,9 @@ GMAT Sat.DateFormat = UTCGregorian;
 GMAT Sat.Epoch = '10 Oct 2022 00:00:00.000';
 GMAT Sat.CoordinateSystem = EarthMJ2000Eq;
 GMAT Sat.DisplayStateType = Keplerian;
-GMAT Sat.SMA = 8000.000000000002;
-GMAT Sat.ECC = 1.426075160551673e-16;
-GMAT Sat.INC = 0;
+GMAT Sat.SMA = 9999.999999999998;
+GMAT Sat.ECC = 0.2999999999999998;
+GMAT Sat.INC = 29.99999999999999;
 GMAT Sat.RAAN = 0;
 GMAT Sat.AOP = 0;
 GMAT Sat.TA = 0;
@@ -57,6 +57,7 @@ GMAT Sat.EulerAngleSequence = '321';
 Create ElectricTank ElectricTank;
 GMAT ElectricTank.AllowNegativeFuelMass = false;
 GMAT ElectricTank.FuelMass = 1000;
+
 
 
 
@@ -150,10 +151,10 @@ GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 Create ReportFile TheReport;
 GMAT TheReport.SolverIterations = Current;
-GMAT TheReport.UpperLeft = [ -0.178235294117647 0.1474201474201474 ];
-GMAT TheReport.Size = [ 0.5935294117647059 0.7862407862407862 ];
-GMAT TheReport.RelativeZOrder = 223;
-GMAT TheReport.Maximized = false;
+GMAT TheReport.UpperLeft = [ -0.1770588235294118 0.144963144963145 ];
+GMAT TheReport.Size = [ 0.5923529411764706 0.7837837837837838 ];
+GMAT TheReport.RelativeZOrder = 374;
+GMAT TheReport.Maximized = true;
 GMAT TheReport.Filename = 'C:\GMAT_Repo\OptTestMATLAB\DataReport.txt';
 GMAT TheReport.Precision = 16;
 GMAT TheReport.WriteHeaders = true;
@@ -199,6 +200,7 @@ GMAT Z = 1;
 
 
 
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
@@ -211,6 +213,7 @@ BeginScript 'ThrustFileProp'
 EndScript;
 Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1, OrbitColor = [70 255 0]};
 Report TheReport Sat.Earth.ECC Sat.EarthMJ2000Eq.INC Sat.Earth.RMAG Sat.Earth.Longitude Sat.Earth.Latitude Sat.ElectricTank.FuelMass Sat.ElapsedDays;
+
 
 
 
