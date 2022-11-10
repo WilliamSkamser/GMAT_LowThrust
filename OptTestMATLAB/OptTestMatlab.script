@@ -88,6 +88,10 @@ GMAT ElectricTank.FuelMass = 1000;
 
 
 
+
+
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -143,80 +147,12 @@ GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 %----------------------------------------
 %---------- Subscribers
 %----------------------------------------
-Create OrbitView EarthOrbitView;
-GMAT EarthOrbitView.SolverIterations = Current;
-GMAT EarthOrbitView.UpperLeft = [ 0 0.0085995085995086 ];
-GMAT EarthOrbitView.Size = [ 0.4470588235294118 1.351351351351351 ];
-GMAT EarthOrbitView.RelativeZOrder = 69;
-GMAT EarthOrbitView.Maximized = false;
-GMAT EarthOrbitView.Add = {Sat, Earth};
-GMAT EarthOrbitView.CoordinateSystem = EarthMJ2000Eq;
-GMAT EarthOrbitView.DrawObject = [ true true ];
-GMAT EarthOrbitView.DataCollectFrequency = 1;
-GMAT EarthOrbitView.UpdatePlotFrequency = 50;
-GMAT EarthOrbitView.NumPointsToRedraw = 0;
-GMAT EarthOrbitView.ShowPlot = true;
-GMAT EarthOrbitView.MaxPlotPoints = 20000;
-GMAT EarthOrbitView.ShowLabels = false;
-GMAT EarthOrbitView.ViewPointReference = Earth;
-GMAT EarthOrbitView.ViewPointVector = [ 0 0 30000 ];
-GMAT EarthOrbitView.ViewDirection = Earth;
-GMAT EarthOrbitView.ViewScaleFactor = 1;
-GMAT EarthOrbitView.ViewUpCoordinateSystem = EarthMJ2000Eq;
-GMAT EarthOrbitView.ViewUpAxis = Z;
-GMAT EarthOrbitView.EclipticPlane = Off;
-GMAT EarthOrbitView.XYPlane = Off;
-GMAT EarthOrbitView.WireFrame = Off;
-GMAT EarthOrbitView.Axes = Off;
-GMAT EarthOrbitView.Grid = Off;
-GMAT EarthOrbitView.SunLine = Off;
-GMAT EarthOrbitView.UseInitialView = On;
-GMAT EarthOrbitView.StarCount = 7000;
-GMAT EarthOrbitView.EnableStars = Off;
-GMAT EarthOrbitView.EnableConstellations = On;
-
-Create XYPlot RmagPlot;
-GMAT RmagPlot.SolverIterations = Current;
-GMAT RmagPlot.UpperLeft = [ 0 0.0085995085995086 ];
-GMAT RmagPlot.Size = [ 0.1811764705882353 0.5233415233415234 ];
-GMAT RmagPlot.RelativeZOrder = 71;
-GMAT RmagPlot.Maximized = false;
-GMAT RmagPlot.XVariable = Sat.A1ModJulian;
-GMAT RmagPlot.YVariables = {Sat.Earth.RMAG};
-GMAT RmagPlot.ShowGrid = true;
-GMAT RmagPlot.ShowPlot = true;
-
-Create XYPlot EccentricityPlot;
-GMAT EccentricityPlot.SolverIterations = Current;
-GMAT EccentricityPlot.UpperLeft = [ 0 0.0085995085995086 ];
-GMAT EccentricityPlot.Size = [ 0.1805882352941177 0.5221130221130221 ];
-GMAT EccentricityPlot.RelativeZOrder = 73;
-GMAT EccentricityPlot.Maximized = false;
-GMAT EccentricityPlot.XVariable = Sat.A1ModJulian;
-GMAT EccentricityPlot.YVariables = {Sat.Earth.ECC};
-GMAT EccentricityPlot.ShowGrid = true;
-GMAT EccentricityPlot.ShowPlot = true;
-
-Create GroundTrackPlot GroundTrackPlot1;
-GMAT GroundTrackPlot1.SolverIterations = Current;
-GMAT GroundTrackPlot1.UpperLeft = [ 0 0.5073710073710074 ];
-GMAT GroundTrackPlot1.Size = [ 0.7535294117647059 0.5761670761670762 ];
-GMAT GroundTrackPlot1.RelativeZOrder = 67;
-GMAT GroundTrackPlot1.Maximized = false;
-GMAT GroundTrackPlot1.Add = {Sat};
-GMAT GroundTrackPlot1.DataCollectFrequency = 1;
-GMAT GroundTrackPlot1.UpdatePlotFrequency = 50;
-GMAT GroundTrackPlot1.NumPointsToRedraw = 0;
-GMAT GroundTrackPlot1.ShowPlot = true;
-GMAT GroundTrackPlot1.MaxPlotPoints = 20000;
-GMAT GroundTrackPlot1.CentralBody = Earth;
-GMAT GroundTrackPlot1.TextureMap = 'ModifiedBlueMarble.jpg';
 
 Create ReportFile TheReport;
 GMAT TheReport.SolverIterations = Current;
-GMAT TheReport.UpperLeft = [ 0.1111764705882353 0.2321867321867322 ];
-GMAT TheReport.Size = [ 0.5976470588235294 0.7948402948402948 ];
-GMAT TheReport.RelativeZOrder = 55;
+GMAT TheReport.UpperLeft = [ -0.178235294117647 0.1474201474201474 ];
+GMAT TheReport.Size = [ 0.5935294117647059 0.7862407862407862 ];
+GMAT TheReport.RelativeZOrder = 223;
 GMAT TheReport.Maximized = false;
 GMAT TheReport.Filename = 'C:\GMAT_Repo\OptTestMATLAB\DataReport.txt';
 GMAT TheReport.Precision = 16;
@@ -259,6 +195,10 @@ GMAT Z = 1;
 
 
 
+
+
+
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
@@ -269,8 +209,12 @@ BeginScript 'ThrustFileProp'
    Propagate 'PropagateStep1' ThePropagator(Sat) {Sat.ElapsedDays = 10};
    EndFileThrust ThrustHistoryFile1(Sat);
 EndScript;
-Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1};
-Report TheReport Sat.Earth.ECC Sat.Earth.RMAG Sat.ElectricTank.FuelMass Sat.ElapsedDays;
+Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1, OrbitColor = [70 255 0]};
+Report TheReport Sat.Earth.ECC Sat.EarthMJ2000Eq.INC Sat.Earth.RMAG Sat.Earth.Longitude Sat.Earth.Latitude Sat.ElectricTank.FuelMass Sat.ElapsedDays;
+
+
+
+
 
 
 
