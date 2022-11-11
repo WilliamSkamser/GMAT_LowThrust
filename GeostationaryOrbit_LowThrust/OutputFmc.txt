@@ -1,0 +1,22 @@
+No script provided to load.
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0         304    2.936783e+02     2.618e+04     1.000e+00     0.000e+00     1.299e-02  
+    1         608    6.947858e+02     1.046e+04     1.000e+00     1.024e+02     8.310e+05  
+    2         912    6.573923e+02     3.637e+03     1.000e+00     1.545e+01     1.458e+01  
+    3        1218    6.275011e+02     1.080e+03     7.000e-01     1.796e+01     1.543e+01  
+    4        1306    6.275011e+02     1.080e+03     1.529e-07     2.708e-06     1.543e+01  
+
+Converged to an infeasible point.
+
+fmincon stopped because the size of the current step is less than
+the value of the step size tolerance but constraints are not
+satisfied to within the value of the constraint tolerance.
+
+<stopping criteria details>
+Elapsed time is 1573.694978 seconds.
+>> 1573.694978/60
+
+ans =
+
+          26.2282496333333

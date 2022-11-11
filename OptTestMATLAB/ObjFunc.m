@@ -45,7 +45,7 @@ end
 %end
 
 %READ Data File
-%file1='../OptTestMATLAB/DataReport.txt';
+%file1='../GeostationaryOrbit_LowThrust/DataReport.txt';
 %fID1=fopen(file1,'r');
 %B=textscan(fID1, '%f %f %f %f %f %f %f', 'headerlines',1);
 %Data=cell2mat(B);
