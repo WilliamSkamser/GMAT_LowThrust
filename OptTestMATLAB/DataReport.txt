@@ -1,2 +1,2 @@
 Sat.Earth.ECC             Sat.EarthMJ2000Eq.INC     Sat.Earth.RMAG            Sat.Earth.Longitude       Sat.Earth.Latitude        Sat.ElectricTank.FuelMass   Sat.ElapsedDays           
-0.001386329853030863      0                         12519.26581148594         88.73950530978141         -0.05735170326453626      1229.953954094682           11.00000000000728         
+0.001820497942719143      0                         12692.79065960412         64.58372062798414         -0.006476970896053748     1232.321730662417           10.99999999999636         

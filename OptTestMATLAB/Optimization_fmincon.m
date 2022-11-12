@@ -16,10 +16,17 @@ Thrust(23:33)=ThrustProfile(:,4);
 x0=Thrust;
 %Bounds
 lb=-15*ones(1,length(x0)); ub=15*ones(1,length(x0));
-options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter','ObjectiveLimit',1526);
-%options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter',...
-%                     'ObjectiveLimit',1000,'UseParallel','always');
+options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter',...
+                     'MaxIterations',300,'OptimalityTolerance',5e-4,...
+                     'ConstraintTolerance',5e-4);%'StepTolerance',1e-10);
 
+
+
+%'ObjectiveLimit',1526);
+%options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter',...
+%                     'ObjectiveLimit',1526,'UseParallel','always');
+%ConstraintTolerance
+%OptimalityTolerance
 %Load Script --> Run Fmincon
 load_gmat();
 Ans1=gmat.gmat.LoadScript("../OptTestMATLAB/OptTestMatlab.script");

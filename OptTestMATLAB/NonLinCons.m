@@ -60,7 +60,7 @@ Cons=[];
 %Equality constants
 e=Data(1); %eccentricity 
 Rmag_eq=42163-Data(3);
-Inc_eq=Data(2);  %inclination
+Inc_eq=Data(2);  %target inclination
 Longitude=93.6465+Data(4);
 %Latitude=Data(5);
 Cons_eq=[e Rmag_eq Inc_eq Longitude];
