@@ -56,7 +56,8 @@ GMAT Sat.EulerAngleSequence = '321';
 
 Create ElectricTank ElectricTank;
 GMAT ElectricTank.AllowNegativeFuelMass = false;
-GMAT ElectricTank.FuelMass = 1000;
+GMAT ElectricTank.FuelMass = 1530;
+
 
 
 

@@ -38,7 +38,7 @@ S = fileread(file2);
 SS = regexp(S, '\r?\n', 'split');
 for i=1:NumberOfSteps
     LineToChange = i+Headerlines; 
-    NewContent = compose("%.1f     \t%.10f %.10f %.10f  %.10f",ThrustProfileNew(i,1),ThrustProfileNew(i,2),ThrustProfileNew(i,3),ThrustProfileNew(i,4),ThrustProfileNew(i,5));
+    NewContent = compose("%.1f     \t%.16f %.16f %.16f  %.16f",ThrustProfileNew(i,1),ThrustProfileNew(i,2),ThrustProfileNew(i,3),ThrustProfileNew(i,4),ThrustProfileNew(i,5));
     SS{LineToChange} = NewContent;
 end
 fid2 = fopen(file2, 'w');
@@ -65,8 +65,7 @@ fclose(fID1);
 %Inequality constants
 %Rmag(1)=42163-Data(2); 
 %Rmag(2)=42165-Data(2);
-Rmag=[];
-Cons=Rmag;
+Cons=[];
 
 %Equality constants
 e=Data(1); %eccentricity 

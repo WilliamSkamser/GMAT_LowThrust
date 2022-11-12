@@ -10,9 +10,9 @@ GMAT Sat.DateFormat = UTCGregorian;
 GMAT Sat.Epoch = '10 Oct 2022 00:00:00.000';
 GMAT Sat.CoordinateSystem = EarthMJ2000Eq;
 GMAT Sat.DisplayStateType = Keplerian;
-GMAT Sat.SMA = 9999.999999999998;
-GMAT Sat.ECC = 0.2999999999999998;
-GMAT Sat.INC = 29.99999999999999;
+GMAT Sat.SMA = 7000;
+GMAT Sat.ECC = 0;
+GMAT Sat.INC = 0;
 GMAT Sat.RAAN = 0;
 GMAT Sat.AOP = 0;
 GMAT Sat.TA = 0;
@@ -59,6 +59,8 @@ GMAT ElectricTank.AllowNegativeFuelMass = false;
 GMAT ElectricTank.FuelMass = 1000;
 
 
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -80,10 +82,10 @@ GMAT InternalODEModel.GravityField.Earth.TideModel = 'None';
 Create Propagator ThePropagator;
 GMAT ThePropagator.FM = InternalODEModel;
 GMAT ThePropagator.Type = RungeKutta89;
-GMAT ThePropagator.InitialStepSize = 86400;
+GMAT ThePropagator.InitialStepSize = 8640;
 GMAT ThePropagator.Accuracy = 9.999999999999999e-10;
 GMAT ThePropagator.MinStep = 0.001;
-GMAT ThePropagator.MaxStep = 86400;
+GMAT ThePropagator.MaxStep = 8640;
 GMAT ThePropagator.MaxStepAttempts = 50;
 GMAT ThePropagator.StopIfAccuracyIsViolated = true;
 %----------------------------------------
@@ -117,8 +119,8 @@ GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 Create OrbitView EarthOrbitView;
 GMAT EarthOrbitView.SolverIterations = Current;
 GMAT EarthOrbitView.UpperLeft = [ 0 0 ];
-GMAT EarthOrbitView.Size = [ 0.4458823529411765 1.332923832923833 ];
-GMAT EarthOrbitView.RelativeZOrder = 290;
+GMAT EarthOrbitView.Size = [ 0.4458823529411765 1.330466830466831 ];
+GMAT EarthOrbitView.RelativeZOrder = 451;
 GMAT EarthOrbitView.Maximized = true;
 GMAT EarthOrbitView.Add = {Sat, Earth};
 GMAT EarthOrbitView.CoordinateSystem = EarthMJ2000Eq;
@@ -150,8 +152,8 @@ Create XYPlot RmagPlot;
 GMAT RmagPlot.SolverIterations = Current;
 GMAT RmagPlot.UpperLeft = [ 0 0 ];
 GMAT RmagPlot.Size = [ 0.1794117647058824 0.5196560196560197 ];
-GMAT RmagPlot.RelativeZOrder = 284;
-GMAT RmagPlot.Maximized = true;
+GMAT RmagPlot.RelativeZOrder = 428;
+GMAT RmagPlot.Maximized = false;
 GMAT RmagPlot.XVariable = Sat.A1ModJulian;
 GMAT RmagPlot.YVariables = {Sat.Earth.RMAG};
 GMAT RmagPlot.ShowGrid = true;
@@ -161,8 +163,8 @@ Create XYPlot EccentricityPlot;
 GMAT EccentricityPlot.SolverIterations = Current;
 GMAT EccentricityPlot.UpperLeft = [ 0 0 ];
 GMAT EccentricityPlot.Size = [ 0.178235294117647 0.5171990171990172 ];
-GMAT EccentricityPlot.RelativeZOrder = 280;
-GMAT EccentricityPlot.Maximized = true;
+GMAT EccentricityPlot.RelativeZOrder = 418;
+GMAT EccentricityPlot.Maximized = false;
 GMAT EccentricityPlot.XVariable = Sat.A1ModJulian;
 GMAT EccentricityPlot.YVariables = {Sat.Earth.ECC};
 GMAT EccentricityPlot.ShowGrid = true;
@@ -170,10 +172,10 @@ GMAT EccentricityPlot.ShowPlot = true;
 
 Create GroundTrackPlot GroundTrackPlot1;
 GMAT GroundTrackPlot1.SolverIterations = Current;
-GMAT GroundTrackPlot1.UpperLeft = [ 0.1617647058823529 0.2321867321867322 ];
+GMAT GroundTrackPlot1.UpperLeft = [ 0.1605882352941176 0.2297297297297297 ];
 GMAT GroundTrackPlot1.Size = [ 0.7529411764705882 0.5749385749385749 ];
-GMAT GroundTrackPlot1.RelativeZOrder = 282;
-GMAT GroundTrackPlot1.Maximized = true;
+GMAT GroundTrackPlot1.RelativeZOrder = 423;
+GMAT GroundTrackPlot1.Maximized = false;
 GMAT GroundTrackPlot1.Add = {Sat};
 GMAT GroundTrackPlot1.DataCollectFrequency = 1;
 GMAT GroundTrackPlot1.UpdatePlotFrequency = 50;
@@ -201,10 +203,10 @@ GMAT TheReport.WriteReport = true;
 
 Create XYPlot InclinationPlot;
 GMAT InclinationPlot.SolverIterations = Current;
-GMAT InclinationPlot.UpperLeft = [ 0.2782352941176471 0.4557739557739558 ];
-GMAT InclinationPlot.Size = [ 1.141176470588235 0.4459459459459459 ];
-GMAT InclinationPlot.RelativeZOrder = 288;
-GMAT InclinationPlot.Maximized = true;
+GMAT InclinationPlot.UpperLeft = [ 0.2770588235294117 0.4533169533169533 ];
+GMAT InclinationPlot.Size = [ 1.14 0.4459459459459459 ];
+GMAT InclinationPlot.RelativeZOrder = 438;
+GMAT InclinationPlot.Maximized = false;
 GMAT InclinationPlot.XVariable = Sat.A1ModJulian;
 GMAT InclinationPlot.YVariables = {Sat.EarthMJ2000Eq.INC};
 GMAT InclinationPlot.ShowGrid = true;
@@ -212,10 +214,10 @@ GMAT InclinationPlot.ShowPlot = true;
 
 Create XYPlot XYPlot1;
 GMAT XYPlot1.SolverIterations = Current;
-GMAT XYPlot1.UpperLeft = [ 0.1194117647058824 0.4545454545454545 ];
+GMAT XYPlot1.UpperLeft = [ 0.1182352941176471 0.4520884520884521 ];
 GMAT XYPlot1.Size = [ 0.4976470588235294 0.4447174447174447 ];
-GMAT XYPlot1.RelativeZOrder = 286;
-GMAT XYPlot1.Maximized = true;
+GMAT XYPlot1.RelativeZOrder = 433;
+GMAT XYPlot1.Maximized = false;
 GMAT XYPlot1.XVariable = Sat.A1ModJulian;
 GMAT XYPlot1.YVariables = {Sat.Earth.Longitude, Sat.Earth.Latitude};
 GMAT XYPlot1.ShowGrid = true;
@@ -226,6 +228,7 @@ GMAT XYPlot1.ShowPlot = true;
 %----------------------------------------
 
 BeginMissionSequence;
+
 BeginScript 'ThrustFileProp'
    BeginFileThrust ThrustHistoryFile1(Sat);
    Propagate 'PropagateStep1' ThePropagator(Sat) {Sat.ElapsedDays = 10};

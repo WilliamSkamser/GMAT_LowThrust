@@ -1,4 +1,4 @@
-function FuelMass=ObjFunc(Thrust)
+function MassUsed=ObjFunc(Thrust)
 Headerlines=6;
 %READ Thrust File
 file='../GeostationaryOrbit_LowThrust/ThrustProfileInitialGuess.thrust';
@@ -32,6 +32,7 @@ for i=1:NumberOfSteps
 end
 
 %WRITE New Thrust File
+%{
 file2='../GeostationaryOrbit_LowThrust/ThrustProfile.thrust';
 S = fileread(file2);
 SS = regexp(S, '\r?\n', 'split');
@@ -62,4 +63,5 @@ fclose(fID1);
 TankMass_0=1000; %Mass of full tank
 FuelMass=TankMass_0-Data(6);
 %FuelMass=TankMass_0-MassUsed;
+%}
 end

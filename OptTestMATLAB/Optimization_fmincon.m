@@ -6,6 +6,11 @@ A=textscan(fID, '%f %f %f %f %f', 'headerlines',6);
 ThrustProfile=cell2mat(A);
 fclose(fID);
 
+
+%Read Time Step from initial guess
+
+
+
 %Converts to vector
 Thrust=zeros(33,1);
 Thrust(1:11)=ThrustProfile(:,2);

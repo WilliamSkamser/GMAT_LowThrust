@@ -17,8 +17,11 @@ Thrust( (((NumberOfSteps+1)*2)+1) : ((NumberOfSteps+1)*3) )=ThrustProfile(:,4);
 %Inital guess 
 x0=Thrust;
 %Bounds
-lb=0*ones(1,length(x0)); ub=10*ones(1,length(x0));
-options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter','MaxIterations',100,'OptimalityTolerance',1e-4);
+lb=-15*ones(1,length(x0)); ub=15*ones(1,length(x0));
+options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter',...
+                     'MaxIterations',300,'OptimalityTolerance',5e-4,...
+                     'ConstraintTolerance',5e-4);
+%options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter','MaxIterations',100,'OptimalityTolerance',1e-4);
 
 %Load Script --> Run Fmincon
 load_gmat();
