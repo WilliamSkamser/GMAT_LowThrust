@@ -15,8 +15,10 @@ Thrust(23:33)=ThrustProfile(:,4);
 %Inital guess 
 x0=Thrust;
 %Bounds
-lb=0*ones(1,length(x0)); ub=10*ones(1,length(x0));
-options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter');
+lb=-15*ones(1,length(x0)); ub=15*ones(1,length(x0));
+options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter','ObjectiveLimit',1526);
+%options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter',...
+%                     'ObjectiveLimit',1000,'UseParallel','always');
 
 %Load Script --> Run Fmincon
 load_gmat();

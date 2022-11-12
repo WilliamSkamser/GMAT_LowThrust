@@ -1,6 +1,6 @@
 clc, clear, format longg;
 %READ Thrust File
-file='../GeostationaryOrbit_LowThrust/ThrustProfileInitalGuess.thrust';
+file='../GeostationaryOrbit_LowThrust/ThrustProfileInitialGuess.thrust';
 fID=fopen(file,'r');
 A=textscan(fID, '%f %f %f %f %f', 'headerlines',6);
 ThrustProfile=cell2mat(A);

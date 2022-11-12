@@ -1,6 +1,0 @@
-1) Add more time steps
-2) try with converging to current values
-3) swithching Rmag and e around 
-	Have e as the contraint
-	set Rmag as the objective function
-4)

@@ -1,4 +1,4 @@
-function FuelMass=ObjFunc(Thrust)
+function MassUsed=ObjFunc(Thrust)
 Headerlines=6;
 %READ Thrust File
 file='../OptTestMATLAB/ThrustProfileInitalGuess.thrust';
@@ -29,7 +29,7 @@ end
 %SS = regexp(S, '\r?\n', 'split');
 %for i=1:10
 %    LineToChange = i+Headerlines; 
-%    NewContent = compose("%.1f     \t%.9f %.9f %.9f  %.9f",ThrustProfileNew(i,1),ThrustProfileNew(i,2),ThrustProfileNew(i,3),ThrustProfileNew(i,4),ThrustProfileNew(i,5));
+%    NewContent = compose("%.1f     \t%.16f %.16f %.16f  %.16f",ThrustProfileNew(i,1),ThrustProfileNew(i,2),ThrustProfileNew(i,3),ThrustProfileNew(i,4),ThrustProfileNew(i,5));
 %    SS{LineToChange} = NewContent;
 %end
 %fid2 = fopen(file2, 'w');
@@ -45,13 +45,13 @@ end
 %end
 
 %READ Data File
-%file1='../GeostationaryOrbit_LowThrust/DataReport.txt';
+%file1='../OptTestMATLAB/DataReport.txt';
 %fID1=fopen(file1,'r');
 %B=textscan(fID1, '%f %f %f %f %f %f %f', 'headerlines',1);
 %Data=cell2mat(B);
 %fclose(fID1);
 
-TankMass_0=1000; %Mass of full tank
-%FuelMass=TankMass_0-Data(6);
-FuelMass=TankMass_0-MassUsed;
+%TankMass_0=1526; %Mass of full tank
+%FuelMass=TankMass_0-Data(6)
+%FuelMass2=MassUsed;
 end

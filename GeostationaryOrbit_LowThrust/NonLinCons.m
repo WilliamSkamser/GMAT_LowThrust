@@ -1,7 +1,7 @@
 function [Cons,Cons_eq]=NonLinCons(Thrust)
 Headerlines=6;
 %READ Thrust File
-file='../GeostationaryOrbit_LowThrust/ThrustProfileInitalGuess.thrust';
+file='../GeostationaryOrbit_LowThrust/ThrustProfileInitialGuess.thrust';
 fID=fopen(file,'r');
 A=textscan(fID, '%f %f %f %f %f', 'headerlines',Headerlines);
 ThrustProfile=cell2mat(A);

@@ -7,23 +7,23 @@
 
 Create Spacecraft Sat;
 GMAT Sat.DateFormat = UTCGregorian;
-GMAT Sat.Epoch = '10 Oct 2022 00:00:00.000';
-GMAT Sat.CoordinateSystem = EarthMJ2000Eq;
-GMAT Sat.DisplayStateType = Keplerian;
-GMAT Sat.SMA = 7000;
-GMAT Sat.ECC = 0;
-GMAT Sat.INC = 0;
-GMAT Sat.RAAN = 0;
-GMAT Sat.AOP = 0;
-GMAT Sat.TA = 0;
-GMAT Sat.DryMass = 850;
+GMAT Sat.Epoch = '20 Jul 2023 00:00:00.000';
+GMAT Sat.CoordinateSystem = SunICRF;
+GMAT Sat.DisplayStateType = Cartesian;
+GMAT Sat.X = 68405277.7525657;
+GMAT Sat.Y = -124569338.82142;
+GMAT Sat.Z = -54000478.8230257;
+GMAT Sat.VX = 26.12608398815661;
+GMAT Sat.VY = 12.20163451293511;
+GMAT Sat.VZ = 5.289560433755932;
+GMAT Sat.DryMass = 1000;
 GMAT Sat.Cd = 2.2;
 GMAT Sat.Cr = 1.8;
 GMAT Sat.DragArea = 15;
 GMAT Sat.SRPArea = 1;
 GMAT Sat.SPADDragScaleFactor = 1;
 GMAT Sat.SPADSRPScaleFactor = 1;
-GMAT Sat.Tanks = {ElectricTank};
+GMAT Sat.Tanks = {ElectricTank1};
 GMAT Sat.NAIFId = -10005001;
 GMAT Sat.NAIFIdReferenceFrame = -9005001;
 GMAT Sat.OrbitColor = Red;
@@ -54,41 +54,9 @@ GMAT Sat.EulerAngleSequence = '321';
 %---------- Hardware Components
 %----------------------------------------
 
-Create ElectricTank ElectricTank;
-GMAT ElectricTank.AllowNegativeFuelMass = false;
-GMAT ElectricTank.FuelMass = 1526;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Create ElectricTank ElectricTank1;
+GMAT ElectricTank1.AllowNegativeFuelMass = false;
+GMAT ElectricTank1.FuelMass = 500;
 
 
 
@@ -99,17 +67,12 @@ GMAT ElectricTank.FuelMass = 1526;
 %---------- ForceModels
 %----------------------------------------
 Create ForceModel InternalODEModel;
-GMAT InternalODEModel.CentralBody = Earth;
-GMAT InternalODEModel.PrimaryBodies = {Earth};
+GMAT InternalODEModel.CentralBody = Sun;
+GMAT InternalODEModel.PointMasses = {Sun};
 GMAT InternalODEModel.Drag = None;
 GMAT InternalODEModel.SRP = Off;
 GMAT InternalODEModel.RelativisticCorrection = Off;
 GMAT InternalODEModel.ErrorControl = RSSStep;
-GMAT InternalODEModel.GravityField.Earth.Degree = 0;
-GMAT InternalODEModel.GravityField.Earth.Order = 0;
-GMAT InternalODEModel.GravityField.Earth.StmLimit = 100;
-GMAT InternalODEModel.GravityField.Earth.PotentialFile = 'JGM2.cof';
-GMAT InternalODEModel.GravityField.Earth.TideModel = 'None';
 %----------------------------------------
 %---------- Propagators
 %----------------------------------------
@@ -117,8 +80,8 @@ Create Propagator ThePropagator;
 GMAT ThePropagator.FM = InternalODEModel;
 GMAT ThePropagator.Type = RungeKutta89;
 GMAT ThePropagator.InitialStepSize = 86400;
-GMAT ThePropagator.Accuracy = 9.999999999999999e-10;
-GMAT ThePropagator.MinStep = 0.001;
+GMAT ThePropagator.Accuracy = 9.999999999999999e-12;
+GMAT ThePropagator.MinStep = 86400;
 GMAT ThePropagator.MaxStep = 86400;
 GMAT ThePropagator.MaxStepAttempts = 50;
 GMAT ThePropagator.StopIfAccuracyIsViolated = true;
@@ -132,6 +95,10 @@ GMAT VNB.XAxis = V;
 GMAT VNB.YAxis = N;
 GMAT VNB.Primary = Earth;
 GMAT VNB.Secondary = Sat;
+
+Create CoordinateSystem SunICRF;
+GMAT SunICRF.Origin = Sun;
+GMAT SunICRF.Axes = ICRF;
 %----------------------------------------
 %---------- Thrust Step
 %----------------------------------------
@@ -141,97 +108,45 @@ GMAT ThrustSegment1.ThrustScaleFactor = 1;
 GMAT ThrustSegment1.ThrustScaleFactorSigma = 1e+70;
 GMAT ThrustSegment1.ApplyThrustScaleToMassFlow = false;
 GMAT ThrustSegment1.MassFlowScaleFactor = 1;
-GMAT ThrustSegment1.MassSource = {'ElectricTank'};
+GMAT ThrustSegment1.MassSource = {'ElectricTank1'};
 
 Create ThrustHistoryFile ThrustHistoryFile1;
-GMAT ThrustHistoryFile1.FileName = 'C:\GMAT_Repo\OptTestMATLAB\ThrustProfile.thrust';
+GMAT ThrustHistoryFile1.FileName = '/GMAT_Repo/EarthToMars_LowThrust/ThrustProfile.thrust';
 GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 %----------------------------------------
 %---------- Subscribers
 %----------------------------------------
 
-Create ReportFile TheReport;
-GMAT TheReport.SolverIterations = Current;
-GMAT TheReport.UpperLeft = [ 0.1264705882352941 -0.03316953316953317 ];
-GMAT TheReport.Size = [ 0.591764705882353 0.7825552825552825 ];
-GMAT TheReport.RelativeZOrder = 86;
-GMAT TheReport.Maximized = false;
-GMAT TheReport.Filename = 'C:\GMAT_Repo\OptTestMATLAB\DataReport.txt';
-GMAT TheReport.Precision = 16;
-GMAT TheReport.WriteHeaders = true;
-GMAT TheReport.LeftJustify = On;
-GMAT TheReport.ZeroFill = Off;
-GMAT TheReport.FixedWidth = true;
-GMAT TheReport.Delimiter = ' ';
-GMAT TheReport.ColumnWidth = 23;
-GMAT TheReport.WriteReport = true;
-
-%----------------------------------------
-%---------- Arrays, Variables, Strings
-%----------------------------------------
-Create Variable Z;
-GMAT Z = 1;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Create ReportFile DataOut;
+GMAT DataOut.SolverIterations = Current;
+GMAT DataOut.UpperLeft = [ 0.1017647058823529 0.1977886977886978 ];
+GMAT DataOut.Size = [ 0.5941176470588235 0.7874692874692875 ];
+GMAT DataOut.RelativeZOrder = 87;
+GMAT DataOut.Maximized = false;
+GMAT DataOut.Filename = 'C:/GMAT_Repo/EarthToMars_LowThrust/DataOutput.txt';
+GMAT DataOut.Precision = 16;
+GMAT DataOut.Add = {Sat.ElapsedDays, Sat.A1Gregorian, Sat.SunICRF.VX, Sat.SunICRF.VY, Sat.SunICRF.VZ, Sat.SunICRF.X, Sat.SunICRF.Y, Sat.SunICRF.Z, Mars.SunICRF.VX, Mars.SunICRF.VY, Mars.SunICRF.VZ, Mars.SunICRF.X, Mars.SunICRF.Y, Mars.SunICRF.Z, Sat.ElectricTank1.FuelMass};
+GMAT DataOut.WriteHeaders = true;
+GMAT DataOut.LeftJustify = On;
+GMAT DataOut.ZeroFill = Off;
+GMAT DataOut.FixedWidth = true;
+GMAT DataOut.Delimiter = ' ';
+GMAT DataOut.ColumnWidth = 23;
+GMAT DataOut.WriteReport = true;
 
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
 
 BeginMissionSequence;
-BeginScript 'ThrustFileProp'
+
+BeginScript 'Step1'
    BeginFileThrust ThrustHistoryFile1(Sat);
-   Propagate 'PropagateStep1' ThePropagator(Sat) {Sat.ElapsedDays = 10};
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 83405339.69};
    EndFileThrust ThrustHistoryFile1(Sat);
 EndScript;
-Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1, OrbitColor = [70 255 0]};
-Report TheReport Sat.Earth.ECC Sat.EarthMJ2000Eq.INC Sat.Earth.RMAG Sat.Earth.Longitude Sat.Earth.Latitude Sat.ElectricTank.FuelMass Sat.ElapsedDays;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+%Report DataOut Sat.ElapsedDays Sat.A1Gregorian Earth.A1Gregorian Sat.SunICRF.VX Mars.A1Gregorian Sat.SunICRF.VY Sat.SunICRF.VZ Sat.SunICRF.X Sat.SunICRF.Y Sat.SunICRF.Z Mars.SunICRF.VX Mars.SunICRF.VY Mars.SunICRF.VZ Mars.SunICRF.X Mars.SunICRF.Y Mars.SunICRF.Z Earth.SunICRF.VX Earth.SunICRF.VY Earth.SunICRF.VZ Earth.SunICRF.X Earth.SunICRF.Y Earth.SunICRF.Z;
 
 
 

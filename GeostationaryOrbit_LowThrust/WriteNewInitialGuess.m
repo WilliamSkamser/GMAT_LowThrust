@@ -18,7 +18,7 @@ ThrustProfile(end,1)=TimeArray(end);
 
 %WRITE New Thrust File
 Headerlines=6;
-file2='../GeostationaryOrbit_LowThrust/ThrustProfileInitalGuess.thrust';
+file2='../GeostationaryOrbit_LowThrust/ThrustProfileInitialGuess.thrust';
 S = fileread(file2);
 SS = regexp(S, '\r?\n', 'split');
 for i=1:(NumberOfSteps+1)
