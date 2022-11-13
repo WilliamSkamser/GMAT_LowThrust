@@ -1,4 +1,5 @@
 function MassUsed=ObjFunc(Thrust)
+%{
 Headerlines=6;
 %READ Thrust File
 file='../OptTestMATLAB/ThrustProfileInitalGuess.thrust';
@@ -6,21 +7,25 @@ fID=fopen(file,'r');
 A=textscan(fID, '%f %f %f %f %f', 'headerlines',Headerlines);
 ThrustProfile=cell2mat(A);
 fclose(fID);
-
+%}
 ISP=1500;
 g=9.80665;
 %mdot= Tmag/(ISP*g0)?
 MassUsed=0;
-
+steps=10; 
 %Converts back to Matrix;
 ThrustProfileNew(:,2)=Thrust(1:11);
 ThrustProfileNew(:,3)=Thrust(12:22);
 ThrustProfileNew(:,4)=Thrust(23:33);
-ThrustProfileNew(:,1)=ThrustProfile(:,1);
+%Converts Time step into time column
+for i=1:steps
+ThrustProfileNew(i+1,1)=ThrustProfileNew(i,1) + Thrust(i+33);
+end
+
 for i=1:10
     ThrustProfileNew(i,5)=norm(ThrustProfileNew(i,2:4)) / (ISP * g); %mass flow rate 
     
-    MassUsed=MassUsed+(ThrustProfileNew(i,5) * (ThrustProfile(i+1,1) - ThrustProfile(i,1)) );
+    MassUsed=MassUsed+(ThrustProfileNew(i,5) * (ThrustProfileNew(i+1,1) - ThrustProfileNew(i,1)) );
 end
 
 %WRITE New Thrust File

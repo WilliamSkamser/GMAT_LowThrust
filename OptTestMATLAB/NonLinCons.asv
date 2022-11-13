@@ -1,7 +1,6 @@
 function [Cons,Cons_eq]=NonLinCons(Thrust)
-
-Headerlines=6;
 %{
+Headerlines=6;
 %READ Thrust File
 file='../OptTestMATLAB/ThrustProfileInitalGuess.thrust';
 fID=fopen(file,'r');
@@ -12,7 +11,7 @@ fclose(fID);
 ISP=1500;
 g=9.80665;
 %mdot= Tmag/(ISP*g0)
-steps=10;
+
 %Converts back to Matrix;
 ThrustProfileNew(:,2)=Thrust(1:11);
 ThrustProfileNew(:,3)=Thrust(12:22);
@@ -34,7 +33,7 @@ S = fileread(file2);
 SS = regexp(S, '\r?\n', 'split');
 for i=1:10
     LineToChange = i+Headerlines; 
-    NewContent = compose("%.5f     \t%.16f %.16f %.16f  %.16f",ThrustProfileNew(i,1),ThrustProfileNew(i,2),ThrustProfileNew(i,3),ThrustProfileNew(i,4),ThrustProfileNew(i,5));
+    NewContent = compose("%.1f     \t%.16f %.16f %.16f  %.16f",ThrustProfileNew(i,1),ThrustProfileNew(i,2),ThrustProfileNew(i,3),ThrustProfileNew(i,4),ThrustProfileNew(i,5));
     SS{LineToChange} = NewContent;
 end
 fid2 = fopen(file2, 'w');

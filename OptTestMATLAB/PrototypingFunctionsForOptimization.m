@@ -1,6 +1,5 @@
 clc, clear, format longg;
 %script used to run parts fmincon optimization for prototyping
-clc, clear, format longg;
 %READ Thrust File
 file='../OptTestMATLAB/ThrustProfileInitalGuess.thrust';
 fID=fopen(file,'r');
