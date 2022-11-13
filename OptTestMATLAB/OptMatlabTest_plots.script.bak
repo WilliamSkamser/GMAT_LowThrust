@@ -97,6 +97,7 @@ GMAT ElectricTank.FuelMass = 1526;
 
 
 
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -155,8 +156,8 @@ GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 Create OrbitView EarthOrbitView;
 GMAT EarthOrbitView.SolverIterations = Current;
 GMAT EarthOrbitView.UpperLeft = [ 0 0 ];
-GMAT EarthOrbitView.Size = [ 0.4458823529411765 1.330466830466831 ];
-GMAT EarthOrbitView.RelativeZOrder = 154;
+GMAT EarthOrbitView.Size = [ 0.4461637653127015 1.329238329238329 ];
+GMAT EarthOrbitView.RelativeZOrder = 181;
 GMAT EarthOrbitView.Maximized = true;
 GMAT EarthOrbitView.Add = {Sat, Earth};
 GMAT EarthOrbitView.CoordinateSystem = EarthMJ2000Eq;
@@ -187,8 +188,8 @@ GMAT EarthOrbitView.EnableConstellations = On;
 Create XYPlot RmagPlot;
 GMAT RmagPlot.SolverIterations = Current;
 GMAT RmagPlot.UpperLeft = [ 0 0 ];
-GMAT RmagPlot.Size = [ 0.1794117647058824 0.5196560196560197 ];
-GMAT RmagPlot.RelativeZOrder = 150;
+GMAT RmagPlot.Size = [ 0.1792392005157963 0.5184275184275184 ];
+GMAT RmagPlot.RelativeZOrder = 173;
 GMAT RmagPlot.Maximized = false;
 GMAT RmagPlot.XVariable = Sat.A1ModJulian;
 GMAT RmagPlot.YVariables = {Sat.Earth.RMAG};
@@ -198,9 +199,9 @@ GMAT RmagPlot.ShowPlot = true;
 Create XYPlot EccentricityPlot;
 GMAT EccentricityPlot.SolverIterations = Current;
 GMAT EccentricityPlot.UpperLeft = [ 0 0 ];
-GMAT EccentricityPlot.Size = [ 0.178235294117647 0.5171990171990172 ];
-GMAT EccentricityPlot.RelativeZOrder = 152;
-GMAT EccentricityPlot.Maximized = true;
+GMAT EccentricityPlot.Size = [ 0.1779497098646035 0.515970515970516 ];
+GMAT EccentricityPlot.RelativeZOrder = 169;
+GMAT EccentricityPlot.Maximized = false;
 GMAT EccentricityPlot.XVariable = Sat.A1ModJulian;
 GMAT EccentricityPlot.YVariables = {Sat.Earth.ECC};
 GMAT EccentricityPlot.ShowGrid = true;
@@ -239,9 +240,9 @@ GMAT TheReport.WriteReport = true;
 
 Create XYPlot InclinationPlot;
 GMAT InclinationPlot.SolverIterations = Current;
-GMAT InclinationPlot.UpperLeft = [ -0.2235294117647059 0.4152334152334152 ];
-GMAT InclinationPlot.Size = [ 1.14 0.4459459459459459 ];
-GMAT InclinationPlot.RelativeZOrder = 142;
+GMAT InclinationPlot.UpperLeft = [ -0.2224371373307543 0.4127764127764127 ];
+GMAT InclinationPlot.Size = [ 1.137975499677627 0.4447174447174447 ];
+GMAT InclinationPlot.RelativeZOrder = 164;
 GMAT InclinationPlot.Maximized = false;
 GMAT InclinationPlot.XVariable = Sat.A1ModJulian;
 GMAT InclinationPlot.YVariables = {Sat.EarthMJ2000Eq.INC};
@@ -250,9 +251,9 @@ GMAT InclinationPlot.ShowPlot = true;
 
 Create XYPlot XYPlot1;
 GMAT XYPlot1.SolverIterations = Current;
-GMAT XYPlot1.UpperLeft = [ 0.1182352941176471 0.4520884520884521 ];
-GMAT XYPlot1.Size = [ 0.4976470588235294 0.4447174447174447 ];
-GMAT XYPlot1.RelativeZOrder = 136;
+GMAT XYPlot1.UpperLeft = [ 0.1173436492585429 0.4496314496314496 ];
+GMAT XYPlot1.Size = [ 0.4970986460348162 0.4434889434889435 ];
+GMAT XYPlot1.RelativeZOrder = 159;
 GMAT XYPlot1.Maximized = false;
 GMAT XYPlot1.XVariable = Sat.A1ModJulian;
 GMAT XYPlot1.YVariables = {Sat.Earth.Longitude, Sat.Earth.Latitude};
@@ -261,9 +262,9 @@ GMAT XYPlot1.ShowPlot = true;
 
 Create XYPlot FuelMassUsed;
 GMAT FuelMassUsed.SolverIterations = Current;
-GMAT FuelMassUsed.UpperLeft = [ 0.1311764705882353 0.004914004914004914 ];
-GMAT FuelMassUsed.Size = [ 0.7370588235294118 0.9656019656019657 ];
-GMAT FuelMassUsed.RelativeZOrder = 130;
+GMAT FuelMassUsed.UpperLeft = [ 0.1302385557704707 0.002457002457002457 ];
+GMAT FuelMassUsed.Size = [ 0.7362991618310767 0.9643734643734644 ];
+GMAT FuelMassUsed.RelativeZOrder = 154;
 GMAT FuelMassUsed.Maximized = false;
 GMAT FuelMassUsed.XVariable = Sat.A1ModJulian;
 GMAT FuelMassUsed.YVariables = {Sat.ElectricTank.FuelMass};
@@ -275,6 +276,7 @@ GMAT FuelMassUsed.ShowPlot = true;
 %----------------------------------------
 Create Variable Z;
 GMAT Z = 1;
+
 
 
 
@@ -322,6 +324,7 @@ BeginScript 'ThrustFileProp'
 EndScript;
 Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1, OrbitColor = [70 255 0]};
 Report TheReport Sat.Earth.ECC Sat.EarthMJ2000Eq.INC Sat.Earth.RMAG Sat.Earth.Longitude Sat.Earth.Latitude Sat.ElectricTank.FuelMass Sat.ElapsedDays;
+
 
 
 

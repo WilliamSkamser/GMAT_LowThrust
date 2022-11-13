@@ -95,6 +95,8 @@ GMAT ElectricTank.FuelMass = 1526;
 
 
 
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -153,9 +155,9 @@ GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 Create ReportFile TheReport;
 GMAT TheReport.SolverIterations = Current;
-GMAT TheReport.UpperLeft = [ 0.1264705882352941 -0.03316953316953317 ];
-GMAT TheReport.Size = [ 0.591764705882353 0.7825552825552825 ];
-GMAT TheReport.RelativeZOrder = 86;
+GMAT TheReport.UpperLeft = [ 0.1258823529411765 -0.03194103194103194 ];
+GMAT TheReport.Size = [ 0.5911764705882353 0.7813267813267813 ];
+GMAT TheReport.RelativeZOrder = 141;
 GMAT TheReport.Maximized = false;
 GMAT TheReport.Filename = 'C:\GMAT_Repo\OptTestMATLAB\DataReport.txt';
 GMAT TheReport.Precision = 16;
@@ -205,6 +207,8 @@ GMAT Z = 1;
 
 
 
+
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
@@ -217,6 +221,8 @@ BeginScript 'ThrustFileProp'
 EndScript;
 Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1, OrbitColor = [70 255 0]};
 Report TheReport Sat.Earth.ECC Sat.EarthMJ2000Eq.INC Sat.Earth.RMAG Sat.Earth.Longitude Sat.Earth.Latitude Sat.ElectricTank.FuelMass Sat.ElapsedDays;
+
+
 
 
 

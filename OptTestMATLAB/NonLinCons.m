@@ -34,7 +34,7 @@ S = fileread(file2);
 SS = regexp(S, '\r?\n', 'split');
 for i=1:10
     LineToChange = i+Headerlines; 
-    NewContent = compose("%.5f     \t%.16f %.16f %.16f  %.16f",ThrustProfileNew(i,1),ThrustProfileNew(i,2),ThrustProfileNew(i,3),ThrustProfileNew(i,4),ThrustProfileNew(i,5));
+    NewContent = compose("%.16f     \t%.16f %.16f %.16f  %.16f",ThrustProfileNew(i,1),ThrustProfileNew(i,2),ThrustProfileNew(i,3),ThrustProfileNew(i,4),ThrustProfileNew(i,5));
     SS{LineToChange} = NewContent;
 end
 fid2 = fopen(file2, 'w');
@@ -61,6 +61,10 @@ fclose(fID1);
 %Inequality constants
 %Rmag(1)=42163-Data(2); 
 %Rmag(2)=42165-Data(2);
+%add inquality constrint for radius of earth (prevent trjectory from
+%intersecting the earth)
+
+
 Cons=[];
 
 %Equality constants
