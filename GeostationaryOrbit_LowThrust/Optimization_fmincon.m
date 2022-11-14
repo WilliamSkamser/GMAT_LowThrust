@@ -42,7 +42,7 @@ x0=Thrust;
 
 options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter',...
                      'MaxIterations',300,'OptimalityTolerance',5e-4,...
-                     'ConstraintTolerance',5e-4);
+                     'ConstraintTolerance',5e-4,'StepTolerance',1e-10);
 %options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter','MaxIterations',100,'OptimalityTolerance',1e-4);
 
 %Load Script --> Run Fmincon

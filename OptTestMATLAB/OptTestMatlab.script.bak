@@ -56,7 +56,8 @@ GMAT Sat.EulerAngleSequence = '321';
 
 Create ElectricTank ElectricTank;
 GMAT ElectricTank.AllowNegativeFuelMass = false;
-GMAT ElectricTank.FuelMass = 2000;
+GMAT ElectricTank.FuelMass = 1526;
+
 
 
 
@@ -207,6 +208,7 @@ GMAT Z = 1;
 
 
 
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
@@ -219,6 +221,7 @@ BeginScript 'ThrustFileProp'
 EndScript;
 Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1, OrbitColor = [70 255 0]};
 Report TheReport Sat.Earth.ECC Sat.EarthMJ2000Eq.INC Sat.Earth.RMAG Sat.Earth.Longitude Sat.Earth.Latitude Sat.ElectricTank.FuelMass Sat.ElapsedDays;
+
 
 
 

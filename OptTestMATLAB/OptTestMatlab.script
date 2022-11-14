@@ -97,6 +97,8 @@ GMAT ElectricTank.FuelMass = 1526;
 
 
 
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -209,11 +211,14 @@ GMAT Z = 1;
 
 
 
+
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
 
 BeginMissionSequence;
+
 BeginScript 'ThrustFileProp'
    BeginFileThrust ThrustHistoryFile1(Sat);
    Propagate 'PropagateStep1' ThePropagator(Sat) {Sat.ElapsedDays = 10};
@@ -221,6 +226,8 @@ BeginScript 'ThrustFileProp'
 EndScript;
 Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1, OrbitColor = [70 255 0]};
 Report TheReport Sat.Earth.ECC Sat.EarthMJ2000Eq.INC Sat.Earth.RMAG Sat.Earth.Longitude Sat.Earth.Latitude Sat.ElectricTank.FuelMass Sat.ElapsedDays;
+
+
 
 
 
