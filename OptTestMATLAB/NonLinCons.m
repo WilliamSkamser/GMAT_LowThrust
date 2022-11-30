@@ -9,7 +9,7 @@ A=textscan(fID, '%f %f %f %f %f', 'headerlines',Headerlines);
 ThrustProfile=cell2mat(A);
 fclose(fID);
 %}
-ISP=1500;
+ISP=2800;
 g=9.80665;
 %mdot= Tmag/(ISP*g0)
 steps=10;
@@ -41,6 +41,13 @@ fid2 = fopen(file2, 'w');
 fprintf(fid2, '%s\n', SS{:});
 fclose(fid2);
 
+ThrustTime=864000.0; 
+%WRITE Thrust Run Time
+file3='../OptTestMATLAB/ThrustRunTime.txt';
+fid3 = fopen(file3, 'w');
+fprintf(fid3, '%d', ThrustTime);
+fclose(fid3);
+
 %RUN GMAT Script With New Thrust File
 Ans=gmat.gmat.RunScript();
 if Ans == 0
@@ -50,12 +57,23 @@ if Ans == 0
     return
 end
 
-%READ Data File
+%READ Data File 1
 file1='../OptTestMATLAB/DataReport.txt';
 fID1=fopen(file1,'r');
 B=textscan(fID1, '%f %f %f %f %f %f %f', 'headerlines',1);
 Data=cell2mat(B);
 fclose(fID1);
+
+%READ Data File 2
+file1='../OptTestMATLAB/DataReport2.txt';
+fID2=fopen(file1,'r');
+B2=textscan(fID2, '%f %f', 'headerlines',1);
+Data2=cell2mat(B2);
+fclose(fID2);
+MinRadius=7000 - min(Data2(:,2));
+Cons=MinRadius;
+
+
 
 %42164km for GEO
 %Inequality constants
@@ -65,7 +83,7 @@ fclose(fID1);
 %intersecting the earth)
 
 
-Cons=[];
+%Cons=[];
 
 %Equality constants
 e=Data(1); %eccentricity 

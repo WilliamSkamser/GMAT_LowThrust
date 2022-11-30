@@ -99,6 +99,10 @@ GMAT ElectricTank.FuelMass = 1526;
 
 
 
+
+
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -157,9 +161,9 @@ GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 Create ReportFile TheReport;
 GMAT TheReport.SolverIterations = Current;
-GMAT TheReport.UpperLeft = [ 0.1258823529411765 -0.03194103194103194 ];
-GMAT TheReport.Size = [ 0.5911764705882353 0.7813267813267813 ];
-GMAT TheReport.RelativeZOrder = 141;
+GMAT TheReport.UpperLeft = [ 0.09764705882352941 0.2039312039312039 ];
+GMAT TheReport.Size = [ 0.5841176470588235 0.7665847665847666 ];
+GMAT TheReport.RelativeZOrder = 154;
 GMAT TheReport.Maximized = false;
 GMAT TheReport.Filename = 'C:\GMAT_Repo\OptTestMATLAB\DataReport.txt';
 GMAT TheReport.Precision = 16;
@@ -171,11 +175,25 @@ GMAT TheReport.Delimiter = ' ';
 GMAT TheReport.ColumnWidth = 23;
 GMAT TheReport.WriteReport = true;
 
-%----------------------------------------
-%---------- Arrays, Variables, Strings
-%----------------------------------------
-Create Variable Z;
-GMAT Z = 1;
+Create ReportFile RadiusReport;
+GMAT RadiusReport.SolverIterations = Current;
+GMAT RadiusReport.UpperLeft = [ 0.1494117647058824 0.3120393120393121 ];
+GMAT RadiusReport.Size = [ 0.5982352941176471 0.7960687960687961 ];
+GMAT RadiusReport.RelativeZOrder = 155;
+GMAT RadiusReport.Maximized = false;
+GMAT RadiusReport.Filename = 'C:\GMAT_Repo\OptTestMATLAB\DataReport2.txt';
+GMAT RadiusReport.Precision = 16;
+GMAT RadiusReport.Add = {Sat.A1ModJulian, Sat.Earth.RMAG};
+GMAT RadiusReport.WriteHeaders = true;
+GMAT RadiusReport.LeftJustify = On;
+GMAT RadiusReport.ZeroFill = Off;
+GMAT RadiusReport.FixedWidth = true;
+GMAT RadiusReport.Delimiter = ' ';
+GMAT RadiusReport.ColumnWidth = 23;
+GMAT RadiusReport.WriteReport = true;
+
+
+
 
 
 
@@ -226,6 +244,10 @@ BeginScript 'ThrustFileProp'
 EndScript;
 Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1, OrbitColor = [70 255 0]};
 Report TheReport Sat.Earth.ECC Sat.EarthMJ2000Eq.INC Sat.Earth.RMAG Sat.Earth.Longitude Sat.Earth.Latitude Sat.ElectricTank.FuelMass Sat.ElapsedDays;
+
+
+
+
 
 
 

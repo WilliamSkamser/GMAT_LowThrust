@@ -6,13 +6,14 @@ A=textscan(fID, '%f %f %f %f', 'headerlines',1);
 ThrustProfile=cell2mat(A);
 fclose(fID);
 
-ISP=1500;
+ISP=2800;
 g=9.80665;
 
 NumberOfSteps=size(ThrustProfile(:,1));
 
 for i=1:NumberOfSteps(1)      
     ThrustProfile(i,5)=norm(ThrustProfile(i,2:4)) / (ISP * g);
+    %ThrustProfile(i,5)=4.2231e-5;
 end
 
 

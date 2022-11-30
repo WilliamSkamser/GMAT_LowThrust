@@ -64,10 +64,10 @@ for i=1:steps %if the optimization varibles are a unit vector then can use an eq
     Aeq(i,3)= Thrust(i+(2*steps));
 end
 
-ThrustTime=864000.0; 
+ThrustTime=
 %WRITE Thrust Run Time
-file3='../OptTestMATLAB/ThrustRunTime.txt';
-fid3 = fopen(file3, 'w');
+file3='../OptTestMATLAB/ThrustProfile.thrust';
+fid2 = fopen(file3, 'w');
 fprintf(fid3, '%d', ThrustTime);
 fclose(fid3);
 

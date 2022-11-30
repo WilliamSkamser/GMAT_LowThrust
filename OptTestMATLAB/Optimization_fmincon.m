@@ -28,6 +28,17 @@ ub(1:length(Thrust)-steps)=15;
 lb(length(Thrust)-steps+1:end)=8640*5;
 ub(length(Thrust)-steps+1:end)=86400*5;
 
+%Constraint magnitude   Must be a nonlinear eq
+%mag=15;
+%Aeq = zeros(steps,3);
+%beq= ones(steps,1);
+%for i=1:steps 
+%    Aeq(i,1)= 1/mag;
+%    Aeq(i,2)= 1/mag;
+ %   Aeq(i,3)= 1/mag;
+%end
+
+
 x0=Thrust;
 options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter',...
                      'MaxIterations',300,'OptimalityTolerance',5e-4,...

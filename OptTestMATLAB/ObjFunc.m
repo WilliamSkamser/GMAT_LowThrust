@@ -8,7 +8,7 @@ A=textscan(fID, '%f %f %f %f %f', 'headerlines',Headerlines);
 ThrustProfile=cell2mat(A);
 fclose(fID);
 %}
-ISP=1500;
+ISP=2800;
 g=9.80665;
 %mdot= Tmag/(ISP*g0)?
 MassUsed=0;
