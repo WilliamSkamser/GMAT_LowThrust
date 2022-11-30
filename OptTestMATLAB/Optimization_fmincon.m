@@ -20,14 +20,14 @@ Thrust(1:11)=ThrustProfile(:,2);
 Thrust(12:22)=ThrustProfile(:,3);
 Thrust(23:33)=ThrustProfile(:,4);
 Thrust(34:43)=TimeStep;%Time
-
+                        %Add Propgation time
 %Bounds
 lb=zeros(1,length(Thrust)); ub=lb;
 lb(1:length(Thrust)-steps)=-15;
 ub(1:length(Thrust)-steps)=15;
 lb(length(Thrust)-steps+1:end)=8640*5;
 ub(length(Thrust)-steps+1:end)=86400*5;
-
+                                        %Bounds for Propagation time
 %Constraint magnitude   Must be a nonlinear eq
 %mag=15;
 %Aeq = zeros(steps,3);
@@ -54,7 +54,7 @@ load_gmat();
 Ans1=gmat.gmat.LoadScript("../OptTestMATLAB/OptTestMatlab.script");
 if Ans1 == 1
     tic
-    [xOpt, fOpt, exitflag, output, lambda]=fmincon("ObjFunc",x0, [],[],[],[],lb,ub,"NonLinCons",options);
+    %[xOpt, fOpt, exitflag, output, lambda]=fmincon("ObjFunc",x0, [],[],[],[],lb,ub,"NonLinCons",options);
     toc
 else
     fprintf("Fail to load script\n");

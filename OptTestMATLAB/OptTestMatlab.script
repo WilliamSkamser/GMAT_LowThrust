@@ -103,6 +103,9 @@ GMAT ElectricTank.FuelMass = 1526;
 
 
 
+
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -161,9 +164,9 @@ GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 Create ReportFile TheReport;
 GMAT TheReport.SolverIterations = Current;
-GMAT TheReport.UpperLeft = [ 0.09764705882352941 0.2039312039312039 ];
-GMAT TheReport.Size = [ 0.5841176470588235 0.7665847665847666 ];
-GMAT TheReport.RelativeZOrder = 154;
+GMAT TheReport.UpperLeft = [ 0.09798534798534798 0.2039312039312039 ];
+GMAT TheReport.Size = [ 0.5833333333333334 0.7665847665847666 ];
+GMAT TheReport.RelativeZOrder = 294;
 GMAT TheReport.Maximized = false;
 GMAT TheReport.Filename = 'C:\GMAT_Repo\OptTestMATLAB\DataReport.txt';
 GMAT TheReport.Precision = 16;
@@ -177,9 +180,9 @@ GMAT TheReport.WriteReport = true;
 
 Create ReportFile RadiusReport;
 GMAT RadiusReport.SolverIterations = Current;
-GMAT RadiusReport.UpperLeft = [ 0.1494117647058824 0.3120393120393121 ];
-GMAT RadiusReport.Size = [ 0.5982352941176471 0.7960687960687961 ];
-GMAT RadiusReport.RelativeZOrder = 155;
+GMAT RadiusReport.UpperLeft = [ 0.1492673992673993 0.3120393120393121 ];
+GMAT RadiusReport.Size = [ 0.597985347985348 0.7960687960687961 ];
+GMAT RadiusReport.RelativeZOrder = 293;
 GMAT RadiusReport.Maximized = false;
 GMAT RadiusReport.Filename = 'C:\GMAT_Repo\OptTestMATLAB\DataReport2.txt';
 GMAT RadiusReport.Precision = 16;
@@ -191,6 +194,24 @@ GMAT RadiusReport.FixedWidth = true;
 GMAT RadiusReport.Delimiter = ' ';
 GMAT RadiusReport.ColumnWidth = 23;
 GMAT RadiusReport.WriteReport = true;
+
+%----------------------------------------
+%---------- Functions
+%----------------------------------------
+
+Create MatlabFunction ReadThrustTime;
+GMAT ReadThrustTime.FunctionPath = 'C:\GMAT_Repo\OptTestMATLAB\';
+
+%----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+Create Variable N ThrustTime;
+GMAT N = 1;
+GMAT ThrustTime = 864000;
+
+
+
+
 
 
 
@@ -236,14 +257,18 @@ GMAT RadiusReport.WriteReport = true;
 %----------------------------------------
 
 BeginMissionSequence;
-
+GMAT [ThrustTime] = ReadThrustTime(N);
 BeginScript 'ThrustFileProp'
    BeginFileThrust ThrustHistoryFile1(Sat);
-   Propagate 'PropagateStep1' ThePropagator(Sat) {Sat.ElapsedDays = 10};
+   Propagate 'PropagateStep1' ThePropagator(Sat) {Sat.ElapsedSecs = ThrustTime};
    EndFileThrust ThrustHistoryFile1(Sat);
 EndScript;
 Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1, OrbitColor = [70 255 0]};
 Report TheReport Sat.Earth.ECC Sat.EarthMJ2000Eq.INC Sat.Earth.RMAG Sat.Earth.Longitude Sat.Earth.Latitude Sat.ElectricTank.FuelMass Sat.ElapsedDays;
+
+
+
+
 
 
 

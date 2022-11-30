@@ -1,8 +1,0 @@
-function  time = ReadThrustTime(N)
-    
-file='../OptTestMATLAB/ThrustRunTime.txt';
-fID=fopen(file,'r');
-t=textscan(fID, '%f');
-timecell2mat(t)
-fclose(fID);
-end

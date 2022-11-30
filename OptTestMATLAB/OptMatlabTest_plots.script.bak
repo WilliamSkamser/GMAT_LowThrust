@@ -103,6 +103,8 @@ GMAT ElectricTank.FuelMass = 1526;
 
 
 
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -294,10 +296,20 @@ GMAT RadiusReport.ColumnWidth = 23;
 GMAT RadiusReport.WriteReport = true;
 
 %----------------------------------------
+%---------- Functions
+%----------------------------------------
+
+Create MatlabFunction ReadThrustTime;
+GMAT ReadThrustTime.FunctionPath = 'C:\GMAT_Repo\OptTestMATLAB\';
+
+%----------------------------------------
 %---------- Arrays, Variables, Strings
 %----------------------------------------
-Create Variable Z;
-GMAT Z = 1;
+Create Variable N ThrustTime;
+GMAT N = 1;
+GMAT ThrustTime = 864000;
+
+
 
 
 
@@ -344,14 +356,17 @@ GMAT Z = 1;
 %----------------------------------------
 
 BeginMissionSequence;
-
+GMAT [ThrustTime] = ReadThrustTime(N);
 BeginScript 'ThrustFileProp'
    BeginFileThrust ThrustHistoryFile1(Sat);
-   Propagate 'PropagateStep1' ThePropagator(Sat) {Sat.ElapsedDays = 10};
+   Propagate 'PropagateStep1' ThePropagator(Sat) {Sat.ElapsedSecs = ThrustTime};
    EndFileThrust ThrustHistoryFile1(Sat);
 EndScript;
 Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1, OrbitColor = [70 255 0]};
 Report TheReport Sat.Earth.ECC Sat.EarthMJ2000Eq.INC Sat.Earth.RMAG Sat.Earth.Longitude Sat.Earth.Latitude Sat.ElectricTank.FuelMass Sat.ElapsedDays;
+
+
+
 
 
 
