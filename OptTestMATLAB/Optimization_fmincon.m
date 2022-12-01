@@ -23,10 +23,10 @@ Thrust(34:43)=TimeStep;%Time
                         %Add Propgation time
 %Bounds
 lb=zeros(1,length(Thrust)); ub=lb;
-lb(1:length(Thrust)-steps)=-15;
-ub(1:length(Thrust)-steps)=15;
-lb(length(Thrust)-steps+1:end)=8640*5;
-ub(length(Thrust)-steps+1:end)=86400*5;
+lb(1:length(Thrust)-steps)=-11.75;
+ub(1:length(Thrust)-steps)=11.75;
+lb(length(Thrust)-steps+1:end)=8640;
+ub(length(Thrust)-steps+1:end)=86400*3;
                                         %Bounds for Propagation time
 %Constraint magnitude   Must be a nonlinear eq
 %mag=15;
@@ -42,9 +42,7 @@ ub(length(Thrust)-steps+1:end)=86400*5;
 x0=Thrust;
 options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter',...
                      'MaxIterations',300,'OptimalityTolerance',5e-4,...
-                     'ConstraintTolerance',5e-4);%'StepTolerance',1e-10);
-
-
+                     'ConstraintTolerance',5e-4,'StepTolerance',1e-11);
 
 %'ObjectiveLimit',1526);
 %options=optimoptions('fmincon','Algorithm', 'sqp','Display','iter',...
@@ -54,7 +52,7 @@ load_gmat();
 Ans1=gmat.gmat.LoadScript("../OptTestMATLAB/OptTestMatlab.script");
 if Ans1 == 1
     tic
-    %[xOpt, fOpt, exitflag, output, lambda]=fmincon("ObjFunc",x0, [],[],[],[],lb,ub,"NonLinCons",options);
+    [xOpt, fOpt, exitflag, output, lambda]=fmincon("ObjFunc",x0, [],[],[],[],lb,ub,"NonLinCons",options);
     toc
 else
     fprintf("Fail to load script\n");

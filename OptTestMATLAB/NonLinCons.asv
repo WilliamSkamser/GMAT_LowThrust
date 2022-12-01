@@ -26,7 +26,6 @@ for i=1:10
     ThrustProfileNew(i,5)=norm(ThrustProfileNew(i,2:4)) / (ISP * g); %mass flow rate 
 end
 
-
 %WRITE New Thrust File
 file2='../OptTestMATLAB/ThrustProfile.thrust';
 S = fileread(file2);
@@ -70,13 +69,12 @@ B2=textscan(fID2, '%f %f', 'headerlines',1);
 Data2=cell2mat(B2);
 fclose(fID2);
 MinRadius=7000 - min(Data2(:,2));
-MaxRadius=50000 - max(Data2(:,2));
-Cons=[MinRadius MaxRadius]; %Max and min Radius 
+Cons=MinRadius;
 
 %Now add Magnitude constraints here....   
 M=zeros(10,1);
 for i=1:10
-    M(i) =11.75 - norm([ThrustProfileNew(i,2) ThrustProfileNew(i,3) ThrustProfileNew(i,4)]);
+    M(i) =15 - norm([ThrustProfileNew(i,2) ThrustProfileNew(i,3) ThrustProfileNew(i,4)]);
 end
 
 
