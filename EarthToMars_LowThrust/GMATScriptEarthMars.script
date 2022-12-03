@@ -16,7 +16,7 @@ GMAT Sat.Z = -54000478.8230257;
 GMAT Sat.VX = 26.12608398815661;
 GMAT Sat.VY = 12.20163451293511;
 GMAT Sat.VZ = 5.289560433755932;
-GMAT Sat.DryMass = 1000;
+GMAT Sat.DryMass = 600;
 GMAT Sat.Cd = 2.2;
 GMAT Sat.Cr = 1.8;
 GMAT Sat.DragArea = 15;
@@ -56,7 +56,13 @@ GMAT Sat.EulerAngleSequence = '321';
 
 Create ElectricTank ElectricTank1;
 GMAT ElectricTank1.AllowNegativeFuelMass = false;
-GMAT ElectricTank1.FuelMass = 500;
+GMAT ElectricTank1.FuelMass = 400;
+
+
+
+
+
+
 
 
 
@@ -120,13 +126,12 @@ GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 Create ReportFile DataOut;
 GMAT DataOut.SolverIterations = Current;
-GMAT DataOut.UpperLeft = [ 0.1017647058823529 0.1977886977886978 ];
-GMAT DataOut.Size = [ 0.5941176470588235 0.7874692874692875 ];
-GMAT DataOut.RelativeZOrder = 87;
+GMAT DataOut.UpperLeft = [ 0.1005882352941176 0.1953316953316953 ];
+GMAT DataOut.Size = [ 0.5929411764705882 0.785012285012285 ];
+GMAT DataOut.RelativeZOrder = 33;
 GMAT DataOut.Maximized = false;
 GMAT DataOut.Filename = 'C:/GMAT_Repo/EarthToMars_LowThrust/DataOutput.txt';
 GMAT DataOut.Precision = 16;
-GMAT DataOut.Add = {Sat.ElapsedDays, Sat.A1Gregorian, Sat.SunICRF.VX, Sat.SunICRF.VY, Sat.SunICRF.VZ, Sat.SunICRF.X, Sat.SunICRF.Y, Sat.SunICRF.Z, Mars.SunICRF.VX, Mars.SunICRF.VY, Mars.SunICRF.VZ, Mars.SunICRF.X, Mars.SunICRF.Y, Mars.SunICRF.Z, Sat.ElectricTank1.FuelMass};
 GMAT DataOut.WriteHeaders = true;
 GMAT DataOut.LeftJustify = On;
 GMAT DataOut.ZeroFill = Off;
@@ -136,17 +141,42 @@ GMAT DataOut.ColumnWidth = 23;
 GMAT DataOut.WriteReport = true;
 
 %----------------------------------------
+%---------- Functions
+%----------------------------------------
+
+Create MatlabFunction ReadThrustTime;
+GMAT ReadThrustTime.FunctionPath = 'C:\GMAT_Repo\EarthToMars_LowThrust\';
+
+%----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+Create Variable N RunTime;
+GMAT N = 1;
+GMAT RunTime = 83405339.69;
+
+
+
+
+
+%----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
 
 BeginMissionSequence;
-
+GMAT [RunTime] = ReadThrustTime(N);
 BeginScript 'Step1'
    BeginFileThrust ThrustHistoryFile1(Sat);
    Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 83405339.69};
    EndFileThrust ThrustHistoryFile1(Sat);
 EndScript;
-%Report DataOut Sat.ElapsedDays Sat.A1Gregorian Earth.A1Gregorian Sat.SunICRF.VX Mars.A1Gregorian Sat.SunICRF.VY Sat.SunICRF.VZ Sat.SunICRF.X Sat.SunICRF.Y Sat.SunICRF.Z Mars.SunICRF.VX Mars.SunICRF.VY Mars.SunICRF.VZ Mars.SunICRF.X Mars.SunICRF.Y Mars.SunICRF.Z Earth.SunICRF.VX Earth.SunICRF.VY Earth.SunICRF.VZ Earth.SunICRF.X Earth.SunICRF.Y Earth.SunICRF.Z;
+
+Report DataOut Sat.ElapsedDays Sat.SunICRF.VX Sat.SunICRF.VY Sat.SunICRF.VZ Sat.SunICRF.X Sat.SunICRF.Y Sat.SunICRF.Z Mars.SunICRF.VX Mars.SunICRF.VY Mars.SunICRF.VZ Mars.SunICRF.X Mars.SunICRF.Y Mars.SunICRF.Z Sat.ElectricTank1.FuelMass;
+
+
+
+
+
+
 
 
 

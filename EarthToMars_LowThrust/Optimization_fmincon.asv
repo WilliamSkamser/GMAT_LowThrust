@@ -37,8 +37,7 @@ ub(1:length(Thrust)-NumberOfSteps)=0.1;
 
 
 RunTime=ThrustProfile(end,1);
-TotalFuelMass=400;
-MassFlowRate=4.2231e-6;
+TotalFuelMass=400
 
 Thrust=zeros(((NumberOfSteps+1)*3 + 1),1);
 Thrust(1:(NumberOfSteps+1))=ThrustProfile(:,2);
@@ -49,7 +48,7 @@ Thrust(end)=RunTime;
 lb=zeros(1,length(Thrust)); ub=lb;
 lb(1:length(Thrust)-1)=-0.1;
 ub(1:length(Thrust)-1)=0.1;
-lb(end)=0; ub(end)=(TotalFuelMass/MassFlowRate); %Max Runtime
+lb(end)=0; ub(end)=(400/4.2231e-6); %Max Runtime
 
 %Inital guess 
 x0=Thrust;
@@ -64,13 +63,20 @@ load_gmat();
 Ans1=gmat.gmat.LoadScript("../EarthToMars_LowThrust/GMATScriptEarthMars_plots.script");
 if Ans1 == 1
     tic
-    [xOpt, fOpt, exitflag, output, lambda]=fmincon("ObjFunc",x0, [],[],[],[],lb,ub,"NonLinCons",options);
+    %[xOpt, fOpt, exitflag, output, lambda]=fmincon("ObjFunc",x0, [],[],[],[],lb,ub,"NonLinCons",options);
     toc
 else
     fprintf("Fail to load script\n");
 end
 
-
+%Things to work on next-->
+%   Add proper bounds for optimization sequence 
+        %run
+        %Question -> should the timestep be the same for all point?
+        %fix bug
+%   Add Thrust Time to NonLin
+        %run
+        %fix bug
 %   Add Magnitude Part to NonLin
         %run
         %fix bug
