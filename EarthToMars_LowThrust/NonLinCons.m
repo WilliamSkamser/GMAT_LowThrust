@@ -71,10 +71,10 @@ M=zeros(NumberOfSteps,1);
 for i=1:NumberOfSteps
     M(i) =0.1 - norm([ThrustProfileNew(i,2) ThrustProfileNew(i,3) ThrustProfileNew(i,4)]);
 end
-%CN=size(Cons_eq,2);
+CN=size(Cons_eq,2);
 %Fill Cons_eq with Magnitude
 for i=1:NumberOfSteps
-    %Cons_eq(i+CN)= M(i);
+    Cons_eq(i+CN)= M(i);
 end
 
 end 

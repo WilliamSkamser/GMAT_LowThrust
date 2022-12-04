@@ -70,10 +70,31 @@ else
     fprintf("Fail to load script\n");
 end
 
+%{ 
+OUTPUT:
 
-%   Add Magnitude Part to NonLin
-        %run
-        %fix bug
-%   Add anything else
-%   Add Nested Fmincon for that reruns the whole optimization with new
-%   Start time 
+No script provided to load.
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0         605    3.522291e+02     2.472e+08     1.000e+00     0.000e+00     4.223e-06  
+    1        1212    3.521415e+02     2.472e+08     4.900e-01     2.074e+04     4.223e-06  
+    2        1818    3.556514e+02     2.472e+08     7.000e-01     8.311e+05     4.223e-06  
+    3        2423    3.880455e+02     2.472e+08     1.000e+00     7.671e+06     4.223e-06  
+    4        3031    3.686485e+02     2.472e+08     3.430e-01     4.593e+06     4.223e-06  
+    5        3647    3.692684e+02     2.472e+08     1.977e-02     1.468e+05     4.223e-06  
+    6        4254    3.789818e+02     2.472e+08     4.900e-01     2.300e+06     4.223e-06  
+    7        4318    3.789818e+02     2.472e+08     1.220e-10     6.630e-03     4.223e-06  
+
+Converged to an infeasible point.
+
+fmincon stopped because the size of the current step is less than
+the value of the step size tolerance but constraints are not
+satisfied to within the value of the constraint tolerance.
+
+<stopping criteria details>
+Elapsed time is 3867.268945 seconds.
+
+
+%}
+
+
