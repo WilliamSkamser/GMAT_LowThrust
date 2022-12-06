@@ -14,11 +14,12 @@ ThrustProfileNew(i+1,1)=ThrustProfileNew(i,1) +TimeStep;
 % Old Method
 %ThrustProfileNew(i,1) + Thrust(i+ ((NumberOfSteps+1)*3));
 end
-
+ISP=2800;
+g=9.80665;
 for i=1:NumberOfSteps
-    ThrustProfileNew(i,5)=4.2231e-6; %mass flow rate 
+    ThrustProfileNew(i,5)=norm(ThrustProfileNew(i,2:4)) / (ISP * g); %mass flow rate ;
 end
-
+%max is 0.116
 %WRITE New Thrust File
 file2='../EarthToMars_LowThrust/ThrustProfile.thrust';
 S = fileread(file2);
@@ -52,7 +53,7 @@ end
 %READ Data File
 file1='../EarthToMars_LowThrust/DataOutput.txt';
 fID1=fopen(file1,'r');
-B=textscan(fID1, '%f %f %f %f %f %f %f', 'headerlines',1);
+B=textscan(fID1, '%f %f %f %f %f %f %f %f %f %f %f %f %f %f', 'headerlines',1);
 Data=cell2mat(B);
 fclose(fID1);
 
@@ -69,7 +70,7 @@ Cons_eq=[Vx Vy Vz X Y Z];
 
 M=zeros(NumberOfSteps,1);
 for i=1:NumberOfSteps
-    M(i) =0.1 - norm([ThrustProfileNew(i,2) ThrustProfileNew(i,3) ThrustProfileNew(i,4)]);
+    M(i) =0.116 - norm([ThrustProfileNew(i,2) ThrustProfileNew(i,3) ThrustProfileNew(i,4)]);
 end
 CN=size(Cons_eq,2);
 %Fill Cons_eq with Magnitude

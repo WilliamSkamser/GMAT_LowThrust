@@ -38,7 +38,15 @@ ub(1:length(Thrust)-NumberOfSteps)=0.1;
 
 RunTime=ThrustProfile(end,1);
 TotalFuelMass=400;
-MassFlowRate=4.2231e-6;
+Magnitude=0.116;
+ISP=2800;
+g=9.80665;
+MaxMassFlowRate=Magnitude / (ISP * g);
+
+
+
+
+%%%%MassFlowRate=4.2231e-6;
 
 Thrust=zeros(((NumberOfSteps+1)*3 + 1),1);
 Thrust(1:(NumberOfSteps+1))=ThrustProfile(:,2);
@@ -47,9 +55,9 @@ Thrust( (((NumberOfSteps+1)*2)+1) : ((NumberOfSteps+1)*3) )=ThrustProfile(:,4);
 Thrust(end)=RunTime;
 
 lb=zeros(1,length(Thrust)); ub=lb;
-lb(1:length(Thrust)-1)=-0.1;
-ub(1:length(Thrust)-1)=0.1;
-lb(end)=0; ub(end)=(TotalFuelMass/MassFlowRate); %Max Runtime
+lb(1:length(Thrust)-1)=-Magnitude;
+ub(1:length(Thrust)-1)=Magnitude;
+lb(end)=0; ub(end)=(TotalFuelMass/MaxMassFlowRate); %Max Runtime
 
 %Inital guess 
 x0=Thrust;
@@ -69,6 +77,7 @@ if Ans1 == 1
 else
     fprintf("Fail to load script\n");
 end
+
 
 %{ 
 OUTPUT:
@@ -96,5 +105,11 @@ Elapsed time is 3867.268945 seconds.
 
 
 %}
+
+%Things to do
+        %ub, lb of alpha and beta
+        %recaulates the thrust for x,y,z
+        %Note the initial guess mag is not 0.116. But the optimized
+        %solution is 
 
 

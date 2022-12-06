@@ -12,8 +12,8 @@ g=9.80665;
 NumberOfSteps=size(ThrustProfile(:,1));
 
 for i=1:NumberOfSteps(1)      
-    %ThrustProfile(i,5)=norm(ThrustProfile(i,2:4)) / (ISP * g);
-    ThrustProfile(i,5)=4.2231e-6;
+    ThrustProfile(i,5)=norm(ThrustProfile(i,2:4)) / (ISP * g);
+    %ThrustProfile(i,5)=4.2231e-6;
 end
 
 %WRITE New Thrust File

@@ -69,6 +69,8 @@ GMAT ElectricTank1.FuelMass = 400;
 
 
 
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -85,22 +87,16 @@ GMAT InternalODEModel.ErrorControl = RSSStep;
 Create Propagator ThePropagator;
 GMAT ThePropagator.FM = InternalODEModel;
 GMAT ThePropagator.Type = RungeKutta89;
-GMAT ThePropagator.InitialStepSize = 86400;
+GMAT ThePropagator.InitialStepSize = 21600;
 GMAT ThePropagator.Accuracy = 9.999999999999999e-12;
-GMAT ThePropagator.MinStep = 86400;
+GMAT ThePropagator.MinStep = 21600;
 GMAT ThePropagator.MaxStep = 86400;
 GMAT ThePropagator.MaxStepAttempts = 50;
 GMAT ThePropagator.StopIfAccuracyIsViolated = true;
+
 %----------------------------------------
 %---------- Coordinate Systems
 %----------------------------------------
-Create CoordinateSystem VNB;
-GMAT VNB.Origin = Earth;
-GMAT VNB.Axes = ObjectReferenced;
-GMAT VNB.XAxis = V;
-GMAT VNB.YAxis = N;
-GMAT VNB.Primary = Earth;
-GMAT VNB.Secondary = Sat;
 
 Create CoordinateSystem SunICRF;
 GMAT SunICRF.Origin = Sun;
@@ -158,6 +154,8 @@ GMAT RunTime = 83405339.69;
 
 
 
+
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
@@ -166,11 +164,13 @@ BeginMissionSequence;
 GMAT [RunTime] = ReadThrustTime(N);
 BeginScript 'Step1'
    BeginFileThrust ThrustHistoryFile1(Sat);
-   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 83405339.69};
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = RunTime};
    EndFileThrust ThrustHistoryFile1(Sat);
 EndScript;
 
 Report DataOut Sat.ElapsedDays Sat.SunICRF.VX Sat.SunICRF.VY Sat.SunICRF.VZ Sat.SunICRF.X Sat.SunICRF.Y Sat.SunICRF.Z Mars.SunICRF.VX Mars.SunICRF.VY Mars.SunICRF.VZ Mars.SunICRF.X Mars.SunICRF.Y Mars.SunICRF.Z Sat.ElectricTank1.FuelMass;
+
+
 
 
 

@@ -69,6 +69,8 @@ GMAT ElectricTank1.FuelMass = 400;
 
 
 
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -85,22 +87,16 @@ GMAT InternalODEModel.ErrorControl = RSSStep;
 Create Propagator ThePropagator;
 GMAT ThePropagator.FM = InternalODEModel;
 GMAT ThePropagator.Type = RungeKutta89;
-GMAT ThePropagator.InitialStepSize = 86400;
+GMAT ThePropagator.InitialStepSize = 21600;
 GMAT ThePropagator.Accuracy = 9.999999999999999e-12;
 GMAT ThePropagator.MinStep = 86400;
 GMAT ThePropagator.MaxStep = 86400;
 GMAT ThePropagator.MaxStepAttempts = 50;
 GMAT ThePropagator.StopIfAccuracyIsViolated = true;
+
 %----------------------------------------
 %---------- Coordinate Systems
 %----------------------------------------
-Create CoordinateSystem VNB;
-GMAT VNB.Origin = Earth;
-GMAT VNB.Axes = ObjectReferenced;
-GMAT VNB.XAxis = V;
-GMAT VNB.YAxis = N;
-GMAT VNB.Primary = Earth;
-GMAT VNB.Secondary = Sat;
 
 Create CoordinateSystem SunICRF;
 GMAT SunICRF.Origin = Sun;
@@ -126,9 +122,9 @@ GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 Create OrbitView OrbitView1;
 GMAT OrbitView1.SolverIterations = Current;
-GMAT OrbitView1.UpperLeft = [ 0.3176470588235294 0.2383292383292383 ];
-GMAT OrbitView1.Size = [ 0.6105882352941177 0.7162162162162162 ];
-GMAT OrbitView1.RelativeZOrder = 25;
+GMAT OrbitView1.UpperLeft = [ 0.3164705882352941 0.2352092352092352 ];
+GMAT OrbitView1.Size = [ 0.61 0.7142857142857143 ];
+GMAT OrbitView1.RelativeZOrder = 168;
 GMAT OrbitView1.Maximized = false;
 GMAT OrbitView1.Add = {Sat, Earth, Sun, Mars};
 GMAT OrbitView1.CoordinateSystem = SunICRF;
@@ -174,9 +170,9 @@ GMAT DataOut.WriteReport = true;
 
 Create XYPlot FuelMass;
 GMAT FuelMass.SolverIterations = Current;
-GMAT FuelMass.UpperLeft = [ 0.003529411764705882 0 ];
-GMAT FuelMass.Size = [ 0.5 0.4496314496314496 ];
-GMAT FuelMass.RelativeZOrder = 23;
+GMAT FuelMass.UpperLeft = [ 0.002352941176470588 0 ];
+GMAT FuelMass.Size = [ 0.4994117647058823 0.4487734487734488 ];
+GMAT FuelMass.RelativeZOrder = 166;
 GMAT FuelMass.Maximized = false;
 GMAT FuelMass.XVariable = Sat.A1ModJulian;
 GMAT FuelMass.YVariables = {Sat.ElectricTank1.FuelMass};
@@ -195,7 +191,9 @@ GMAT ReadThrustTime.FunctionPath = 'C:\GMAT_Repo\EarthToMars_LowThrust\';
 %----------------------------------------
 Create Variable N RunTime;
 GMAT N = 1;
-GMAT RunTime = 83405339.69;
+GMAT RunTime = 0;
+
+
 
 
 
@@ -209,11 +207,13 @@ BeginMissionSequence;
 GMAT [RunTime] = ReadThrustTime(N);
 BeginScript 'Step1'
    BeginFileThrust ThrustHistoryFile1(Sat);
-   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 83405339.69};
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = RunTime};
    EndFileThrust ThrustHistoryFile1(Sat);
 EndScript;
 
 Report DataOut Sat.ElapsedDays Sat.SunICRF.VX Sat.SunICRF.VY Sat.SunICRF.VZ Sat.SunICRF.X Sat.SunICRF.Y Sat.SunICRF.Z Mars.SunICRF.VX Mars.SunICRF.VY Mars.SunICRF.VZ Mars.SunICRF.X Mars.SunICRF.Y Mars.SunICRF.Z Sat.ElectricTank1.FuelMass;
+
+
 
 
 
