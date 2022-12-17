@@ -1,0 +1,160 @@
+
+ ==============================
+ S N O P T  7.6.0    (Jan 2017)
+ ==============================
+ 
+ SNMEMA EXIT 100 -- finished successfully
+ SNMEMA INFO 104 -- memory requirements estimated
+
+ Nonzero derivs  Jij         9
+ Non-constant    Jij's       9     Constant Jij's           0
+ 
+ SNJAC  EXIT 100 -- finished successfully
+ SNJAC  INFO 102 -- Jacobian structure estimated
+ 
+ Scale option  0
+ 
+
+ Nonlinear constraints       2     Linear constraints       1
+ Nonlinear variables         3     Linear variables         0
+ Jacobian  variables         3     Objective variables      3
+ Total constraints           3     Total variables          3
+ 
+ Itn      0: Feasible linear rows
+ Itn      0: PP1.  Minimizing  Norm(x-x0)
+
+ Itn      0: PP1.  Norm(x-x0) approximately minimized  (0.00E+00)
+
+ 
+ The user has defined       0   out of       9   first  derivatives
+ 
+ Itn      0: Hessian set to a scaled identity matrix
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+     0      2               1  1.8E+01  3.0E+00  8.9500000E+02      2           r
+ Itn      2: Hessian set to a scaled identity matrix
+     1      1  3.7E-01      2  1.3E+01  1.4E+00  9.5223132E+02      2 9.7E-02   rl
+     2      1  8.9E-02      3  1.2E+01  4.0E+00  9.5207658E+02      2 1.0E-01 s
+     3      1  4.9E-02      4  1.2E+01  3.7E+00  1.0481982E+03      2 4.1E-01
+     4      1  3.0E-02      5  1.1E+01  3.2E+00  1.1483363E+03      2 7.6E-01
+     5      1  2.3E-02      6  1.1E+01  2.8E+00  1.2563261E+03      2 1.2E+00
+     6      1  1.8E-02      7  1.0E+01  2.4E+00  1.3940493E+03      2 1.7E+00
+     7      1  1.8E-02      8  9.7E+00  2.0E+00  1.5198225E+03      2 2.2E+00
+     8      2  3.5E-02      9  8.1E+00  1.5E+00  1.6389780E+03      1 2.7E+00
+     9      1  1.0E-02     10  7.7E+00  1.2E+00  2.8348799E+03      1 7.9E+00
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    10      1  3.6E-03     11  7.5E+00  9.7E-01  5.5892149E+03      1 2.0E+01
+    11      1  2.0E-03     12  7.5E+00  8.4E-01  8.5058848E+03      1 3.3E+01
+    12      1  1.5E-03     13  7.4E+00  7.3E-01  1.2791112E+04      1 5.2E+01
+    13      1  1.0E-03     14  7.3E+00  7.7E-01  1.8829456E+04      1 7.8E+01
+    14      1  7.6E-04     15  7.3E+00  7.4E-01  2.7531905E+04      1 1.2E+02
+    15      1  5.9E-04     16  7.3E+00  7.9E-01  3.8694797E+04      1 1.7E+02
+    16      1  3.9E-04     17  7.3E+00  7.3E-01  5.4449282E+04      1 2.4E+02
+    17      1  4.8E-04     18  7.2E+00  7.9E-01  6.8791584E+04      1 3.0E+02
+    18      1  2.0E-04     19  7.2E+00  7.5E-01  1.1175094E+05      1 4.9E+02
+    19      1  1.9E-04     20  7.2E+00  7.7E-01  1.5965628E+05      1 7.1E+02
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    20      1  1.3E-04     21  7.2E+00  7.6E-01  2.3552746E+05      1 1.0E+03
+    21      1  1.1E-04     22  7.2E+00  7.7E-01  3.2639756E+05      1 1.4E+03
+    22      1  8.5E-05     23  7.2E+00  7.7E-01  4.5205655E+05      1 2.0E+03
+    23      1  6.9E-05     24  7.2E+00  7.7E-01  6.1473107E+05      1 2.7E+03
+    24      1  5.4E-05     25  7.2E+00  7.7E-01  8.3790617E+05      1 3.7E+03
+    25      1  4.6E-05     26  7.2E+00  7.7E-01  1.1183583E+06      1 5.0E+03
+    26      1  3.3E-05     27  7.2E+00  7.7E-01  1.4957827E+06      1 6.7E+03
+    27      1  3.3E-05     28  7.2E+00  7.7E-01  1.9062298E+06      1 8.5E+03
+    28      1  2.0E-05     29  7.2E+00  7.7E-01  2.5943747E+06      1 1.2E+04
+    29      1  2.0E-05     30  7.2E+00  7.7E-01  3.4416700E+06      1 1.5E+04
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    30      1  1.4E-05     31  7.2E+00  7.7E-01  4.8821597E+06      1 2.2E+04
+    31      1  1.2E-05     32  7.2E+00  7.7E-01  6.6011438E+06      1 2.9E+04
+    32      1  9.7E-06     33  7.2E+00  7.7E-01  8.9637363E+06      1 4.0E+04
+    33      1  8.2E-06     34  7.2E+00  7.7E-01  1.1937244E+07      1 5.3E+04
+ Itn     37: Large multipliers. Elastic mode started with weight =  1.4E+06
+    34      2  6.4E-06     35  7.2E+00  7.7E-01  1.5973546E+07      2 7.1E+04     i
+    35      1  5.6E-06     36  7.2E+00  7.7E-01  1.9202168E+07      2 9.3E+04     i
+    36      1  1.4E-05     37  7.2E+00  7.7E-01  2.1554927E+07      2 1.2E+05     i
+    37      1  5.7E-06     38  7.2E+00  7.7E-01  2.3622936E+07      2 1.6E+05     i
+    38      1  1.5E-05     39  7.2E+00  7.7E-01  2.4529819E+07      2 1.8E+05     i
+    39      1  8.2E-06     40  7.2E+00  7.7E-01  2.5350142E+07      2 2.2E+05     i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    40      1  2.0E-05     41  7.2E+00  7.7E-01  2.5752713E+07      2 2.4E+05     i
+    41      1  8.3E-06     42  7.2E+00  7.7E-01  2.6095410E+07      2 2.6E+05     i
+    42      1  2.8E-05     43  7.2E+00  7.7E-01  2.6196696E+07      2 2.6E+05     i
+    43      1  3.1E-05     44  7.2E+00  7.7E-01  2.6335426E+07      2 2.7E+05     i
+    44      1  3.3E-05     45  7.2E+00  7.7E-01  2.6407582E+07      2 2.8E+05     i
+    45      1  5.9E-05     46  7.2E+00  7.7E-01  2.6442458E+07      2 2.8E+05     i
+    46      1  1.2E-05     47  7.2E+00  7.7E-01  2.6470733E+07      2 2.8E+05     i
+    47      1  7.2E-05     48  7.2E+00  7.7E-01  2.6477104E+07      2 2.8E+05     i
+    48      1  7.0E-05     49  7.2E+00  7.7E-01  2.6487794E+07      2 2.8E+05     i
+    49      1  1.7E-04     50  7.1E+00  7.7E-01  2.6490952E+07      2 2.9E+05     i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    50      3  1.0E+00     52  2.3E+00  1.5E+04  2.3452028E+07      1 2.9E+05  M
+    51      2  5.2E-01     54  6.8E-01  1.0E+03  4.8051440E+06      1 5.3E+02  m
+    52      1  5.0E-01     56  3.2E-01  2.0E+03  4.6254937E+06      1 6.2E+03  M
+    53      2  6.0E-01     58  1.3E-01  4.8E+03  2.1183572E+06      2 1.6E+02  M
+    54      2  6.7E-01     60  4.2E-02  1.1E+04  7.8197375E+05      1 4.0E+01
+ Itn     63: Hessian off-diagonals discarded
+    55      2  6.5E-01     62  1.5E-02  5.1E+03  2.8471351E+05      2 2.6E+01   R
+    56      1  6.8E-01     64  5.0E-03  3.9E+03  9.4685014E+04      2 2.6E+01   R
+ Itn     66: Hessian set to a scaled identity matrix
+    57      2  6.9E-01     66  1.6E-03  1.2E+03  3.0979556E+04      1           r
+    58      2  7.1E+01     67  1.3E+01  2.9E+04  1.1171809E+03      2         s
+    59      2  1.0E+00     68  4.2E+01  1.0E+05  8.6944629E+02      2
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    60      2  3.1E-01     69  2.7E+01  1.5E+05  8.7380067E+02      2 3.7E-04
+    61      1  2.8E-01     70  2.0E+01  2.8E+05  8.7233007E+02      2 4.8E-04
+    62      1  1.7E-01     71  1.4E+01  4.6E+05  8.8177481E+02      2 3.6E-03
+    63      1  1.4E-01     72  1.4E+01  8.3E+05  8.9041925E+02      2 9.4E-03
+    64      1  1.5E-01     73  1.4E+01  9.9E+05  8.9897404E+02      2 1.8E-02
+    65      1  1.7E-01     74  1.4E+01  6.5E+05  9.1010035E+02      2 3.3E-02
+    66      1  1.6E-01     75  1.5E+01  4.6E+05  9.2713039E+02      2 6.1E-02
+    67      1  1.2E-01     76  1.8E+01  2.5E+05  9.5644226E+02      2 1.3E-01
+    68      1  7.5E-02     77  2.1E+01  1.4E+05  1.0092814E+03      2 2.7E-01
+    69      1  4.8E-02     78  2.5E+01  7.7E+04  1.0944368E+03      2 5.3E-01
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    70      1  3.4E-02     79  2.4E+01  4.0E+04  1.2429868E+03      2 1.0E+00
+    71      1  2.3E-02     80  2.4E+01  1.9E+04  1.5451525E+03      2 2.1E+00
+    72      1  2.1E-02     81  2.3E+01  1.0E+04  2.2045522E+03      2 4.5E+00
+    73      1  1.0E-01     83  4.4E+00  9.7E+04  1.8513387E+03      2 8.8E+00  m l
+    74      1  1.0E+00     84  2.6E-01  6.4E+04  9.2490731E+02      2 3.0E+00
+    75      1  1.0E+00     85  1.4E-01  3.5E+04  9.2238035E+02      2 3.0E+00
+    76      1  1.0E+00     86  1.6E-01  4.3E+04  9.2144184E+02      2 3.0E+00
+    77      1  1.0E+00     87  4.4E-04  1.1E+02  9.2113719E+02      2 3.0E+00
+    78      1  1.0E+00     88  3.1E-05  8.0E+00  9.2113607E+02      2 3.0E+00
+ Itn     93: Elastic weight increased to   1.417E+07
+ Itn     93: Elastic weight increased to   1.417E+09
+ Itn     93: Elastic weight increased to   1.417E+11
+    79      1  1.0E+00     89 (2.2E-07)(3.6E-07) 9.2113607E+02      2 3.0E+00
+ Itn     93 -- Central differences invoked.  Small reduced gradient.
+ 
+ SNOPTA EXIT   0 -- finished successfully
+ SNOPTA INFO   1 -- optimality conditions satisfied
+
+ Problem name
+ No. of iterations                  93   Objective            9.2113606741E+02
+ No. of major iterations            79   Linear    obj. term  0.0000000000E+00
+ Penalty parameter           2.967E+00   Nonlinear obj. term  9.2113606741E+02
+ User function calls (total)       677   Calls with modes 1,2 (known g)     89
+ Calls for forward differencing    267   Calls for central differencing      0
+ No. of superbasics                  2   No. of basic nonlinears             1
+ No. of degenerate steps             0   Percentage                       0.00
+ Max x                       1 2.6E+00   Max pi                      3 1.0E+00
+ Max Primal infeas           0 0.0E+00   Max Dual infeas             2 5.1E-06
+ Nonlinear constraint violn    5.9E-07
+ 
+ 
+
+ Solution printed on file   9
+ 
+ Time for MPS input                             0.00 seconds
+ Time for solving problem                       0.05 seconds
+ Time for solution output                       0.00 seconds
+ Time for constraint functions                  0.05 seconds
+ Time for objective function                    0.00 seconds
