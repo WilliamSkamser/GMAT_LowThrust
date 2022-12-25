@@ -49,7 +49,7 @@ fprintf("\n\n");
 %% SNOPT
 %SNOPT Options
 snscreen on;  
-%snset("Minimize")%set to minimize
+snset("Minimize")%set to minimize
 snsummary('SNOPt_summary.txt');%create summary file
 snsetr("Time limit",86400) %Sets time limit to 1 day (in seconds)
 snseti("Iteration limit", 1000);
@@ -70,6 +70,10 @@ snseti("Line search algorithm", 0)%Backtracking line search
 
 ObjAdd =0; %Add value to objective Row
 ObjRow =1; %Tell the Optimizer which row of F is the objective function
+
+%Prob: A string indicating the problem type. Possible values are: "NLP" (nonlinear programming), "LP" (linear programming), "QP" (quadratic programming), and "MCP" (mixed complementarity problem).
+%objsen: A string indicating the objective function sense. Possible values are: "min" (minimize), and "max" (maximize).
+snspec("")
 
 
 tic
