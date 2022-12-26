@@ -61,17 +61,23 @@ Fstate = zeros(7, 1);
 x=Thrust;
 
 %% SNOPT
+ObjAdd =0; %Add value to objective Row
+ObjRow =1; %Tell the Optimizer which row of F is the objective function
+
 snscreen on;  
 %snset("Minimize")
 %create summary file
 snsummary('SNOPt_summary.txt');
+snsetr("Time limit",43200) %Sets time limit to 1/2 day (in seconds)
+snseti("Iteration limit", 500);
+snseti("Line search algorithm", 0)%Backtracking line search
 
 load_gmat();
 Ans1=gmat.gmat.LoadScript("../SNOPT/OptTestMatlab.script");
 if Ans1 == 1
     tic
 [x,F,inform,xmul,Fmul,xstate,Fstate,output]= ...
-    snopt( x, xlow, xupp, xmul, xstate, Flow, Fupp, Fmul, Fstate, 'objFuncSNOPT');
+    snopt( x, xlow, xupp, xmul, xstate, Flow, Fupp, Fmul, Fstate, 'objFuncSNOPT', ObjAdd, ObjRow);
     toc
 else
     fprintf("Fail to load script\n");

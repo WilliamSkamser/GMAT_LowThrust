@@ -107,6 +107,7 @@ GMAT ElectricTank.FuelMass = 1526;
 
 
 
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -165,8 +166,8 @@ GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 Create OrbitView EarthOrbitView;
 GMAT EarthOrbitView.SolverIterations = Current;
 GMAT EarthOrbitView.UpperLeft = [ 0 0 ];
-GMAT EarthOrbitView.Size = [ 0.6947058823529412 1.320638820638821 ];
-GMAT EarthOrbitView.RelativeZOrder = 38;
+GMAT EarthOrbitView.Size = [ 0.6947058823529412 1.319410319410319 ];
+GMAT EarthOrbitView.RelativeZOrder = 50;
 GMAT EarthOrbitView.Maximized = false;
 GMAT EarthOrbitView.Add = {Sat, Earth};
 GMAT EarthOrbitView.CoordinateSystem = EarthMJ2000Eq;
@@ -198,7 +199,7 @@ Create XYPlot RmagPlot;
 GMAT RmagPlot.SolverIterations = Current;
 GMAT RmagPlot.UpperLeft = [ 0 0 ];
 GMAT RmagPlot.Size = [ 0.2794117647058824 0.5184275184275184 ];
-GMAT RmagPlot.RelativeZOrder = 56;
+GMAT RmagPlot.RelativeZOrder = 34;
 GMAT RmagPlot.Maximized = false;
 GMAT RmagPlot.XVariable = Sat.A1ModJulian;
 GMAT RmagPlot.YVariables = {Sat.Earth.RMAG};
@@ -209,7 +210,7 @@ Create XYPlot EccentricityPlot;
 GMAT EccentricityPlot.SolverIterations = Current;
 GMAT EccentricityPlot.UpperLeft = [ 0 0 ];
 GMAT EccentricityPlot.Size = [ 0.2776470588235294 0.515970515970516 ];
-GMAT EccentricityPlot.RelativeZOrder = 40;
+GMAT EccentricityPlot.RelativeZOrder = 48;
 GMAT EccentricityPlot.Maximized = false;
 GMAT EccentricityPlot.XVariable = Sat.A1ModJulian;
 GMAT EccentricityPlot.YVariables = {Sat.Earth.ECC};
@@ -218,9 +219,9 @@ GMAT EccentricityPlot.ShowPlot = true;
 
 Create GroundTrackPlot GroundTrackPlot1;
 GMAT GroundTrackPlot1.SolverIterations = Current;
-GMAT GroundTrackPlot1.UpperLeft = [ 0.1576470588235294 0.2235872235872236 ];
+GMAT GroundTrackPlot1.UpperLeft = [ 0.1570588235294118 0.2223587223587224 ];
 GMAT GroundTrackPlot1.Size = [ 0.7529411764705882 0.5749385749385749 ];
-GMAT GroundTrackPlot1.RelativeZOrder = 54;
+GMAT GroundTrackPlot1.RelativeZOrder = 36;
 GMAT GroundTrackPlot1.Maximized = false;
 GMAT GroundTrackPlot1.Add = {Sat};
 GMAT GroundTrackPlot1.DataCollectFrequency = 1;
@@ -249,9 +250,9 @@ GMAT TheReport.WriteReport = true;
 
 Create XYPlot InclinationPlot;
 GMAT InclinationPlot.SolverIterations = Current;
-GMAT InclinationPlot.UpperLeft = [ -0.3411764705882353 0.4054054054054054 ];
-GMAT InclinationPlot.Size = [ 1.142352941176471 0.4447174447174447 ];
-GMAT InclinationPlot.RelativeZOrder = 46;
+GMAT InclinationPlot.UpperLeft = [ -0.3405882352941176 0.4041769041769042 ];
+GMAT InclinationPlot.Size = [ 1.141764705882353 0.4447174447174447 ];
+GMAT InclinationPlot.RelativeZOrder = 40;
 GMAT InclinationPlot.Maximized = false;
 GMAT InclinationPlot.XVariable = Sat.A1ModJulian;
 GMAT InclinationPlot.YVariables = {Sat.EarthMJ2000Eq.INC};
@@ -260,9 +261,9 @@ GMAT InclinationPlot.ShowPlot = true;
 
 Create XYPlot XYPlot1;
 GMAT XYPlot1.SolverIterations = Current;
-GMAT XYPlot1.UpperLeft = [ 0.33 0.3968058968058968 ];
+GMAT XYPlot1.UpperLeft = [ 0.3294117647058823 0.3955773955773956 ];
 GMAT XYPlot1.Size = [ 0.4964705882352941 0.4422604422604423 ];
-GMAT XYPlot1.RelativeZOrder = 36;
+GMAT XYPlot1.RelativeZOrder = 46;
 GMAT XYPlot1.Maximized = false;
 GMAT XYPlot1.XVariable = Sat.A1ModJulian;
 GMAT XYPlot1.YVariables = {Sat.Earth.Longitude, Sat.Earth.Latitude};
@@ -271,9 +272,9 @@ GMAT XYPlot1.ShowPlot = true;
 
 Create XYPlot FuelMassUsed;
 GMAT FuelMassUsed.SolverIterations = Current;
-GMAT FuelMassUsed.UpperLeft = [ -0.2676470588235294 0.2334152334152334 ];
-GMAT FuelMassUsed.Size = [ 1.142352941176471 0.9643734643734644 ];
-GMAT FuelMassUsed.RelativeZOrder = 48;
+GMAT FuelMassUsed.UpperLeft = [ -0.2670588235294117 0.2321867321867322 ];
+GMAT FuelMassUsed.Size = [ 1.141764705882353 0.9643734643734644 ];
+GMAT FuelMassUsed.RelativeZOrder = 38;
 GMAT FuelMassUsed.Maximized = false;
 GMAT FuelMassUsed.XVariable = Sat.A1ModJulian;
 GMAT FuelMassUsed.YVariables = {Sat.ElectricTank.FuelMass};
@@ -355,6 +356,7 @@ GMAT ThrustTime = 864000;
 
 
 
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
@@ -368,6 +370,7 @@ BeginScript 'ThrustFileProp'
 EndScript;
 Propagate ThePropagator(Sat) {Sat.ElapsedDays = 1, OrbitColor = [70 255 0]};
 Report TheReport Sat.Earth.ECC Sat.EarthMJ2000Eq.INC Sat.Earth.RMAG Sat.Earth.Longitude Sat.Earth.Latitude Sat.ElectricTank.FuelMass Sat.ElapsedDays;
+
 
 
 

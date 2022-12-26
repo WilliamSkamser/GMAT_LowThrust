@@ -69,7 +69,7 @@ Cons=[MinRadius MaxRadius]; %Max and min Radius
 
 %Equality constants
 e=Data(1); %eccentricity 
-Rmag_eq=42164-Data(3);
+Rmag_eq=42164-Data(3); 
 Inc_eq=Data(2);  %target inclination
 Longitude=93.6465+Data(4);
 %Latitude=Data(5);
