@@ -1,0 +1,45 @@
+
+ ==============================
+ S N O P T  7.6.0    (Jan 2017)
+ ==============================
+ 
+ SNMEMA EXIT 100 -- finished successfully
+ SNMEMA INFO 104 -- memory requirements estimated
+
+ Nonzero derivs  Jij      1843
+ Non-constant    Jij's    1842     Constant Jij's           1
+ 
+ SNJAC  EXIT 100 -- finished successfully
+ SNJAC  INFO 102 -- Jacobian structure estimated
+ 
+ Scale option  0
+ 
+
+ Nonlinear constraints       6     Linear constraints       1
+ Nonlinear variables       307     Linear variables         0
+ Jacobian  variables       307     Objective variables      0
+ Total constraints           7     Total variables        307
+ 
+ Itn      0: Feasible linear rows
+ Itn      0: PP1.  Minimizing  Norm(x-x0)
+
+ Itn      0: PP1.  Norm(x-x0) approximately minimized  (0.00E+00)
+
+ 
+ The user has defined       0   out of    1842   first  derivatives
+ 
+ Itn      0: Hessian set to a scaled identity matrix
+
+        Minor NumInf  FP mult  FP step   rgNorm         SumInf     nS
+          100      5 -1.0E+01  1.1E+00           5.3138924E+03
+          200      4 -6.2E+00  9.4E-01           4.7259152E+03
+          300      4  1.1E+00  1.9E+00           4.4910000E+03
+ Itn    324: Infeasible QP subproblem
+ Itn    324: Elastic Phase 1 -- making non-elastic variables feasible
+ Itn    331: Infeasible subproblem. Elastic mode started with weight =  1.0E+05
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          400     12  2.0E+02  3.9E-02           4.4803586E+05
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+     0    413               1  1.8E-01  3.1E-01  1.7202077E+01                  r i

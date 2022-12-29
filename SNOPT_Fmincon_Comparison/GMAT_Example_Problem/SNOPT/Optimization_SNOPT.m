@@ -82,8 +82,8 @@ load_gmat();
 Ans1=gmat.gmat.LoadScript("../SNOPT/OptTestMatlab.script");
 if Ans1 == 1
     tic
-[x,F,inform,xmul,Fmul,xstate,Fstate,output]= ...
-    snopt( x, xlow, xupp, xmul, xstate, Flow, Fupp, Fmul, Fstate, 'objFuncSNOPT', ObjAdd, ObjRow);
+%[x,F,inform,xmul,Fmul,xstate,Fstate,output]= ...
+%    snopt( x, xlow, xupp, xmul, xstate, Flow, Fupp, Fmul, Fstate, 'objFuncSNOPT', ObjAdd, ObjRow);
     toc
 else
     fprintf("Fail to load script\n");
