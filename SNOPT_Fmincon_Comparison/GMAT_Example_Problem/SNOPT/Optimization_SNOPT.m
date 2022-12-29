@@ -36,7 +36,7 @@ xupp = ub.';
 Flow=zeros(7, 1);
 Fupp=zeros(7, 1);
 Flow(1) = 0;
-Fupp(1) = +Inf;
+Fupp(1) = inf;
 
 %bounds of inequality constraints
 Flow(2) = 0;
@@ -68,9 +68,15 @@ snscreen on;
 %snset("Minimize")
 %create summary file
 snsummary('SNOPt_summary.txt');
-snsetr("Time limit",43200) %Sets time limit to 1/2 day (in seconds)
-snseti("Iteration limit", 500);
-snseti("Line search algorithm", 0)%Backtracking line search
+%tolerance values, 1e-6 by default 
+snsetr('Major feasibility tolerance',1e-6); 
+snsetr('Major optimality tolerance',1e-6);
+snsetr('Minor feasibility tolerance',1e-6);
+snsetr('Minor optimality tolerance',1e-6);
+
+snseti('Time limit',86400) %Sets time limit to 1 day (in seconds)
+snseti('Major iteration limit', 1000); %This Part works
+%snseti("Line search algorithm", 0)%Backtracking line search
 
 load_gmat();
 Ans1=gmat.gmat.LoadScript("../SNOPT/OptTestMatlab.script");

@@ -51,22 +51,22 @@ fprintf("\n\n");
 snscreen on;  
 %snset("Minimize")%set to minimize
 snsummary('SNOPt_summary.txt');%create summary file
-snsetr("Time limit",86400) %Sets time limit to 1 day (in seconds)
-snseti("Iteration limit", 1000);
+snseti('Time limit',10) %Sets time limit to 1 day (in seconds)
+snseti('Major iteration limit', 1000); %This Works
 % tolerance values, 1e-6 by default 
-snseti("Optimality tolerance type", 1);  % Set the optimality tolerance type to "relative", 0 for absolute
-snseti("Feasibility tolerance type", 1);
-snsetr('Major feasibility tolerance',1e-7); %For some reason switching between "" and '' makes a difference 
-snsetr('Major optimality tolerance',1e-7);
-snsetr('Minor feasibility tolerance',1e-7);
-snsetr("Minor optimality tolerance",1e-7);
-%snsetr("Step size",0.01);
-snsetr("Line search tolerance",1e-7); %Default is 1e-4
-snseti("Line search algorithm", 0)%Backtracking line search
-%snseti("Line search algorithm", 1)%Cubic interpolation line search
-%snseti("Line search algorithm", 2)%Quadratic interpolation line search
-%snseti("Line search algorithm", 3)%More-Thuente line search
-%snseti("Derivative option", 1);  % Set the derivative option to central differences, Forward is 0
+%snseti("Optimality tolerance type", 1);  % Set the optimality tolerance type to "relative", 0 for absolute
+%snseti("Feasibility tolerance type", 1);
+snsetr('Major feasibility tolerance',1e-6); %For some reason switching between "" and '' makes a difference 
+snsetr('Major optimality tolerance',1e-6);
+snsetr('Minor feasibility tolerance',1e-6);
+snsetr('Minor optimality tolerance',1e-6);
+%snseti('Step size',10000);
+%snsetr('Line search tolerance',1e-7); %Default is 1e-4
+%snseti('Line search algorithm', 0)%Backtracking line search
+%snseti('Line search algorithm', 1)%Cubic interpolation line search
+%snseti('Line search algorithm', 2)%Quadratic interpolation line search
+%snseti('Line search algorithm', 3)%More-Thuente line search
+%snseti('Derivative option', 1);  % Set the derivative option to central differences, Forward is 0
 
 ObjAdd =0; %Add value to objective Row
 ObjRow =1; %Tell the Optimizer which row of F is the objective function
