@@ -101,7 +101,7 @@ x=x0;
 % gmat.gmat.LoadScript("../Earth_Mars_Madhu/GMATScriptEarthMars.script");
 
 % Directory Path to create Temp Files
-my_dir = 'C:/GMAT_Repo/EarthToMars_LowThrust_SNOPT/myTempFiles';
+my_dir = 'C:/GMAT_Repo/EarthToMars_LowThrust_SNOPT';
 
 % Headlines for the Thrust File
 headlines = ['BeginThrust{ThrustSegment1}', newline,...
