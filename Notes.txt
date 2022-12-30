@@ -1,0 +1,14 @@
+1) The inital guess in Earth to Mars starts at zero thrust and ends at zero thrust
+-> different than alpha and beta angles
+-> mass flow rate still applied?
+
+2) Need the alpha and beta angles for the LEO to GEO problem 
+-> TOF
+-> Mass flow Rate
+-> Magnitude
+-> Number of steps
+-> Could be the same matlab data file as the first one. 
+
+3) Note that the number of steps is very large. 
+-> unlikly to be able to run it
+-> need parallelism, run on cluster or dedacated computer. 

@@ -1,10 +1,7 @@
 function [Data,Thrust,TOF] = SolutionVisualization(x)
 global NumberOfSteps
 global Th
-global m0
 global mdot
-global Vex
-global AU
 global TU
 global my_dir
 global headlines

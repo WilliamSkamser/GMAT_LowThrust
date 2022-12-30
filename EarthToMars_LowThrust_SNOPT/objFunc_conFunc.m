@@ -1,12 +1,10 @@
 function [F, G] = objFunc_conFunc(x)
 global NumberOfSteps
 global Th
-global m0
 global mdot
-global Vex
 global AU
 global TU
-global my_dir
+%lobal my_dir
 global headlines
 
 % Extract Design Variables

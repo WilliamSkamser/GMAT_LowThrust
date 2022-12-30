@@ -61,7 +61,7 @@ Fmul = zeros(7, 1); %Lagrange multipliers
 Fstate = zeros(7, 1);
 
 % Directory Path to create Temp Files
-my_dir = 'C:/GMAT_Repo/EarthToMars_LowThrust_SNOPT';
+%my_dir = 'C:/GMAT_Repo/EarthToMars_LowThrust_SNOPT';
 
 % Headlines for the Thrust File
 headlines = ['BeginThrust{ThrustSegment1}', newline,...
@@ -85,7 +85,7 @@ snsetr('Minor feasibility tolerance',1e-7);
 snsetr('Minor optimality tolerance',1e-7);
 
 snseti('Time limit',345600);%86400) %Sets time limit to 1 day (in seconds)
-snseti('Major iteration limit', 5000);
+snseti('Major iteration limit', 1000);
 
 snseti('Line search algorithm', 3)%More-Thuente line search
 %Around 7% faster than default ,0) Backtracking line search
@@ -99,3 +99,6 @@ toc
 
 %% Solution Visualization
 [DataOpt,ThrustAccOpt,TOFOpt] = SolutionVisualization(x);
+
+
+
