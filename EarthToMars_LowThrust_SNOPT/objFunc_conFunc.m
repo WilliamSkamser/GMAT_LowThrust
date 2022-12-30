@@ -1,6 +1,6 @@
 function [F, G] = objFunc_conFunc(x)
 global NumberOfSteps
-global ThrustAcc_mag
+global Th
 global m0
 global mdot
 global Vex
@@ -10,17 +10,16 @@ global my_dir
 global headlines
 
 % Extract Design Variables
-Thrustx = x(1:NumberOfSteps)*ThrustAcc_mag;                   % m/s
-Thrusty = x(NumberOfSteps+1:2*NumberOfSteps)*ThrustAcc_mag;   % m/s
-Thrustz = x(2*NumberOfSteps+1:3*NumberOfSteps)*ThrustAcc_mag; % m/s
+Thrust_alpha = x(1:NumberOfSteps);                   % rads
+Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps);   % rads
 TOF     = x(end)*TU;                                           % s
-
+ThrustVec=Th.*[cos(Thrust_beta).*cos(Thrust_alpha),cos(Thrust_beta).*sin(Thrust_alpha),sin(Thrust_beta)];
 %% Create Thrust History 
-% Form the Thrust Acc Vector
-ThrustAcc = [Thrustx,Thrusty,Thrustz]; % km/s^2
+Thrust = zeros(NumberOfSteps+2,3);
+Thrust(2:(end-1),:)=ThrustVec;
 
 % Obtain time History
-Time = linspace(0,TOF,NumberOfSteps)';  % seconds
+Time = linspace(0,TOF,NumberOfSteps+2)';  % seconds
 
 % % Obtain Mass History
 % mass = zeros(length(Time),1);    mass(1)= m0;
@@ -51,9 +50,9 @@ file2='C:/GMAT_Repo/EarthToMars_LowThrust_SNOPT/ThrustProfile.thrust';
 %file2 = [file2,'.thrust'];
 
 % Write the contents of the Thrust File
-for i=1:NumberOfSteps
+for i=1:(NumberOfSteps+2)
     LineToChange = i+1;         % first 6 lines ae used for headers
-    NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),ThrustAcc(i,1),ThrustAcc(i,2),ThrustAcc(i,3),mdot);
+    NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),Thrust(i,2),Thrust(i,3),mdot);
     SS{LineToChange} = NewContent;
 end
 fid2 = fopen(file2, 'w');
@@ -75,8 +74,8 @@ PropTime = gmat.gmat.GetObject('RunTime');
 PropTime.SetField('Value', TOF);
 
 % Input the Location of the Corresponding Thrust File
-Thrust_File = gmat.gmat.GetObject('ThrustHistoryFile1');
-Thrust_File.SetField('FileName',file2);
+%Thrust_File = gmat.gmat.GetObject('ThrustHistoryFile1');
+%Thrust_File.SetField('FileName',file2);
 
 % Run GMAT Script
 Ans = gmat.gmat.RunScript();
@@ -94,7 +93,6 @@ Sat_Z = gmat.gmat.GetRuntimeObject("Sat.SunICRF.Z");  Sat_Z = Sat_Z.GetNumber("V
 Sat_VX = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VX");  Sat_VX = Sat_VX.GetNumber("Value");
 Sat_VY = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VY");  Sat_VY = Sat_VY.GetNumber("Value");
 Sat_VZ = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VZ");  Sat_VZ = Sat_VZ.GetNumber("Value");
-
 % Extract Final States of Mars
 Mars_X = gmat.gmat.GetRuntimeObject("Mars.SunICRF.X");  Mars_X = Mars_X.GetNumber("Value");
 Mars_Y = gmat.gmat.GetRuntimeObject("Mars.SunICRF.Y");  Mars_Y = Mars_Y.GetNumber("Value");
@@ -102,11 +100,7 @@ Mars_Z = gmat.gmat.GetRuntimeObject("Mars.SunICRF.Z");  Mars_Z = Mars_Z.GetNumbe
 Mars_VX = gmat.gmat.GetRuntimeObject("Mars.SunICRF.VX");  Mars_VX = Mars_VX.GetNumber("Value");
 Mars_VY = gmat.gmat.GetRuntimeObject("Mars.SunICRF.VY");  Mars_VY = Mars_VY.GetNumber("Value");
 Mars_VZ = gmat.gmat.GetRuntimeObject("Mars.SunICRF.VZ");  Mars_VZ = Mars_VZ.GetNumber("Value");
-
 %% Construct the Constraints and Objective Function
- 
-
-
 X = Mars_X - Sat_X;
 Y = Mars_Y - Sat_Y;
 Z = Mars_Z - Sat_Z;
@@ -119,9 +113,7 @@ con = [Vx/(AU/TU);
        Vz/(AU/TU);
        X/AU;
        Y/AU;
-       Z/AU];
-   
-% Obj_c = ThrustAcc_mag*TOF/(AU/TU);
+       Z/AU]; 
 Obj = TOF/TU;
 
 F(1) = Obj;

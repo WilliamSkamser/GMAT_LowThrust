@@ -4,7 +4,7 @@ close all;
 format longg;
 
 global NumberOfSteps
-global ThrustAcc_mag
+global Th
 global m0
 global mdot
 global Vex
@@ -33,11 +33,15 @@ m0  = 1000;             % kg
 mdot  = GMAT_data.MassFlowRate;
 
 % Obtain the Time steps
-NumberOfSteps = length(GMAT_data.Time);
+NumberOfSteps = length(GMAT_data.Time)-2;%Cut-off ends
+%% Initial Guess vector (Alpha, Beta, TOF)
 
-%% Initial Guess vector for Fmincon (Alpha, Beta, TOF)
+x=[GMAT_data.Alpha;GMAT_data.Beta;GMAT_data.TOF/TU];
 
-% Use for Semi-Analytic Approach
+
+
+
+
 % ThrustAccMag = GMAT_data.ThrustAccMag*1000;    % m/s^2
 % x0 = [GMAT_data.Thrustx/ThrustAccMag;GMAT_data.Thrusty/ThrustAccMag;GMAT_data.Thrustz/ThrustAccMag;GMAT_data.TOF/TU];
 
@@ -47,29 +51,28 @@ NumberOfSteps = length(GMAT_data.Time);
 %     ThrustAccMag(i) = norm([GMAT_data.Thrustx(i),GMAT_data.Thrusty(i),GMAT_data.Thrustz(i)]);
 % end
 % ThrustAccMag(1) = 1; ThrustAccMag(end) = 1;
-ThrustAccMag =  Th;
-x0 = [GMAT_data.Thrustx/ThrustAccMag;GMAT_data.Thrusty/ThrustAccMag;GMAT_data.Thrustz/ThrustAccMag;GMAT_data.TOF/TU];
-ThrustAcc_mag=ThrustAccMag;
+
+%x0 = [GMAT_data.Thrustx/ThrustAccMag;GMAT_data.Thrusty/ThrustAccMag;GMAT_data.Thrustz/ThrustAccMag;GMAT_data.TOF/TU];
+
+
+
 % Bounds
-lb = [-ones(NumberOfSteps,1);    % Thrust_x 
-      -ones(NumberOfSteps,1);    % Thrust_y 
-      -ones(NumberOfSteps,1);    % Thrust_z 
+lb = [-ones(NumberOfSteps,1)*pi;    % Alpha
+      -ones(NumberOfSteps,1)*pi;    % Beta  
       900*86400/TU];             % TOF (TU)
   
-ub = [ones(NumberOfSteps,1);     % Thrust_x 
-      ones(NumberOfSteps,1);     % Thrust_y 
-      ones(NumberOfSteps,1);     % Thrust_z 
+ub = [ones(NumberOfSteps,1)*pi;     % Alpha 
+      ones(NumberOfSteps,1)*pi;     % Beta 
       1100*86400/TU];            % TOF (TU)
   
 %lower and upper bounds
 xlow = lb;
 xupp = ub;
-
 %bounds on objective function
 Flow=zeros(7, 1);
 Fupp=zeros(7, 1);
 Flow(1) = 0;
-Fupp(1) = 1100*86400/TU;%inf;
+Fupp(1) = ub(end);%inf;
 %bounds of constraints
 Flow(2:7) = 0;
 Fupp(2:7) = 0;
@@ -78,10 +81,7 @@ xmul = zeros(length(lb), 1); %Lagrange multipliers
 xstate = zeros(length(lb), 1);
 Fmul = zeros(7, 1); %Lagrange multipliers
 Fstate = zeros(7, 1);
-x=x0;
- 
-  
-  
+
   
 %%  
 % Fmincon Options
@@ -110,8 +110,6 @@ headlines = ['BeginThrust{ThrustSegment1}', newline,...
     'Thrust_Vector_Interpolation_Method  = CubicSpline',newline,...
     'Mass_Flow_Rate_Interpolation_Method = None',newline,...
     'ModelThrustAndMassRate'];              % EMTG
-%     'ModelAccelAndMassRate'];             % Semi-Analytic
-
 
 %% SNOPT Optimization Routine
 
@@ -127,7 +125,10 @@ snsetr('Minor feasibility tolerance',1e-6);
 snsetr('Minor optimality tolerance',1e-6);
 
 snseti('Time limit',86400) %Sets time limit to 1 day (in seconds)
-snseti('Major iteration limit', 100);
+snseti('Major iteration limit', 1);
+
+snseti('Line search algorithm', 3)%More-Thuente line search
+%Around 7% faster than default ,0) Backtracking line search
 
 load_gmat(); %Having this here tends to cause crashes
 
@@ -137,8 +138,7 @@ tic
 toc
 
 %% Solution Visualization
-
-%[DataOpt,ThrustAccOpt,TOFOpt] = SolutionVisualization(x_fmincon,NumberOfSteps,ThrustAcc_mag,m0,mdot,Vex,AU,TU);
+[DataOpt,ThrustAccOpt,TOFOpt] = SolutionVisualization(x);
 
 
 

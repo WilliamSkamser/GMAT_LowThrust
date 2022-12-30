@@ -1,0 +1,214 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2022-12-11 18:52:45
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft Sat;
+GMAT Sat.DateFormat = UTCGregorian;
+GMAT Sat.Epoch = '20 Jul 2023 00:00:00.000';
+
+GMAT Sat.CoordinateSystem = EarthICRF;
+GMAT Sat.DisplayStateType = Cartesian;
+GMAT Sat.X = 6678.180000000002;
+GMAT Sat.Y = 1.051558204119373e-14;
+GMAT Sat.Z = 9.728415989451733e-14;
+GMAT Sat.VX = -7.844981887401674e-16;
+GMAT Sat.VY = 7.725731077896239;
+GMAT Sat.VZ = -5.259693437622941e-17;
+
+GMAT Sat.DryMass = 3.78;
+GMAT Sat.Cd = 2.2;
+GMAT Sat.Cr = 1.8;
+GMAT Sat.DragArea = 15;
+GMAT Sat.SRPArea = 1;
+GMAT Sat.SPADDragScaleFactor = 1;
+GMAT Sat.SPADSRPScaleFactor = 1;
+GMAT Sat.Tanks = {ElectricTank1};
+GMAT Sat.NAIFId = -10000001;
+GMAT Sat.NAIFIdReferenceFrame = -9000001;
+GMAT Sat.OrbitColor = Red;
+GMAT Sat.TargetColor = Teal;
+GMAT Sat.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT Sat.CdSigma = 1e+70;
+GMAT Sat.CrSigma = 1e+70;
+GMAT Sat.Id = 'SatId';
+GMAT Sat.Attitude = CoordinateSystemFixed;
+GMAT Sat.SPADSRPInterpolationMethod = Bilinear;
+GMAT Sat.SPADSRPScaleFactorSigma = 1e+70;
+GMAT Sat.SPADDragInterpolationMethod = Bilinear;
+GMAT Sat.SPADDragScaleFactorSigma = 1e+70;
+GMAT Sat.ModelFile = 'aura.3ds';
+GMAT Sat.ModelOffsetX = 0;
+GMAT Sat.ModelOffsetY = 0;
+GMAT Sat.ModelOffsetZ = 0;
+GMAT Sat.ModelRotationX = 0;
+GMAT Sat.ModelRotationY = 0;
+GMAT Sat.ModelRotationZ = 0;
+GMAT Sat.ModelScale = 1;
+GMAT Sat.AttitudeDisplayStateType = 'Quaternion';
+GMAT Sat.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT Sat.AttitudeCoordinateSystem = EarthICRF;
+GMAT Sat.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Hardware Components
+%----------------------------------------
+
+Create ElectricTank ElectricTank1;
+GMAT ElectricTank1.AllowNegativeFuelMass = false;
+GMAT ElectricTank1.FuelMass = 90;
+
+%---------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel ThePropagator_ForceModel;
+GMAT ThePropagator_ForceModel.CentralBody = Earth;
+GMAT ThePropagator_ForceModel.PrimaryBodies = {Earth};
+GMAT ThePropagator_ForceModel.Drag = None;
+GMAT ThePropagator_ForceModel.SRP = Off;
+GMAT ThePropagator_ForceModel.RelativisticCorrection = Off;
+GMAT ThePropagator_ForceModel.ErrorControl = RSSStep;
+GMAT ThePropagator_ForceModel.GravityField.Earth.Degree = 4;
+GMAT ThePropagator_ForceModel.GravityField.Earth.Order = 4;
+GMAT ThePropagator_ForceModel.GravityField.Earth.StmLimit = 100;
+GMAT ThePropagator_ForceModel.GravityField.Earth.PotentialFile = 'JGM3.cof';
+GMAT ThePropagator_ForceModel.GravityField.Earth.TideModel = 'None';
+
+Create ForceModel InternalODEModel;
+GMAT InternalODEModel.CentralBody = Earth;
+GMAT InternalODEModel.PointMasses = {Earth};
+GMAT InternalODEModel.Drag = None;
+GMAT InternalODEModel.SRP = Off;
+GMAT InternalODEModel.RelativisticCorrection = Off;
+GMAT InternalODEModel.ErrorControl = RSSStep;
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator ThePropagator;
+GMAT ThePropagator.FM = InternalODEModel;
+GMAT ThePropagator.Type = RungeKutta89;
+GMAT ThePropagator.InitialStepSize = 40;
+GMAT ThePropagator.Accuracy = 9.999999999999999e-12;
+GMAT ThePropagator.MinStep = 0.001;
+GMAT ThePropagator.MaxStep = 2700;
+GMAT ThePropagator.MaxStepAttempts = 50;
+GMAT ThePropagator.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Thrust History File
+%----------------------------------------
+Create ThrustHistoryFile ThrustHistoryFile1;
+GMAT ThrustHistoryFile1.FileName = 'C:\GMAT_Repo\GeostationaryOrbit_LowThrust_SNOPT\ThrustProfile.thrust';
+GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
+
+Create ThrustSegment ThrustSegment1;
+GMAT ThrustSegment1.ThrustScaleFactor = 1;
+GMAT ThrustSegment1.ThrustScaleFactorSigma = 1e+70;
+GMAT ThrustSegment1.ApplyThrustScaleToMassFlow = false;
+GMAT ThrustSegment1.MassFlowScaleFactor = 1;
+GMAT ThrustSegment1.MassSource = {'ElectricTank1'};
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView EarthOrbitView;
+GMAT EarthOrbitView.SolverIterations = Current;
+GMAT EarthOrbitView.UpperLeft = [ 0 0 ];
+GMAT EarthOrbitView.Size = [ 0.7994117647058824 0.9852579852579852 ];
+GMAT EarthOrbitView.RelativeZOrder = 157;
+GMAT EarthOrbitView.Maximized = false;
+GMAT EarthOrbitView.Add = {Sat, Earth};
+GMAT EarthOrbitView.CoordinateSystem = EarthICRF;
+GMAT EarthOrbitView.DrawObject = [ false true ];
+GMAT EarthOrbitView.DataCollectFrequency = 10;
+GMAT EarthOrbitView.UpdatePlotFrequency = 10;
+GMAT EarthOrbitView.NumPointsToRedraw = 0;
+GMAT EarthOrbitView.ShowPlot = true;
+GMAT EarthOrbitView.MaxPlotPoints = 999999;
+GMAT EarthOrbitView.ShowLabels = false;
+GMAT EarthOrbitView.ViewPointReference = Earth;
+GMAT EarthOrbitView.ViewPointVector = [ 0 0 50000 ];
+GMAT EarthOrbitView.ViewDirection = Earth;
+GMAT EarthOrbitView.ViewScaleFactor = 1;
+GMAT EarthOrbitView.ViewUpCoordinateSystem = EarthICRF;
+GMAT EarthOrbitView.ViewUpAxis = Z;
+GMAT EarthOrbitView.EclipticPlane = Off;
+GMAT EarthOrbitView.XYPlane = On;
+GMAT EarthOrbitView.WireFrame = Off;
+GMAT EarthOrbitView.Axes = On;
+GMAT EarthOrbitView.Grid = Off;
+GMAT EarthOrbitView.SunLine = Off;
+GMAT EarthOrbitView.UseInitialView = On;
+GMAT EarthOrbitView.StarCount = 7000;
+GMAT EarthOrbitView.EnableStars = Off;
+GMAT EarthOrbitView.EnableConstellations = On;
+
+Create ReportFile DataOut;
+GMAT DataOut.SolverIterations = Current;
+GMAT DataOut.UpperLeft = [ 0.1129411764705882 0.2358722358722359 ];
+GMAT DataOut.Size = [ 0.5994117647058823 0.7985257985257985 ];
+GMAT DataOut.RelativeZOrder = 97;
+GMAT DataOut.Maximized = false;
+GMAT DataOut.Filename = 'C:\GMAT_Repo\GeostationaryOrbit_LowThrust_SNOPT\DataOut.txt';
+GMAT DataOut.Precision = 16;
+GMAT DataOut.WriteHeaders = true;
+GMAT DataOut.LeftJustify = On;
+GMAT DataOut.ZeroFill = Off;
+GMAT DataOut.FixedWidth = true;
+GMAT DataOut.Delimiter = ' ';
+GMAT DataOut.ColumnWidth = 23;
+GMAT DataOut.WriteReport = true;
+
+Create XYPlot FuelMass;
+GMAT FuelMass.SolverIterations = Current;
+GMAT FuelMass.UpperLeft = [ 0.002352941176470588 0 ];
+GMAT FuelMass.Size = [ 0.5 0.4496314496314496 ];
+GMAT FuelMass.RelativeZOrder = 155;
+GMAT FuelMass.Maximized = false;
+GMAT FuelMass.XVariable = Sat.A1ModJulian;
+GMAT FuelMass.YVariables = {Sat.ElectricTank1.FuelMass};
+GMAT FuelMass.ShowGrid = true;
+GMAT FuelMass.ShowPlot = true;
+
+%----------------------------------------
+%---------- Functions
+%----------------------------------------
+
+Create MatlabFunction ReadThrustTime;
+GMAT ReadThrustTime.FunctionPath = 'C:\GMAT_Repo\GeostationaryOrbit_LowThrust_SNOPT';
+
+%----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+
+Create Array Data[1,4];
+Create Variable RunTime;
+GMAT RunTime = 5340343.721855556;
+
+
+
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+GMAT 'CallRunTimeFunction' [RunTime] = ReadThrustTime(RunTime);
+BeginScript 'Step1'
+   BeginFileThrust ThrustHistoryFile1(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = RunTime};
+   EndFileThrust ThrustHistoryFile1(Sat);
+EndScript;
+Report DataOut Sat.Earth.ECC Sat.Earth.SMA Sat.ElapsedDays Sat.ElectricTank1.FuelMass;
+GMAT Data(1) = Sat.Earth.SMA;
+GMAT Data(2) = Sat.Earth.ECC;
+GMAT Data(3) = Sat.ElectricTank1.FuelMass;
+GMAT Data(4) = Sat.ElapsedDays;
