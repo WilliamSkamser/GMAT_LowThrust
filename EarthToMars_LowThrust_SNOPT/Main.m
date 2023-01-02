@@ -10,6 +10,7 @@ global AU
 global TU
 %lobal my_dir
 global headlines
+global t1
 
 % Load Semi-Analytic Solution
 load('EMTG_GMATdata.mat')
@@ -27,6 +28,7 @@ Isp = 2800;             % s^-1
 Vex = Isp*g;            % m/s
 m0  = 1000;             % kg
 mdot  = GMAT_data.MassFlowRate;
+t1=juliandate(2023,07,20,00,00,00);
 
 % Obtain the Time steps
 NumberOfSteps = length(GMAT_data.Time)-2;%Cut-off ends
@@ -37,12 +39,12 @@ x=[GMAT_data.Alpha;GMAT_data.Beta;GMAT_data.TOF/TU];
 % Bounds
 lb = [-ones(NumberOfSteps,1)*pi;    % Alpha
       -ones(NumberOfSteps,1)*pi;    % Beta  
-      900*86400/TU];             % TOF (TU)
+      10*86400/TU];             % TOF (TU) %900
   
 ub = [ones(NumberOfSteps,1)*pi;     % Alpha 
       ones(NumberOfSteps,1)*pi;     % Beta 
-      1100*86400/TU];            % TOF (TU)
-  
+      3650*86400/TU];            % TOF (TU) %1100
+        %5 years
 %lower and upper bounds
 xlow = lb;
 xupp = ub;
@@ -79,16 +81,15 @@ ObjRow =1; %Tell the Optimizer which row of F is the objective function
 snscreen on;  
 snsummary('SNOPt_summary.txt');
 %tolerance values, 1e-6 by default 
-snsetr('Major feasibility tolerance',1e-7); 
-snsetr('Major optimality tolerance',1e-7);
-snsetr('Minor feasibility tolerance',1e-7);
-snsetr('Minor optimality tolerance',1e-7);
+snsetr('Major feasibility tolerance',1e-6); 
+snsetr('Major optimality tolerance',1e-6);
+snsetr('Minor feasibility tolerance',1e-6);
+snsetr('Minor optimality tolerance',1e-6);
 
 snseti('Time limit',345600);%86400) %Sets time limit to 1 day (in seconds)
 snseti('Major iteration limit', 5000);
-
 snseti('Line search algorithm', 3)%More-Thuente line search
-%Around 7% faster than default ,0) Backtracking line search
+%Around 5% faster than default ,0) Backtracking line search
 
 load_gmat(); %Having this here tends to cause crashes
 

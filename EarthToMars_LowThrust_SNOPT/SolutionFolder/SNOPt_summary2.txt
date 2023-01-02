@@ -1,0 +1,73 @@
+
+ ==============================
+ S N O P T  7.6.0    (Jan 2017)
+ ==============================
+ Line search algorithm                                            3
+ XXX  Second keyword not recognized:  SEARCH
+ 
+ SNMEMA EXIT 100 -- finished successfully
+ SNMEMA INFO 104 -- memory requirements estimated
+
+ Nonzero derivs  Jij      1207
+ Non-constant    Jij's    1206     Constant Jij's           1
+ 
+ SNJAC  EXIT 100 -- finished successfully
+ SNJAC  INFO 102 -- Jacobian structure estimated
+ 
+ Scale option  0
+ 
+
+ Nonlinear constraints       6     Linear constraints       1
+ Nonlinear variables       201     Linear variables         0
+ Jacobian  variables       201     Objective variables      0
+ Total constraints           7     Total variables        201
+ 
+ Itn      0: Feasible linear rows
+ Itn      0: PP1.  Minimizing  Norm(x-x0)
+
+ Itn      0: PP1.  Norm(x-x0) approximately minimized  (0.00E+00)
+
+ 
+ The user has defined       0   out of    1206   first  derivatives
+ 
+ Itn      0: Hessian set to a scaled identity matrix
+
+        Minor NumInf  FP mult  FP step   rgNorm         SumInf     nS
+          100      2 -2.5E-03  1.6E+00           8.5854335E-01
+          200      2 -4.7E-04  1.8E+00           7.0310818E-01
+ Itn    281: Infeasible QP subproblem
+ Itn    281: Elastic Phase 1 -- making non-elastic variables feasible
+ Itn    281: Infeasible subproblem. Elastic mode started with weight =  1.0E+05
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+     0    296               1  6.9E-02  1.3E+00  1.7202077E+01      7           r i
+ Itn    296: Hessian set to a scaled identity matrix
+     1     10  2.0E-04      2  6.9E-02  1.3E+00  1.0041894E+05        1.1E+05   r i
+ 
+ SNOPTA EXIT  30 -- resource limit error
+ SNOPTA INFO  32 -- major iteration limit reached
+
+ Problem name
+ No. of iterations                 306   Objective            1.7201735676E+01
+ No. of major iterations             1   Linear    obj. term  1.7201735676E+01
+ Penalty parameter           1.076E+05   Nonlinear obj. term  0.0000000000E+00
+ Elastic weight                1.0E+05   Elastic   objective  3.0658324620E+01
+                                         Elastic infeas       1.3456588945E-04
+ User function calls (total)       407   Calls with modes 1,2 (known g)      2
+ Calls for forward differencing    402   Calls for central differencing      0
+ No. of degenerate steps             0   Percentage                       0.00
+ Max x                     201 1.7E+01   Max pi                      1 1.0E+05
+ Max Primal infeas         203 1.1E-04   Max Dual infeas           201 2.7E+03
+ Nonlinear constraint violn    1.2E+00
+ 
+ 
+
+ Solution printed on file   9
+ 
+ Time for MPS input                             0.00 seconds
+ Time for solving problem                     123.78 seconds
+ Time for solution output                       0.00 seconds
+ Time for constraint functions                124.11 seconds
+ Time for objective function                    0.00 seconds
+Elapsed time is 359.215800 seconds.
+No script provided to load.

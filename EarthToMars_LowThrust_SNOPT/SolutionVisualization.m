@@ -51,7 +51,7 @@ fclose(fid2);
 %WRITE Thrust Run Time
 file3='../EarthToMars_LowThrust_SNOPT/ThrustRunTime.txt';
 fid3 = fopen(file3, 'w');
-fprintf(fid3, '%d', TOF);
+fprintf(fid3, '%.16d', TOF);
 fclose(fid3);
 
 %% RUN GMAT and Read the Results
@@ -63,8 +63,8 @@ load_gmat();
 gmat.gmat.LoadScript("C:/GMAT_Repo/EarthToMars_LowThrust_SNOPT/GMATScriptEarthMarsPlots.script");
 
 % Input the TOF as RunTime
-PropTime = gmat.gmat.GetObject('RunTime');
-PropTime.SetField('Value', TOF);
+%PropTime = gmat.gmat.GetObject('RunTime');
+%PropTime.SetField('Value', TOF);
 
 % Input the Location of the Corresponding Thrust File
 %Thrust_File = gmat.gmat.GetObject('ThrustHistoryFile1');

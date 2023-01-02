@@ -60,7 +60,7 @@ fprintf(fid2, '%s\n', SS{:});
 fprintf(fid2,'%s','EndThrust{ThrustSegment1}');
 fclose(fid2);
 
-%WRITE Thrust Run Time (Note that this shouldn't be here)
+%WRITE Thrust Run Time
 file3='../EarthToMars_LowThrust_SNOPT/ThrustRunTime.txt';
 fid3 = fopen(file3, 'w');
 fprintf(fid3, '%.16d', TOF);
@@ -87,11 +87,11 @@ Thrust_File.SetField('FileName',file2);
 % Run GMAT Script
 Ans = gmat.gmat.RunScript();
 if Ans == 0
-    %fprintf("Fail to run script");
+    fprintf("Fail to run script");
     con(1:6)= 1e10;
     Obj = 1e10;
-    %return
-elseif Ans ==1
+    return
+e
 
 % Extract Final States of Satellite 
 Sat_X = gmat.gmat.GetRuntimeObject("Sat.SunICRF.X");  Sat_X = Sat_X.GetNumber("Value");
@@ -155,7 +155,7 @@ con = [Vx/(AU/TU);
        Y/AU;
        Z/AU]; 
 Obj = TOF/TU;
-end
+
 F(1) = Obj;
 F(2:7)=con;
 G=[];

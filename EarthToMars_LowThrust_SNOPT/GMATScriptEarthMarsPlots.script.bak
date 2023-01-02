@@ -69,6 +69,7 @@ GMAT ElectricTank1.FuelMass = 1000;
 
 
 
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -123,10 +124,10 @@ GMAT ThrustSegment1.MassSource = {'ElectricTank1'};
 
 Create ReportFile DataOut;
 GMAT DataOut.SolverIterations = Current;
-GMAT DataOut.UpperLeft = [ 0.03705882352941176 0.0773955773955774 ];
-GMAT DataOut.Size = [ 0.5988235294117648 0.7972972972972973 ];
-GMAT DataOut.RelativeZOrder = 31;
-GMAT DataOut.Maximized = false;
+GMAT DataOut.UpperLeft = [ 0.03647058823529412 0.07616707616707617 ];
+GMAT DataOut.Size = [ 0.5982352941176471 0.7960687960687961 ];
+GMAT DataOut.RelativeZOrder = 131;
+GMAT DataOut.Maximized = true;
 GMAT DataOut.Filename = 'C:\GMAT_Repo\EarthToMars_LowThrust_SNOPT\DataOutput.txt';
 GMAT DataOut.Precision = 16;
 GMAT DataOut.WriteHeaders = true;
@@ -139,9 +140,9 @@ GMAT DataOut.WriteReport = true;
 
 Create OrbitView OrbitView1;
 GMAT OrbitView1.SolverIterations = Current;
-GMAT OrbitView1.UpperLeft = [ 0.3158823529411764 0.2555282555282555 ];
+GMAT OrbitView1.UpperLeft = [ 0.3152941176470588 0.2542997542997543 ];
 GMAT OrbitView1.Size = [ 0.6105882352941177 0.7764127764127764 ];
-GMAT OrbitView1.RelativeZOrder = 46;
+GMAT OrbitView1.RelativeZOrder = 128;
 GMAT OrbitView1.Maximized = true;
 GMAT OrbitView1.Add = {Sat, Earth, Sun, Mars};
 GMAT OrbitView1.CoordinateSystem = SunICRF;
@@ -171,10 +172,10 @@ GMAT OrbitView1.EnableConstellations = On;
 
 Create XYPlot Fuel;
 GMAT Fuel.SolverIterations = Current;
-GMAT Fuel.UpperLeft = [ 0.002941176470588235 0 ];
+GMAT Fuel.UpperLeft = [ 0.002352941176470588 0 ];
 GMAT Fuel.Size = [ 0.5 0.4496314496314496 ];
-GMAT Fuel.RelativeZOrder = 5;
-GMAT Fuel.Maximized = false;
+GMAT Fuel.RelativeZOrder = 124;
+GMAT Fuel.Maximized = true;
 GMAT Fuel.XVariable = Sat.A1ModJulian;
 GMAT Fuel.YVariables = {Sat.ElectricTank1.FuelMass};
 GMAT Fuel.ShowGrid = true;
@@ -199,6 +200,7 @@ GMAT RunTime = 83405339.69;
 
 
 
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
@@ -208,4 +210,4 @@ GMAT [RunTime] = ReadThrustTime;
 BeginFileThrust ThrustHistoryFile1(Sat);
 Propagate ThePropagator(Sat) {Sat.ElapsedSecs = RunTime};
 EndFileThrust ThrustHistoryFile1(Sat);
-Report DataOut Sat.ElapsedDays Sat.SunICRF.VX Sat.SunICRF.VY Sat.SunICRF.VZ Sat.SunICRF.X Sat.SunICRF.Y Sat.SunICRF.Z Sat.ElectricTank1.FuelMass Mars.SunICRF.VX Mars.SunICRF.VY Mars.SunICRF.VZ Mars.SunICRF.X Mars.SunICRF.Y Mars.SunICRF.Z;
+Report DataOut Sat.SunICRF.VX Sat.SunICRF.VY Sat.SunICRF.VZ Sat.SunICRF.X Sat.SunICRF.Y Sat.SunICRF.Z Sat.ElapsedDays Sat.ElectricTank1.FuelMass Mars.SunICRF.VX Mars.SunICRF.VY Mars.SunICRF.VZ Mars.SunICRF.X Mars.SunICRF.Y Mars.SunICRF.Z;
