@@ -71,6 +71,8 @@ GMAT ElectricTank1.FuelMass = 1000;
 
 
 
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -141,9 +143,9 @@ GMAT DataOut.WriteReport = true;
 
 Create OrbitView OrbitView1;
 GMAT OrbitView1.SolverIterations = Current;
-GMAT OrbitView1.UpperLeft = [ 0.2782352941176471 0.1105651105651106 ];
-GMAT OrbitView1.Size = [ 0.6105882352941177 0.7764127764127764 ];
-GMAT OrbitView1.RelativeZOrder = 61;
+GMAT OrbitView1.UpperLeft = [ 0.2770588235294117 0.1081081081081081 ];
+GMAT OrbitView1.Size = [ 0.4076470588235294 0.7764127764127764 ];
+GMAT OrbitView1.RelativeZOrder = 193;
 GMAT OrbitView1.Maximized = true;
 GMAT OrbitView1.Add = {Sat, Earth, Sun, Mars};
 GMAT OrbitView1.CoordinateSystem = SunICRF;
@@ -152,8 +154,8 @@ GMAT OrbitView1.DataCollectFrequency = 1;
 GMAT OrbitView1.UpdatePlotFrequency = 50;
 GMAT OrbitView1.NumPointsToRedraw = 0;
 GMAT OrbitView1.ShowPlot = true;
-GMAT OrbitView1.MaxPlotPoints = 5000;
-GMAT OrbitView1.ShowLabels = false;
+GMAT OrbitView1.MaxPlotPoints = 50000;
+GMAT OrbitView1.ShowLabels = true;
 GMAT OrbitView1.ViewPointReference = Sun;
 GMAT OrbitView1.ViewPointVector = [ 0 0 500000000 ];
 GMAT OrbitView1.ViewDirection = Sun;
@@ -173,9 +175,9 @@ GMAT OrbitView1.EnableConstellations = On;
 
 Create XYPlot Fuel;
 GMAT Fuel.SolverIterations = Current;
-GMAT Fuel.UpperLeft = [ 0.001764705882352941 0 ];
+GMAT Fuel.UpperLeft = [ 0.000588235294117647 0 ];
 GMAT Fuel.Size = [ 0.5 0.4496314496314496 ];
-GMAT Fuel.RelativeZOrder = 59;
+GMAT Fuel.RelativeZOrder = 189;
 GMAT Fuel.Maximized = false;
 GMAT Fuel.XVariable = Sat.A1ModJulian;
 GMAT Fuel.YVariables = {Sat.ElectricTank1.FuelMass};
@@ -194,6 +196,8 @@ GMAT ReadThrustTime.FunctionPath = 'C:\GMAT_Repo\EarthToMars_LowThrust_SNOPT';
 %----------------------------------------
 Create Variable RunTime;
 GMAT RunTime = 83405339.69;
+
+
 
 
 

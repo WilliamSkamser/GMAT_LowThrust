@@ -71,7 +71,7 @@ headlines = ['BeginThrust{ThrustSegment1}', newline,...
     'Thrust_Vector_Coordinate_System = SunICRF',newline,...  
     'Thrust_Vector_Interpolation_Method  = CubicSpline',newline,...
     'Mass_Flow_Rate_Interpolation_Method = None',newline,...
-    'ModelThrustAndMassRate'];              % EMTG
+    'ModelThrustAndMassRate'];              
 
 %% SNOPT Optimization Routine
 
@@ -91,7 +91,7 @@ snseti('Major iteration limit', 5000);
 snseti('Line search algorithm', 3)%More-Thuente line search
 %Around 5% faster than default ,0) Backtracking line search
 
-load_gmat(); %Having this here tends to cause crashes
+load_gmat(); %Load GMAT here tends to cause higher likelihood of SNOPT crashing MATLAB
 
 tic
 [x,F,inform,xmul,Fmul,xstate,Fstate,output]= ...

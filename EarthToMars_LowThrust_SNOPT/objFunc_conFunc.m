@@ -60,12 +60,13 @@ fprintf(fid2, '%s\n', SS{:});
 fprintf(fid2,'%s','EndThrust{ThrustSegment1}');
 fclose(fid2);
 
-%WRITE Thrust Run Time (Note that this shouldn't be here)
+%{
+%WRITE Thrust Run Time
 file3='../EarthToMars_LowThrust_SNOPT/ThrustRunTime.txt';
 fid3 = fopen(file3, 'w');
 fprintf(fid3, '%.16d', TOF);
 fclose(fid3);
-
+%}
 
 %% RUN GMAT and Read the Results
 
@@ -74,15 +75,14 @@ fclose(fid3);
 
 % Load GMAT SCRIPT
 gmat.gmat.LoadScript("C:/GMAT_Repo/EarthToMars_LowThrust_SNOPT/GMATScriptEarthMars.script");
-%gmat.gmat.LoadScript("C:/GMAT_Repo/EarthToMars_LowThrust_SNOPT/GMATScriptEarthMars2.script");
 
 % Input the TOF as RunTime
 PropTime = gmat.gmat.GetObject('RunTime'); %This part seems to work
 PropTime.SetField('Value', TOF);
 
 % Input the Location of the Corresponding Thrust File
-Thrust_File = gmat.gmat.GetObject('ThrustHistoryFile1');
-Thrust_File.SetField('FileName',file2);
+%Thrust_File = gmat.gmat.GetObject('ThrustHistoryFile1');
+%Thrust_File.SetField('FileName',file2);
 
 % Run GMAT Script
 Ans = gmat.gmat.RunScript();
@@ -101,7 +101,7 @@ Sat_VX = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VX");  Sat_VX = Sat_VX.GetNumbe
 Sat_VY = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VY");  Sat_VY = Sat_VY.GetNumber("Value");
 Sat_VZ = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VZ");  Sat_VZ = Sat_VZ.GetNumber("Value");
 %{
-% Extract Final States of Mars %NOTE THAT MARS is not propgating 
+% Extract Final States of Mars %NOTE THAT MARS is not propgating! 
 Mars_X = gmat.gmat.GetRuntimeObject("Mars.SunICRF.X");  Mars_X = Mars_X.GetNumber("Value");
 Mars_Y = gmat.gmat.GetRuntimeObject("Mars.SunICRF.Y");  Mars_Y = Mars_Y.GetNumber("Value");
 Mars_Z = gmat.gmat.GetRuntimeObject("Mars.SunICRF.Z");  Mars_Z = Mars_Z.GetNumber("Value");

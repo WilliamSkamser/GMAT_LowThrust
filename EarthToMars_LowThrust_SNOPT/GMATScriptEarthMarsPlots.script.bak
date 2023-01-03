@@ -70,6 +70,8 @@ GMAT ElectricTank1.FuelMass = 1000;
 
 
 
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -108,7 +110,7 @@ GMAT SunICRF.Axes = ICRF;
 %---------- Thrust History File
 %----------------------------------------
 Create ThrustHistoryFile ThrustHistoryFile1;
-GMAT ThrustHistoryFile1.FileName = 'C:\GMAT_Repo\EarthToMars_LowThrust_SNOPT\ThrustProfile.thrust';
+GMAT ThrustHistoryFile1.FileName = 'C:\GMAT_Repo\EarthToMars_LowThrust_SNOPT\ThrustProfileSolution.thrust';
 GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 Create ThrustSegment ThrustSegment1;
@@ -124,10 +126,10 @@ GMAT ThrustSegment1.MassSource = {'ElectricTank1'};
 
 Create ReportFile DataOut;
 GMAT DataOut.SolverIterations = Current;
-GMAT DataOut.UpperLeft = [ 0.03647058823529412 0.07616707616707617 ];
-GMAT DataOut.Size = [ 0.5982352941176471 0.7960687960687961 ];
-GMAT DataOut.RelativeZOrder = 131;
-GMAT DataOut.Maximized = true;
+GMAT DataOut.UpperLeft = [ 0.03588235294117647 0.07493857493857493 ];
+GMAT DataOut.Size = [ 0.5976470588235294 0.7948402948402948 ];
+GMAT DataOut.RelativeZOrder = 22;
+GMAT DataOut.Maximized = false;
 GMAT DataOut.Filename = 'C:\GMAT_Repo\EarthToMars_LowThrust_SNOPT\DataOutput.txt';
 GMAT DataOut.Precision = 16;
 GMAT DataOut.WriteHeaders = true;
@@ -140,10 +142,10 @@ GMAT DataOut.WriteReport = true;
 
 Create OrbitView OrbitView1;
 GMAT OrbitView1.SolverIterations = Current;
-GMAT OrbitView1.UpperLeft = [ 0.3152941176470588 0.2542997542997543 ];
-GMAT OrbitView1.Size = [ 0.6105882352941177 0.7764127764127764 ];
-GMAT OrbitView1.RelativeZOrder = 128;
-GMAT OrbitView1.Maximized = true;
+GMAT OrbitView1.UpperLeft = [ 0.2776470588235294 0.1093366093366093 ];
+GMAT OrbitView1.Size = [ 0.4076470588235294 0.7764127764127764 ];
+GMAT OrbitView1.RelativeZOrder = 171;
+GMAT OrbitView1.Maximized = false;
 GMAT OrbitView1.Add = {Sat, Earth, Sun, Mars};
 GMAT OrbitView1.CoordinateSystem = SunICRF;
 GMAT OrbitView1.DrawObject = [ true true true true ];
@@ -151,8 +153,8 @@ GMAT OrbitView1.DataCollectFrequency = 1;
 GMAT OrbitView1.UpdatePlotFrequency = 50;
 GMAT OrbitView1.NumPointsToRedraw = 0;
 GMAT OrbitView1.ShowPlot = true;
-GMAT OrbitView1.MaxPlotPoints = 5000;
-GMAT OrbitView1.ShowLabels = false;
+GMAT OrbitView1.MaxPlotPoints = 50000;
+GMAT OrbitView1.ShowLabels = true;
 GMAT OrbitView1.ViewPointReference = Sun;
 GMAT OrbitView1.ViewPointVector = [ 0 0 500000000 ];
 GMAT OrbitView1.ViewDirection = Sun;
@@ -172,10 +174,10 @@ GMAT OrbitView1.EnableConstellations = On;
 
 Create XYPlot Fuel;
 GMAT Fuel.SolverIterations = Current;
-GMAT Fuel.UpperLeft = [ 0.002352941176470588 0 ];
+GMAT Fuel.UpperLeft = [ 0.001176470588235294 0 ];
 GMAT Fuel.Size = [ 0.5 0.4496314496314496 ];
-GMAT Fuel.RelativeZOrder = 124;
-GMAT Fuel.Maximized = true;
+GMAT Fuel.RelativeZOrder = 143;
+GMAT Fuel.Maximized = false;
 GMAT Fuel.XVariable = Sat.A1ModJulian;
 GMAT Fuel.YVariables = {Sat.ElectricTank1.FuelMass};
 GMAT Fuel.ShowGrid = true;
@@ -193,6 +195,8 @@ GMAT ReadThrustTime.FunctionPath = 'C:\GMAT_Repo\EarthToMars_LowThrust_SNOPT';
 %----------------------------------------
 Create Variable RunTime;
 GMAT RunTime = 83405339.69;
+
+
 
 
 
