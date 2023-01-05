@@ -543,3 +543,5 @@
  Time for solution output                       0.00 seconds
  Time for constraint functions              30258.80 seconds
  Time for objective function                    0.00 seconds
+Elapsed time is 29897.255483 seconds.
+No script provided to load.

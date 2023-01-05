@@ -15,6 +15,16 @@ global t1
 % Load Semi-Analytic Solution
 load('EMTG_GMATdata.mat')
 
+%READ initial guess with 200 steps
+fileG='../EarthToMars_LowThrust_SNOPT/GMAT_thrust.txt';
+fIDG=fopen(fileG,'r');
+AG=textscan(fIDG, '%f %f %f %f', 'headerlines',1);
+InitialGuess_Data2=cell2mat(AG);
+fclose(fIDG);
+NumberOfSteps_i=size(InitialGuess_Data2(:,1));
+Alpha_i=InitialGuess_Data2(:,2);
+Beta_i=InitialGuess_Data2(:,3);
+Time_i=InitialGuess_Data2(end,1);
 %% Constants
 
 muS = 1.32712440018e+11;   % Km^3/sec^2 
@@ -32,19 +42,20 @@ t1=juliandate(2023,07,20,00,00,00);
 
 % Obtain the Time steps
 NumberOfSteps = length(GMAT_data.Time)-2;%Cut-off ends
+%NumberOfSteps=NumberOfSteps_i(1);
 %% Initial Guess vector (Alpha, Beta, TOF)
 
 x=[GMAT_data.Alpha;GMAT_data.Beta;GMAT_data.TOF/TU];
-
+%x=[Alpha_i;Beta_i;Time_i/TU];
 % Bounds
 lb = [-ones(NumberOfSteps,1)*pi;    % Alpha
       -ones(NumberOfSteps,1)*pi;    % Beta  
-      10*86400/TU];             % TOF (TU) %900
-  
+      500*86400/TU];             % TOF (TU) %900
+  %10
 ub = [ones(NumberOfSteps,1)*pi;     % Alpha 
       ones(NumberOfSteps,1)*pi;     % Beta 
-      3650*86400/TU];            % TOF (TU) %1100
-        %5 years
+      3500*86400/TU];            % TOF (TU) %1100
+        %5 years %3650
 %lower and upper bounds
 xlow = lb;
 xupp = ub;
@@ -69,7 +80,7 @@ my_dir = 'C:/GMAT_Repo/EarthToMars_LowThrust_SNOPT';
 headlines = ['BeginThrust{ThrustSegment1}', newline,...
     'Start_Epoch = 20 Jul 2023 00:00:00.000',newline,...
     'Thrust_Vector_Coordinate_System = SunICRF',newline,...  
-    'Thrust_Vector_Interpolation_Method  = CubicSpline',newline,...
+    'Thrust_Vector_Interpolation_Method  = CubicSpline',newline,... %Test with no interpolation method
     'Mass_Flow_Rate_Interpolation_Method = None',newline,...
     'ModelThrustAndMassRate'];              
 
@@ -87,7 +98,7 @@ snsetr('Minor feasibility tolerance',1e-6);
 snsetr('Minor optimality tolerance',1e-6);
 
 snseti('Time limit',345600);%86400) %Sets time limit to 1 day (in seconds)
-snseti('Major iteration limit', 5000);
+snseti('Major iteration limit',5000);
 snseti('Line search algorithm', 3)%More-Thuente line search
 %Around 5% faster than default ,0) Backtracking line search
 

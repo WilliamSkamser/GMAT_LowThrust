@@ -73,6 +73,7 @@ GMAT ElectricTank1.FuelMass = 1000;
 
 
 
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -127,10 +128,10 @@ GMAT ThrustSegment1.MassSource = {'ElectricTank1'};
 
 Create ReportFile DataOut;
 GMAT DataOut.SolverIterations = Current;
-GMAT DataOut.UpperLeft = [ 0.03588235294117647 0.07493857493857493 ];
-GMAT DataOut.Size = [ 0.5976470588235294 0.7948402948402948 ];
-GMAT DataOut.RelativeZOrder = 22;
-GMAT DataOut.Maximized = false;
+GMAT DataOut.UpperLeft = [ 0.03529411764705882 0.07371007371007371 ];
+GMAT DataOut.Size = [ 0.5970588235294118 0.7936117936117936 ];
+GMAT DataOut.RelativeZOrder = 13;
+GMAT DataOut.Maximized = true;
 GMAT DataOut.Filename = 'C:\GMAT_Repo\EarthToMars_LowThrust_SNOPT\DataOutput.txt';
 GMAT DataOut.Precision = 16;
 GMAT DataOut.WriteHeaders = true;
@@ -143,9 +144,9 @@ GMAT DataOut.WriteReport = true;
 
 Create OrbitView OrbitView1;
 GMAT OrbitView1.SolverIterations = Current;
-GMAT OrbitView1.UpperLeft = [ 0.2770588235294117 0.1081081081081081 ];
+GMAT OrbitView1.UpperLeft = [ 0.2764705882352941 0.1068796068796069 ];
 GMAT OrbitView1.Size = [ 0.4076470588235294 0.7764127764127764 ];
-GMAT OrbitView1.RelativeZOrder = 193;
+GMAT OrbitView1.RelativeZOrder = 21;
 GMAT OrbitView1.Maximized = true;
 GMAT OrbitView1.Add = {Sat, Earth, Sun, Mars};
 GMAT OrbitView1.CoordinateSystem = SunICRF;
@@ -175,9 +176,9 @@ GMAT OrbitView1.EnableConstellations = On;
 
 Create XYPlot Fuel;
 GMAT Fuel.SolverIterations = Current;
-GMAT Fuel.UpperLeft = [ 0.000588235294117647 0 ];
+GMAT Fuel.UpperLeft = [ 0 0 ];
 GMAT Fuel.Size = [ 0.5 0.4496314496314496 ];
-GMAT Fuel.RelativeZOrder = 189;
+GMAT Fuel.RelativeZOrder = 5;
 GMAT Fuel.Maximized = false;
 GMAT Fuel.XVariable = Sat.A1ModJulian;
 GMAT Fuel.YVariables = {Sat.ElectricTank1.FuelMass};
@@ -196,6 +197,7 @@ GMAT ReadThrustTime.FunctionPath = 'C:\GMAT_Repo\EarthToMars_LowThrust_SNOPT';
 %----------------------------------------
 Create Variable RunTime;
 GMAT RunTime = 83405339.69;
+
 
 
 

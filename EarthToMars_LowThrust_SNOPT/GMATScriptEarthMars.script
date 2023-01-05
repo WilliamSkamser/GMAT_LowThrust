@@ -69,6 +69,9 @@ GMAT ElectricTank1.FuelMass = 1000;
 
 
 
+
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -121,8 +124,11 @@ GMAT ThrustSegment1.MassSource = {'ElectricTank1'};
 %---------- Arrays, Variables, Strings
 %----------------------------------------
 
-Create Array Data[1,14];
+Create Array Data[1,6];
 Create Variable RunTime;
+
+
+
 
 %GMAT RunTime = 83405339.69;
 %----------------------------------------
@@ -136,17 +142,20 @@ BeginScript 'Step1'
    EndFileThrust ThrustHistoryFile1(Sat);
 EndScript;
 
-GMAT Data(1) = Sat.ElapsedDays;
-GMAT Data(2) = Sat.SunICRF.VX;
-GMAT Data(3) = Sat.SunICRF.VY;
-GMAT Data(4) = Sat.SunICRF.VZ;
-GMAT Data(5) = Sat.SunICRF.X;
-GMAT Data(6) = Sat.SunICRF.Y;
-GMAT Data(7) = Sat.SunICRF.Z;
-GMAT Data(8) = Sat.ElectricTank1.FuelMass;
-GMAT Data(9) = Mars.SunICRF.VX;
-GMAT Data(10) = Mars.SunICRF.VY;
-GMAT Data(11) = Mars.SunICRF.VZ;
-GMAT Data(12) = Mars.SunICRF.X;
-GMAT Data(13) = Mars.SunICRF.Y;
-GMAT Data(14) = Mars.SunICRF.Z;
+%GMAT Data(1) = Sat.ElapsedDays;
+GMAT Data(1) = Sat.SunICRF.VX;
+GMAT Data(2) = Sat.SunICRF.VY;
+GMAT Data(3) = Sat.SunICRF.VZ;
+GMAT Data(4) = Sat.SunICRF.X;
+GMAT Data(5) = Sat.SunICRF.Y;
+GMAT Data(6) = Sat.SunICRF.Z;
+%GMAT Data(8) = Sat.ElectricTank1.FuelMass;
+%GMAT Data(9) = Mars.SunICRF.VX;
+%GMAT Data(10) = Mars.SunICRF.VY;
+%GMAT Data(11) = Mars.SunICRF.VZ;
+%GMAT Data(12) = Mars.SunICRF.X;
+%GMAT Data(13) = Mars.SunICRF.Y;
+%GMAT Data(14) = Mars.SunICRF.Z;
+
+
+

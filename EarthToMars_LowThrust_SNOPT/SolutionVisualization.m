@@ -12,11 +12,11 @@ Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps);   % rads
 TOF     = x(end)*TU;                                           % s
 ThrustVec=Th.*[cos(Thrust_beta).*cos(Thrust_alpha),cos(Thrust_beta).*sin(Thrust_alpha),sin(Thrust_beta)];
 %% Create Thrust History 
-Thrust = zeros(NumberOfSteps+2,3);
-Thrust(2:(end-1),:)=ThrustVec;
+Thrust = zeros(NumberOfSteps+1,3);
+Thrust(1:(end-1),:)=ThrustVec;
 
 % Obtain time History
-Time = linspace(0,TOF,NumberOfSteps+2)';  % seconds
+Time = linspace(0,TOF,NumberOfSteps+1)';  % seconds
 
 % % Obtain Mass History
 % mass = zeros(length(Time),1);    mass(1)= m0;
@@ -37,7 +37,7 @@ file2  = 'ThrustProfileSolution.thrust';
 file2 = fullfile(my_dir,file2); 
 
 % Write the contents of the Thrust File
-for i=1:NumberOfSteps+2
+for i=1:NumberOfSteps+1
     LineToChange = i+1;         % first 6 lines ae used for headers
     NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),Thrust(i,2),Thrust(i,3),mdot);
     SS{LineToChange} = NewContent;
