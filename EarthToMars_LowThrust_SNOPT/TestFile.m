@@ -16,3 +16,9 @@ NumberOfSteps=size(InitialGuess_Data2(:,1));
 Alpha_i=InitialGuess_Data2(:,2);
 Beta_i=InitialGuess_Data2(:,3);
 Time_i=InitialGuess_Data2(end,1);
+
+earthorb = gmat.Construct("Spacecraft", "EarthOrbiter")
+earthorb.SetField("DateFormat", "UTCGregorian")
+earthorb.SetField("Epoch", "20 Jul 2020 12:00:00.000")
+earthorb.SetField("CoordinateSystem", "EarthMJ2000Eq")
+earthorb.SetField("DisplayStateType", "Keplerian")

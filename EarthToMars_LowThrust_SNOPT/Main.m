@@ -41,21 +41,21 @@ mdot  = GMAT_data.MassFlowRate;
 t1=juliandate(2023,07,20,00,00,00);
 
 % Obtain the Time steps
-NumberOfSteps = length(GMAT_data.Time)-2;%Cut-off ends
-%NumberOfSteps=NumberOfSteps_i(1);
+%NumberOfSteps = length(GMAT_data.Time)-2;%Cut-off ends %100 steps
+NumberOfSteps=NumberOfSteps_i(1);   %200 steps
 %% Initial Guess vector (Alpha, Beta, TOF)
 
-x=[GMAT_data.Alpha;GMAT_data.Beta;GMAT_data.TOF/TU];
-%x=[Alpha_i;Beta_i;Time_i/TU];
+%x=[GMAT_data.Alpha;GMAT_data.Beta;GMAT_data.TOF/TU]; %100 Steps
+x=[Alpha_i;Beta_i;Time_i/TU];  %200 Steps
 % Bounds
 lb = [-ones(NumberOfSteps,1)*pi;    % Alpha
       -ones(NumberOfSteps,1)*pi;    % Beta  
-      500*86400/TU];             % TOF (TU) %900
-  %10
+      10*86400/TU];             % TOF (TU) %900
+  %10 500
 ub = [ones(NumberOfSteps,1)*pi;     % Alpha 
       ones(NumberOfSteps,1)*pi;     % Beta 
-      3500*86400/TU];            % TOF (TU) %1100
-        %5 years %3650
+      5000*86400/TU];            % TOF (TU) %1100
+        %5 years %3650, 3500
 %lower and upper bounds
 xlow = lb;
 xupp = ub;
@@ -79,8 +79,8 @@ my_dir = 'C:/GMAT_Repo/EarthToMars_LowThrust_SNOPT';
 % Headlines for the Thrust File
 headlines = ['BeginThrust{ThrustSegment1}', newline,...
     'Start_Epoch = 20 Jul 2023 00:00:00.000',newline,...
-    'Thrust_Vector_Coordinate_System = SunICRF',newline,...  
-    'Thrust_Vector_Interpolation_Method  = CubicSpline',newline,... %Test with no interpolation method
+    'Thrust_Vector_Coordinate_System = SunICRF',newline,...  %CubicSpline,Note that Linear appears to be infeasible (work later)
+    'Thrust_Vector_Interpolation_Method  = None',newline,... %Test with no interpolation method
     'Mass_Flow_Rate_Interpolation_Method = None',newline,...
     'ModelThrustAndMassRate'];              
 
@@ -98,7 +98,7 @@ snsetr('Minor feasibility tolerance',1e-6);
 snsetr('Minor optimality tolerance',1e-6);
 
 snseti('Time limit',345600);%86400) %Sets time limit to 1 day (in seconds)
-snseti('Major iteration limit',5000);
+snseti('Major iteration limit', 5000);
 snseti('Line search algorithm', 3)%More-Thuente line search
 %Around 5% faster than default ,0) Backtracking line search
 
