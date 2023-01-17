@@ -1,0 +1,18 @@
+clc
+clear all;
+close all;
+format longg;
+load_gmat();
+%Spacecraft configuration preliminaries
+S = gmat.Construct("Spacecraft", "EarthOrbiter")
+earthorb.SetField("DateFormat", "UTCGregorian")
+earthorb.SetField("Epoch", "20 Jul 2020 12:00:00.000")
+earthorb.SetField("CoordinateSystem", "EarthMJ2000Eq")
+earthorb.SetField("DisplayStateType", "Keplerian")
+% Orbital state
+earthorb.SetField("SMA", 6600)
+earthorb.SetField("ECC", 0.05)
+earthorb.SetField("INC", 78)
+earthorb.SetField("RAAN", 45)
+earthorb.SetField("AOP", 90)
+earthorb.SetField("TA", 180)
