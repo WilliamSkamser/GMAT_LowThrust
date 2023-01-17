@@ -54,8 +54,8 @@ lb = [-ones(NumberOfSteps,1)*pi;    % Alpha
   
 ub = [ones(NumberOfSteps,1)*pi;     % Alpha 
       ones(NumberOfSteps,1)*pi;     % Beta 
-      5000*86400/TU];            % TOF (TU) %1100
-  
+      3250*86400/TU];            % TOF (TU) %1100
+     %3500 works
 %lower and upper bounds
 xlow = lb;
 xupp = ub;
