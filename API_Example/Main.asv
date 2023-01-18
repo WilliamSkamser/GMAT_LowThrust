@@ -2,17 +2,75 @@ clc
 clear all;
 close all;
 format longg;
+%% Inital State
+t1=juliandate(2023,07,20,00,00,00);
+[Re_i,Ve_i]= planetEphemeris(t1,'Sun','Earth');
+%File
+Dir="C:\GMAT_Repo\API_Example";
+%FileName = [tempname(Dir),'.script'];
+FileName="\GMAT_temp.script";
+fid1 = fopen(Dir+FileName,'w');
+fid1 = fclose(fid1);
+
+%% GMAT
+%Insert inital state
 load_gmat();
-%Spacecraft configuration preliminaries
-S = gmat.Construct("Spacecraft", "EarthOrbiter")
-earthorb.SetField("DateFormat", "UTCGregorian")
-earthorb.SetField("Epoch", "20 Jul 2020 12:00:00.000")
-earthorb.SetField("CoordinateSystem", "EarthMJ2000Eq")
-earthorb.SetField("DisplayStateType", "Keplerian")
-% Orbital state
-earthorb.SetField("SMA", 6600)
-earthorb.SetField("ECC", 0.05)
-earthorb.SetField("INC", 78)
-earthorb.SetField("RAAN", 45)
-earthorb.SetField("AOP", 90)
-earthorb.SetField("TA", 180)
+gmat.gmat.LoadScript(Dir+FileName)
+
+sat = gmat.gmat.Construct("Spacecraft", "Sat");
+sat.SetField("DateFormat", "A1ModJulian")           
+sat.SetField("Epoch", num2str(t1-2430000.0))
+sat.SetField("CoordinateSystem", "SunICRF")
+sat.SetField("DisplayStateType", "Cartesian")
+sat.SetField('X', Re_i(1));
+sat.SetField('Y', Re_i(2));
+sat.SetField('Z', Re_i(3));
+sat.SetField('VX', Ve_i(1));
+sat.SetField('VY', Ve_i(2));
+sat.SetField('VZ', Ve_i(3));
+sat.SetField("DryMass", 0);
+
+eTank=gmat.gmat.Construct("ElectricTank", "ETank");
+eTank.SetField("FuelMass", 1000);
+
+%There seems to be a way to load a force model and proagator to propagate
+%by a step size. 
+
+fm = gmat.gmat.Construct("ForceModel", "FM");
+fm.SetField("CentralBody", "Sun")
+SunG=gmat.gmat.Construct("PointMassForce");
+SunG.SetField("BodyName","Sun")
+%fm.AddForce(SunG) %THIS SHOULD WORK!!!
+
+%{
+psm = gmat.PropagationStateManager();
+psm.SetObject(sat)
+psm.BuildState()
+%fm.SetPropStateManager(psm) %THIS Command Doesn't work either!
+%fm.SetState(psm.GetState())
+%}
+
+ThePropagator= gmat.gmat.Construct("Propagator", "ThePropagator");
+gator = gmat.gmat.Construct("RungeKutta89");
+%pdprop.SetReference(gator);
+%pdprop.SetReference(fm); % It doesn't Know this command either!
+%pdprop.SetField("InitialStepSize", 60.0);
+%pdprop.SetField("Accuracy", 1.0e-12);
+%pdprop.SetField("MinStep", 0.0);
+
+%fm.SetPropStateManager(psm);
+%psm.setSwigOwnership(false());
+
+sunICRF = gmat.gmat.Construct("CoordinateSystem", "SunICRF", "Sun", "ICRF");
+
+thrustHfile = gmat.gmat.Construct("ThrustHistoryFile", "ThrustHistoryFile1");
+%Need to be able to add file location
+%and add
+
+thrustSegment = gmat.gmat.Construct("ThrustSegment", "ThrustSegment1");
+%Need to be able to add MassSource
+
+gmat.gmat.SaveScript(Dir+FileName)
+gmat.gmat.ShowObjects() %Display current objects
+gmat.gmat.Clear()
+gmat.gmat.ShowObjects() %Display current objects
