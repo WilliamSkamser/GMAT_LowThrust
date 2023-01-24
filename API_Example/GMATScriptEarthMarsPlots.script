@@ -1,0 +1,2375 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2022-12-08 13:09:02
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft Sat;
+GMAT Sat.DateFormat = UTCGregorian;
+GMAT Sat.Epoch = '20 Jul 2023 00:00:00.000';
+
+GMAT Sat.CoordinateSystem = SunICRF;
+GMAT Sat.DisplayStateType = Cartesian;
+GMAT Sat.X = 68405277.75256568;
+GMAT Sat.Y = -124569338.8214204;
+GMAT Sat.Z = -54000478.82302574;
+GMAT Sat.VX = 26.12608398815661;
+GMAT Sat.VY = 12.20163451293511;
+GMAT Sat.VZ = 5.289560433755932;
+
+GMAT Sat.DryMass = 0;
+GMAT Sat.Cd = 0;
+GMAT Sat.Cr = 0;
+GMAT Sat.DragArea = 0;
+GMAT Sat.SRPArea = 0;
+GMAT Sat.SPADDragScaleFactor = 1;
+GMAT Sat.SPADSRPScaleFactor = 1;
+GMAT Sat.Tanks = {ElectricTank1};
+GMAT Sat.Thrusters = {ET_1, ET_10, ET_11, ET_12, ET_13, ET_14, ET_15, ET_16, ET_17, ET_18, ET_19, ET_2, ET_20, ET_21, ET_22, ET_23, ET_24, ET_25, ET_26, ET_27, ET_28, ET_29, ET_3, ET_30, ET_31, ET_32, ET_33, ET_34, ET_35, ET_36, ET_37, ET_38, ET_39, ET_4, ET_40, ET_41, ET_42, ET_43, ET_44, ET_45, ET_46, ET_47, ET_48, ET_49, ET_5, ET_50, ET_6, ET_7, ET_8, ET_9};
+GMAT Sat.PowerSystem = SolarPowerSystem1;
+GMAT Sat.NAIFId = -10000001;
+GMAT Sat.NAIFIdReferenceFrame = -9000001;
+GMAT Sat.OrbitColor = Red;
+GMAT Sat.TargetColor = Teal;
+GMAT Sat.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT Sat.CdSigma = 1e+70;
+GMAT Sat.CrSigma = 1e+70;
+GMAT Sat.Id = 'SatId';
+GMAT Sat.Attitude = CoordinateSystemFixed;
+GMAT Sat.SPADSRPInterpolationMethod = Bilinear;
+GMAT Sat.SPADSRPScaleFactorSigma = 1e+70;
+GMAT Sat.SPADDragInterpolationMethod = Bilinear;
+GMAT Sat.SPADDragScaleFactorSigma = 1e+70;
+GMAT Sat.ModelFile = 'aura.3ds';
+GMAT Sat.ModelOffsetX = 0;
+GMAT Sat.ModelOffsetY = 0;
+GMAT Sat.ModelOffsetZ = 0;
+GMAT Sat.ModelRotationX = 0;
+GMAT Sat.ModelRotationY = 0;
+GMAT Sat.ModelRotationZ = 0;
+GMAT Sat.ModelScale = 1;
+GMAT Sat.AttitudeDisplayStateType = 'Quaternion';
+GMAT Sat.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT Sat.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT Sat.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Hardware Components
+%----------------------------------------
+
+Create ElectricTank ElectricTank1;
+GMAT ElectricTank1.AllowNegativeFuelMass = false;
+GMAT ElectricTank1.FuelMass = 1000;
+
+Create ElectricThruster ET_1;
+GMAT ET_1.CoordinateSystem = SunICRF;
+GMAT ET_1.ThrustDirection1 = 1;
+GMAT ET_1.ThrustDirection2 = 0;
+GMAT ET_1.ThrustDirection3 = 0;
+GMAT ET_1.DutyCycle = 1;
+GMAT ET_1.ThrustScaleFactor = 1;
+GMAT ET_1.DecrementMass = true;
+GMAT ET_1.Tank = {ElectricTank1};
+GMAT ET_1.MixRatio = [ 1 ];
+GMAT ET_1.GravitationalAccel = 9.81;
+GMAT ET_1.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_1.MaximumUsablePower = 7.266;
+GMAT ET_1.MinimumUsablePower = 0.638;
+GMAT ET_1.ThrustCoeff1 = -5.19082;
+GMAT ET_1.ThrustCoeff2 = 2.96519;
+GMAT ET_1.ThrustCoeff3 = -14.4789;
+GMAT ET_1.ThrustCoeff4 = 54.05382;
+GMAT ET_1.ThrustCoeff5 = -0.00100092;
+GMAT ET_1.MassFlowCoeff1 = -0.004776;
+GMAT ET_1.MassFlowCoeff2 = 0.05717;
+GMAT ET_1.MassFlowCoeff3 = -0.09956;
+GMAT ET_1.MassFlowCoeff4 = 0.03211;
+GMAT ET_1.MassFlowCoeff5 = 2.13781;
+GMAT ET_1.FixedEfficiency = 0.7;
+GMAT ET_1.Isp = 2800;
+GMAT ET_1.ConstantThrust = 0.1;
+
+Create SolarPowerSystem SolarPowerSystem1;
+GMAT SolarPowerSystem1.EpochFormat = 'UTCGregorian';
+GMAT SolarPowerSystem1.InitialEpoch = ''01 Jan 2000 11:59:28.000'';
+GMAT SolarPowerSystem1.InitialMaxPower = 1.2;
+GMAT SolarPowerSystem1.AnnualDecayRate = 5;
+GMAT SolarPowerSystem1.Margin = 5;
+GMAT SolarPowerSystem1.BusCoeff1 = 0.3;
+GMAT SolarPowerSystem1.BusCoeff2 = 0;
+GMAT SolarPowerSystem1.BusCoeff3 = 0;
+GMAT SolarPowerSystem1.ShadowModel = 'DualCone';
+GMAT SolarPowerSystem1.ShadowBodies = {'Earth'};
+GMAT SolarPowerSystem1.SolarCoeff1 = 1.32077;
+GMAT SolarPowerSystem1.SolarCoeff2 = -0.10848;
+GMAT SolarPowerSystem1.SolarCoeff3 = -0.11665;
+GMAT SolarPowerSystem1.SolarCoeff4 = 0.10843;
+GMAT SolarPowerSystem1.SolarCoeff5 = -0.01279;
+
+Create ElectricThruster ET_2;
+GMAT ET_2.CoordinateSystem = SunICRF;
+GMAT ET_2.ThrustDirection1 = 1;
+GMAT ET_2.ThrustDirection2 = 0;
+GMAT ET_2.ThrustDirection3 = 0;
+GMAT ET_2.DutyCycle = 1;
+GMAT ET_2.ThrustScaleFactor = 1;
+GMAT ET_2.DecrementMass = true;
+GMAT ET_2.Tank = {ElectricTank1};
+GMAT ET_2.MixRatio = [ 1 ];
+GMAT ET_2.GravitationalAccel = 9.81;
+GMAT ET_2.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_2.MaximumUsablePower = 7.266;
+GMAT ET_2.MinimumUsablePower = 0.638;
+GMAT ET_2.ThrustCoeff1 = -5.19082;
+GMAT ET_2.ThrustCoeff2 = 2.96519;
+GMAT ET_2.ThrustCoeff3 = -14.4789;
+GMAT ET_2.ThrustCoeff4 = 54.05382;
+GMAT ET_2.ThrustCoeff5 = -0.00100092;
+GMAT ET_2.MassFlowCoeff1 = -0.004776;
+GMAT ET_2.MassFlowCoeff2 = 0.05717;
+GMAT ET_2.MassFlowCoeff3 = -0.09956;
+GMAT ET_2.MassFlowCoeff4 = 0.03211;
+GMAT ET_2.MassFlowCoeff5 = 2.13781;
+GMAT ET_2.FixedEfficiency = 0.7;
+GMAT ET_2.Isp = 2800;
+GMAT ET_2.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_3;
+GMAT ET_3.CoordinateSystem = SunICRF;
+GMAT ET_3.ThrustDirection1 = 1;
+GMAT ET_3.ThrustDirection2 = 0;
+GMAT ET_3.ThrustDirection3 = 0;
+GMAT ET_3.DutyCycle = 1;
+GMAT ET_3.ThrustScaleFactor = 1;
+GMAT ET_3.DecrementMass = true;
+GMAT ET_3.Tank = {ElectricTank1};
+GMAT ET_3.MixRatio = [ 1 ];
+GMAT ET_3.GravitationalAccel = 9.81;
+GMAT ET_3.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_3.MaximumUsablePower = 7.266;
+GMAT ET_3.MinimumUsablePower = 0.638;
+GMAT ET_3.ThrustCoeff1 = -5.19082;
+GMAT ET_3.ThrustCoeff2 = 2.96519;
+GMAT ET_3.ThrustCoeff3 = -14.4789;
+GMAT ET_3.ThrustCoeff4 = 54.05382;
+GMAT ET_3.ThrustCoeff5 = -0.00100092;
+GMAT ET_3.MassFlowCoeff1 = -0.004776;
+GMAT ET_3.MassFlowCoeff2 = 0.05717;
+GMAT ET_3.MassFlowCoeff3 = -0.09956;
+GMAT ET_3.MassFlowCoeff4 = 0.03211;
+GMAT ET_3.MassFlowCoeff5 = 2.13781;
+GMAT ET_3.FixedEfficiency = 0.7;
+GMAT ET_3.Isp = 2800;
+GMAT ET_3.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_4;
+GMAT ET_4.CoordinateSystem = SunICRF;
+GMAT ET_4.ThrustDirection1 = 1;
+GMAT ET_4.ThrustDirection2 = 0;
+GMAT ET_4.ThrustDirection3 = 0;
+GMAT ET_4.DutyCycle = 1;
+GMAT ET_4.ThrustScaleFactor = 1;
+GMAT ET_4.DecrementMass = true;
+GMAT ET_4.Tank = {ElectricTank1};
+GMAT ET_4.MixRatio = [ 1 ];
+GMAT ET_4.GravitationalAccel = 9.81;
+GMAT ET_4.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_4.MaximumUsablePower = 7.266;
+GMAT ET_4.MinimumUsablePower = 0.638;
+GMAT ET_4.ThrustCoeff1 = -5.19082;
+GMAT ET_4.ThrustCoeff2 = 2.96519;
+GMAT ET_4.ThrustCoeff3 = -14.4789;
+GMAT ET_4.ThrustCoeff4 = 54.05382;
+GMAT ET_4.ThrustCoeff5 = -0.00100092;
+GMAT ET_4.MassFlowCoeff1 = -0.004776;
+GMAT ET_4.MassFlowCoeff2 = 0.05717;
+GMAT ET_4.MassFlowCoeff3 = -0.09956;
+GMAT ET_4.MassFlowCoeff4 = 0.03211;
+GMAT ET_4.MassFlowCoeff5 = 2.13781;
+GMAT ET_4.FixedEfficiency = 0.7;
+GMAT ET_4.Isp = 2800;
+GMAT ET_4.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_5;
+GMAT ET_5.CoordinateSystem = SunICRF;
+GMAT ET_5.ThrustDirection1 = 1;
+GMAT ET_5.ThrustDirection2 = 0;
+GMAT ET_5.ThrustDirection3 = 0;
+GMAT ET_5.DutyCycle = 1;
+GMAT ET_5.ThrustScaleFactor = 1;
+GMAT ET_5.DecrementMass = true;
+GMAT ET_5.Tank = {ElectricTank1};
+GMAT ET_5.MixRatio = [ 1 ];
+GMAT ET_5.GravitationalAccel = 9.81;
+GMAT ET_5.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_5.MaximumUsablePower = 7.266;
+GMAT ET_5.MinimumUsablePower = 0.638;
+GMAT ET_5.ThrustCoeff1 = -5.19082;
+GMAT ET_5.ThrustCoeff2 = 2.96519;
+GMAT ET_5.ThrustCoeff3 = -14.4789;
+GMAT ET_5.ThrustCoeff4 = 54.05382;
+GMAT ET_5.ThrustCoeff5 = -0.00100092;
+GMAT ET_5.MassFlowCoeff1 = -0.004776;
+GMAT ET_5.MassFlowCoeff2 = 0.05717;
+GMAT ET_5.MassFlowCoeff3 = -0.09956;
+GMAT ET_5.MassFlowCoeff4 = 0.03211;
+GMAT ET_5.MassFlowCoeff5 = 2.13781;
+GMAT ET_5.FixedEfficiency = 0.7;
+GMAT ET_5.Isp = 2800;
+GMAT ET_5.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_6;
+GMAT ET_6.CoordinateSystem = SunICRF;
+GMAT ET_6.ThrustDirection1 = 1;
+GMAT ET_6.ThrustDirection2 = 0;
+GMAT ET_6.ThrustDirection3 = 0;
+GMAT ET_6.DutyCycle = 1;
+GMAT ET_6.ThrustScaleFactor = 1;
+GMAT ET_6.DecrementMass = true;
+GMAT ET_6.Tank = {ElectricTank1};
+GMAT ET_6.MixRatio = [ 1 ];
+GMAT ET_6.GravitationalAccel = 9.81;
+GMAT ET_6.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_6.MaximumUsablePower = 7.266;
+GMAT ET_6.MinimumUsablePower = 0.638;
+GMAT ET_6.ThrustCoeff1 = -5.19082;
+GMAT ET_6.ThrustCoeff2 = 2.96519;
+GMAT ET_6.ThrustCoeff3 = -14.4789;
+GMAT ET_6.ThrustCoeff4 = 54.05382;
+GMAT ET_6.ThrustCoeff5 = -0.00100092;
+GMAT ET_6.MassFlowCoeff1 = -0.004776;
+GMAT ET_6.MassFlowCoeff2 = 0.05717;
+GMAT ET_6.MassFlowCoeff3 = -0.09956;
+GMAT ET_6.MassFlowCoeff4 = 0.03211;
+GMAT ET_6.MassFlowCoeff5 = 2.13781;
+GMAT ET_6.FixedEfficiency = 0.7;
+GMAT ET_6.Isp = 2800;
+GMAT ET_6.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_7;
+GMAT ET_7.CoordinateSystem = SunICRF;
+GMAT ET_7.ThrustDirection1 = 1;
+GMAT ET_7.ThrustDirection2 = 0;
+GMAT ET_7.ThrustDirection3 = 0;
+GMAT ET_7.DutyCycle = 1;
+GMAT ET_7.ThrustScaleFactor = 1;
+GMAT ET_7.DecrementMass = true;
+GMAT ET_7.Tank = {ElectricTank1};
+GMAT ET_7.MixRatio = [ 1 ];
+GMAT ET_7.GravitationalAccel = 9.81;
+GMAT ET_7.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_7.MaximumUsablePower = 7.266;
+GMAT ET_7.MinimumUsablePower = 0.638;
+GMAT ET_7.ThrustCoeff1 = -5.19082;
+GMAT ET_7.ThrustCoeff2 = 2.96519;
+GMAT ET_7.ThrustCoeff3 = -14.4789;
+GMAT ET_7.ThrustCoeff4 = 54.05382;
+GMAT ET_7.ThrustCoeff5 = -0.00100092;
+GMAT ET_7.MassFlowCoeff1 = -0.004776;
+GMAT ET_7.MassFlowCoeff2 = 0.05717;
+GMAT ET_7.MassFlowCoeff3 = -0.09956;
+GMAT ET_7.MassFlowCoeff4 = 0.03211;
+GMAT ET_7.MassFlowCoeff5 = 2.13781;
+GMAT ET_7.FixedEfficiency = 0.7;
+GMAT ET_7.Isp = 2800;
+GMAT ET_7.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_8;
+GMAT ET_8.CoordinateSystem = SunICRF;
+GMAT ET_8.ThrustDirection1 = 1;
+GMAT ET_8.ThrustDirection2 = 0;
+GMAT ET_8.ThrustDirection3 = 0;
+GMAT ET_8.DutyCycle = 1;
+GMAT ET_8.ThrustScaleFactor = 1;
+GMAT ET_8.DecrementMass = true;
+GMAT ET_8.Tank = {ElectricTank1};
+GMAT ET_8.MixRatio = [ 1 ];
+GMAT ET_8.GravitationalAccel = 9.81;
+GMAT ET_8.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_8.MaximumUsablePower = 7.266;
+GMAT ET_8.MinimumUsablePower = 0.638;
+GMAT ET_8.ThrustCoeff1 = -5.19082;
+GMAT ET_8.ThrustCoeff2 = 2.96519;
+GMAT ET_8.ThrustCoeff3 = -14.4789;
+GMAT ET_8.ThrustCoeff4 = 54.05382;
+GMAT ET_8.ThrustCoeff5 = -0.00100092;
+GMAT ET_8.MassFlowCoeff1 = -0.004776;
+GMAT ET_8.MassFlowCoeff2 = 0.05717;
+GMAT ET_8.MassFlowCoeff3 = -0.09956;
+GMAT ET_8.MassFlowCoeff4 = 0.03211;
+GMAT ET_8.MassFlowCoeff5 = 2.13781;
+GMAT ET_8.FixedEfficiency = 0.7;
+GMAT ET_8.Isp = 2800;
+GMAT ET_8.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_9;
+GMAT ET_9.CoordinateSystem = SunICRF;
+GMAT ET_9.ThrustDirection1 = 1;
+GMAT ET_9.ThrustDirection2 = 0;
+GMAT ET_9.ThrustDirection3 = 0;
+GMAT ET_9.DutyCycle = 1;
+GMAT ET_9.ThrustScaleFactor = 1;
+GMAT ET_9.DecrementMass = true;
+GMAT ET_9.Tank = {ElectricTank1};
+GMAT ET_9.MixRatio = [ 1 ];
+GMAT ET_9.GravitationalAccel = 9.81;
+GMAT ET_9.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_9.MaximumUsablePower = 7.266;
+GMAT ET_9.MinimumUsablePower = 0.638;
+GMAT ET_9.ThrustCoeff1 = -5.19082;
+GMAT ET_9.ThrustCoeff2 = 2.96519;
+GMAT ET_9.ThrustCoeff3 = -14.4789;
+GMAT ET_9.ThrustCoeff4 = 54.05382;
+GMAT ET_9.ThrustCoeff5 = -0.00100092;
+GMAT ET_9.MassFlowCoeff1 = -0.004776;
+GMAT ET_9.MassFlowCoeff2 = 0.05717;
+GMAT ET_9.MassFlowCoeff3 = -0.09956;
+GMAT ET_9.MassFlowCoeff4 = 0.03211;
+GMAT ET_9.MassFlowCoeff5 = 2.13781;
+GMAT ET_9.FixedEfficiency = 0.7;
+GMAT ET_9.Isp = 2800;
+GMAT ET_9.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_10;
+GMAT ET_10.CoordinateSystem = SunICRF;
+GMAT ET_10.ThrustDirection1 = 1;
+GMAT ET_10.ThrustDirection2 = 0;
+GMAT ET_10.ThrustDirection3 = 0;
+GMAT ET_10.DutyCycle = 1;
+GMAT ET_10.ThrustScaleFactor = 1;
+GMAT ET_10.DecrementMass = true;
+GMAT ET_10.Tank = {ElectricTank1};
+GMAT ET_10.MixRatio = [ 1 ];
+GMAT ET_10.GravitationalAccel = 9.81;
+GMAT ET_10.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_10.MaximumUsablePower = 7.266;
+GMAT ET_10.MinimumUsablePower = 0.638;
+GMAT ET_10.ThrustCoeff1 = -5.19082;
+GMAT ET_10.ThrustCoeff2 = 2.96519;
+GMAT ET_10.ThrustCoeff3 = -14.4789;
+GMAT ET_10.ThrustCoeff4 = 54.05382;
+GMAT ET_10.ThrustCoeff5 = -0.00100092;
+GMAT ET_10.MassFlowCoeff1 = -0.004776;
+GMAT ET_10.MassFlowCoeff2 = 0.05717;
+GMAT ET_10.MassFlowCoeff3 = -0.09956;
+GMAT ET_10.MassFlowCoeff4 = 0.03211;
+GMAT ET_10.MassFlowCoeff5 = 2.13781;
+GMAT ET_10.FixedEfficiency = 0.7;
+GMAT ET_10.Isp = 2800;
+GMAT ET_10.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_11;
+GMAT ET_11.CoordinateSystem = SunICRF;
+GMAT ET_11.ThrustDirection1 = 1;
+GMAT ET_11.ThrustDirection2 = 0;
+GMAT ET_11.ThrustDirection3 = 0;
+GMAT ET_11.DutyCycle = 1;
+GMAT ET_11.ThrustScaleFactor = 1;
+GMAT ET_11.DecrementMass = true;
+GMAT ET_11.Tank = {ElectricTank1};
+GMAT ET_11.MixRatio = [ 1 ];
+GMAT ET_11.GravitationalAccel = 9.81;
+GMAT ET_11.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_11.MaximumUsablePower = 7.266;
+GMAT ET_11.MinimumUsablePower = 0.638;
+GMAT ET_11.ThrustCoeff1 = -5.19082;
+GMAT ET_11.ThrustCoeff2 = 2.96519;
+GMAT ET_11.ThrustCoeff3 = -14.4789;
+GMAT ET_11.ThrustCoeff4 = 54.05382;
+GMAT ET_11.ThrustCoeff5 = -0.00100092;
+GMAT ET_11.MassFlowCoeff1 = -0.004776;
+GMAT ET_11.MassFlowCoeff2 = 0.05717;
+GMAT ET_11.MassFlowCoeff3 = -0.09956;
+GMAT ET_11.MassFlowCoeff4 = 0.03211;
+GMAT ET_11.MassFlowCoeff5 = 2.13781;
+GMAT ET_11.FixedEfficiency = 0.7;
+GMAT ET_11.Isp = 2800;
+GMAT ET_11.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_12;
+GMAT ET_12.CoordinateSystem = SunICRF;
+GMAT ET_12.ThrustDirection1 = 1;
+GMAT ET_12.ThrustDirection2 = 0;
+GMAT ET_12.ThrustDirection3 = 0;
+GMAT ET_12.DutyCycle = 1;
+GMAT ET_12.ThrustScaleFactor = 1;
+GMAT ET_12.DecrementMass = true;
+GMAT ET_12.Tank = {ElectricTank1};
+GMAT ET_12.MixRatio = [ 1 ];
+GMAT ET_12.GravitationalAccel = 9.81;
+GMAT ET_12.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_12.MaximumUsablePower = 7.266;
+GMAT ET_12.MinimumUsablePower = 0.638;
+GMAT ET_12.ThrustCoeff1 = -5.19082;
+GMAT ET_12.ThrustCoeff2 = 2.96519;
+GMAT ET_12.ThrustCoeff3 = -14.4789;
+GMAT ET_12.ThrustCoeff4 = 54.05382;
+GMAT ET_12.ThrustCoeff5 = -0.00100092;
+GMAT ET_12.MassFlowCoeff1 = -0.004776;
+GMAT ET_12.MassFlowCoeff2 = 0.05717;
+GMAT ET_12.MassFlowCoeff3 = -0.09956;
+GMAT ET_12.MassFlowCoeff4 = 0.03211;
+GMAT ET_12.MassFlowCoeff5 = 2.13781;
+GMAT ET_12.FixedEfficiency = 0.7;
+GMAT ET_12.Isp = 2800;
+GMAT ET_12.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_13;
+GMAT ET_13.CoordinateSystem = SunICRF;
+GMAT ET_13.ThrustDirection1 = 1;
+GMAT ET_13.ThrustDirection2 = 0;
+GMAT ET_13.ThrustDirection3 = 0;
+GMAT ET_13.DutyCycle = 1;
+GMAT ET_13.ThrustScaleFactor = 1;
+GMAT ET_13.DecrementMass = true;
+GMAT ET_13.Tank = {ElectricTank1};
+GMAT ET_13.MixRatio = [ 1 ];
+GMAT ET_13.GravitationalAccel = 9.81;
+GMAT ET_13.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_13.MaximumUsablePower = 7.266;
+GMAT ET_13.MinimumUsablePower = 0.638;
+GMAT ET_13.ThrustCoeff1 = -5.19082;
+GMAT ET_13.ThrustCoeff2 = 2.96519;
+GMAT ET_13.ThrustCoeff3 = -14.4789;
+GMAT ET_13.ThrustCoeff4 = 54.05382;
+GMAT ET_13.ThrustCoeff5 = -0.00100092;
+GMAT ET_13.MassFlowCoeff1 = -0.004776;
+GMAT ET_13.MassFlowCoeff2 = 0.05717;
+GMAT ET_13.MassFlowCoeff3 = -0.09956;
+GMAT ET_13.MassFlowCoeff4 = 0.03211;
+GMAT ET_13.MassFlowCoeff5 = 2.13781;
+GMAT ET_13.FixedEfficiency = 0.7;
+GMAT ET_13.Isp = 2800;
+GMAT ET_13.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_14;
+GMAT ET_14.CoordinateSystem = SunICRF;
+GMAT ET_14.ThrustDirection1 = 1;
+GMAT ET_14.ThrustDirection2 = 0;
+GMAT ET_14.ThrustDirection3 = 0;
+GMAT ET_14.DutyCycle = 1;
+GMAT ET_14.ThrustScaleFactor = 1;
+GMAT ET_14.DecrementMass = true;
+GMAT ET_14.Tank = {ElectricTank1};
+GMAT ET_14.MixRatio = [ 1 ];
+GMAT ET_14.GravitationalAccel = 9.81;
+GMAT ET_14.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_14.MaximumUsablePower = 7.266;
+GMAT ET_14.MinimumUsablePower = 0.638;
+GMAT ET_14.ThrustCoeff1 = -5.19082;
+GMAT ET_14.ThrustCoeff2 = 2.96519;
+GMAT ET_14.ThrustCoeff3 = -14.4789;
+GMAT ET_14.ThrustCoeff4 = 54.05382;
+GMAT ET_14.ThrustCoeff5 = -0.00100092;
+GMAT ET_14.MassFlowCoeff1 = -0.004776;
+GMAT ET_14.MassFlowCoeff2 = 0.05717;
+GMAT ET_14.MassFlowCoeff3 = -0.09956;
+GMAT ET_14.MassFlowCoeff4 = 0.03211;
+GMAT ET_14.MassFlowCoeff5 = 2.13781;
+GMAT ET_14.FixedEfficiency = 0.7;
+GMAT ET_14.Isp = 2800;
+GMAT ET_14.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_15;
+GMAT ET_15.CoordinateSystem = SunICRF;
+GMAT ET_15.ThrustDirection1 = 1;
+GMAT ET_15.ThrustDirection2 = 0;
+GMAT ET_15.ThrustDirection3 = 0;
+GMAT ET_15.DutyCycle = 1;
+GMAT ET_15.ThrustScaleFactor = 1;
+GMAT ET_15.DecrementMass = true;
+GMAT ET_15.Tank = {ElectricTank1};
+GMAT ET_15.MixRatio = [ 1 ];
+GMAT ET_15.GravitationalAccel = 9.81;
+GMAT ET_15.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_15.MaximumUsablePower = 7.266;
+GMAT ET_15.MinimumUsablePower = 0.638;
+GMAT ET_15.ThrustCoeff1 = -5.19082;
+GMAT ET_15.ThrustCoeff2 = 2.96519;
+GMAT ET_15.ThrustCoeff3 = -14.4789;
+GMAT ET_15.ThrustCoeff4 = 54.05382;
+GMAT ET_15.ThrustCoeff5 = -0.00100092;
+GMAT ET_15.MassFlowCoeff1 = -0.004776;
+GMAT ET_15.MassFlowCoeff2 = 0.05717;
+GMAT ET_15.MassFlowCoeff3 = -0.09956;
+GMAT ET_15.MassFlowCoeff4 = 0.03211;
+GMAT ET_15.MassFlowCoeff5 = 2.13781;
+GMAT ET_15.FixedEfficiency = 0.7;
+GMAT ET_15.Isp = 2800;
+GMAT ET_15.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_16;
+GMAT ET_16.CoordinateSystem = SunICRF;
+GMAT ET_16.ThrustDirection1 = 1;
+GMAT ET_16.ThrustDirection2 = 0;
+GMAT ET_16.ThrustDirection3 = 0;
+GMAT ET_16.DutyCycle = 1;
+GMAT ET_16.ThrustScaleFactor = 1;
+GMAT ET_16.DecrementMass = true;
+GMAT ET_16.Tank = {ElectricTank1};
+GMAT ET_16.MixRatio = [ 1 ];
+GMAT ET_16.GravitationalAccel = 9.81;
+GMAT ET_16.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_16.MaximumUsablePower = 7.266;
+GMAT ET_16.MinimumUsablePower = 0.638;
+GMAT ET_16.ThrustCoeff1 = -5.19082;
+GMAT ET_16.ThrustCoeff2 = 2.96519;
+GMAT ET_16.ThrustCoeff3 = -14.4789;
+GMAT ET_16.ThrustCoeff4 = 54.05382;
+GMAT ET_16.ThrustCoeff5 = -0.00100092;
+GMAT ET_16.MassFlowCoeff1 = -0.004776;
+GMAT ET_16.MassFlowCoeff2 = 0.05717;
+GMAT ET_16.MassFlowCoeff3 = -0.09956;
+GMAT ET_16.MassFlowCoeff4 = 0.03211;
+GMAT ET_16.MassFlowCoeff5 = 2.13781;
+GMAT ET_16.FixedEfficiency = 0.7;
+GMAT ET_16.Isp = 2800;
+GMAT ET_16.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_17;
+GMAT ET_17.CoordinateSystem = SunICRF;
+GMAT ET_17.ThrustDirection1 = 1;
+GMAT ET_17.ThrustDirection2 = 0;
+GMAT ET_17.ThrustDirection3 = 0;
+GMAT ET_17.DutyCycle = 1;
+GMAT ET_17.ThrustScaleFactor = 1;
+GMAT ET_17.DecrementMass = true;
+GMAT ET_17.Tank = {ElectricTank1};
+GMAT ET_17.MixRatio = [ 1 ];
+GMAT ET_17.GravitationalAccel = 9.81;
+GMAT ET_17.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_17.MaximumUsablePower = 7.266;
+GMAT ET_17.MinimumUsablePower = 0.638;
+GMAT ET_17.ThrustCoeff1 = -5.19082;
+GMAT ET_17.ThrustCoeff2 = 2.96519;
+GMAT ET_17.ThrustCoeff3 = -14.4789;
+GMAT ET_17.ThrustCoeff4 = 54.05382;
+GMAT ET_17.ThrustCoeff5 = -0.00100092;
+GMAT ET_17.MassFlowCoeff1 = -0.004776;
+GMAT ET_17.MassFlowCoeff2 = 0.05717;
+GMAT ET_17.MassFlowCoeff3 = -0.09956;
+GMAT ET_17.MassFlowCoeff4 = 0.03211;
+GMAT ET_17.MassFlowCoeff5 = 2.13781;
+GMAT ET_17.FixedEfficiency = 0.7;
+GMAT ET_17.Isp = 2800;
+GMAT ET_17.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_18;
+GMAT ET_18.CoordinateSystem = SunICRF;
+GMAT ET_18.ThrustDirection1 = 1;
+GMAT ET_18.ThrustDirection2 = 0;
+GMAT ET_18.ThrustDirection3 = 0;
+GMAT ET_18.DutyCycle = 1;
+GMAT ET_18.ThrustScaleFactor = 1;
+GMAT ET_18.DecrementMass = true;
+GMAT ET_18.Tank = {ElectricTank1};
+GMAT ET_18.MixRatio = [ 1 ];
+GMAT ET_18.GravitationalAccel = 9.81;
+GMAT ET_18.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_18.MaximumUsablePower = 7.266;
+GMAT ET_18.MinimumUsablePower = 0.638;
+GMAT ET_18.ThrustCoeff1 = -5.19082;
+GMAT ET_18.ThrustCoeff2 = 2.96519;
+GMAT ET_18.ThrustCoeff3 = -14.4789;
+GMAT ET_18.ThrustCoeff4 = 54.05382;
+GMAT ET_18.ThrustCoeff5 = -0.00100092;
+GMAT ET_18.MassFlowCoeff1 = -0.004776;
+GMAT ET_18.MassFlowCoeff2 = 0.05717;
+GMAT ET_18.MassFlowCoeff3 = -0.09956;
+GMAT ET_18.MassFlowCoeff4 = 0.03211;
+GMAT ET_18.MassFlowCoeff5 = 2.13781;
+GMAT ET_18.FixedEfficiency = 0.7;
+GMAT ET_18.Isp = 2800;
+GMAT ET_18.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_19;
+GMAT ET_19.CoordinateSystem = SunICRF;
+GMAT ET_19.ThrustDirection1 = 1;
+GMAT ET_19.ThrustDirection2 = 0;
+GMAT ET_19.ThrustDirection3 = 0;
+GMAT ET_19.DutyCycle = 1;
+GMAT ET_19.ThrustScaleFactor = 1;
+GMAT ET_19.DecrementMass = true;
+GMAT ET_19.Tank = {ElectricTank1};
+GMAT ET_19.MixRatio = [ 1 ];
+GMAT ET_19.GravitationalAccel = 9.81;
+GMAT ET_19.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_19.MaximumUsablePower = 7.266;
+GMAT ET_19.MinimumUsablePower = 0.638;
+GMAT ET_19.ThrustCoeff1 = -5.19082;
+GMAT ET_19.ThrustCoeff2 = 2.96519;
+GMAT ET_19.ThrustCoeff3 = -14.4789;
+GMAT ET_19.ThrustCoeff4 = 54.05382;
+GMAT ET_19.ThrustCoeff5 = -0.00100092;
+GMAT ET_19.MassFlowCoeff1 = -0.004776;
+GMAT ET_19.MassFlowCoeff2 = 0.05717;
+GMAT ET_19.MassFlowCoeff3 = -0.09956;
+GMAT ET_19.MassFlowCoeff4 = 0.03211;
+GMAT ET_19.MassFlowCoeff5 = 2.13781;
+GMAT ET_19.FixedEfficiency = 0.7;
+GMAT ET_19.Isp = 2800;
+GMAT ET_19.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_20;
+GMAT ET_20.CoordinateSystem = SunICRF;
+GMAT ET_20.ThrustDirection1 = 1;
+GMAT ET_20.ThrustDirection2 = 0;
+GMAT ET_20.ThrustDirection3 = 0;
+GMAT ET_20.DutyCycle = 1;
+GMAT ET_20.ThrustScaleFactor = 1;
+GMAT ET_20.DecrementMass = true;
+GMAT ET_20.Tank = {ElectricTank1};
+GMAT ET_20.MixRatio = [ 1 ];
+GMAT ET_20.GravitationalAccel = 9.81;
+GMAT ET_20.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_20.MaximumUsablePower = 7.266;
+GMAT ET_20.MinimumUsablePower = 0.638;
+GMAT ET_20.ThrustCoeff1 = -5.19082;
+GMAT ET_20.ThrustCoeff2 = 2.96519;
+GMAT ET_20.ThrustCoeff3 = -14.4789;
+GMAT ET_20.ThrustCoeff4 = 54.05382;
+GMAT ET_20.ThrustCoeff5 = -0.00100092;
+GMAT ET_20.MassFlowCoeff1 = -0.004776;
+GMAT ET_20.MassFlowCoeff2 = 0.05717;
+GMAT ET_20.MassFlowCoeff3 = -0.09956;
+GMAT ET_20.MassFlowCoeff4 = 0.03211;
+GMAT ET_20.MassFlowCoeff5 = 2.13781;
+GMAT ET_20.FixedEfficiency = 0.7;
+GMAT ET_20.Isp = 2800;
+GMAT ET_20.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_21;
+GMAT ET_21.CoordinateSystem = SunICRF;
+GMAT ET_21.ThrustDirection1 = 1;
+GMAT ET_21.ThrustDirection2 = 0;
+GMAT ET_21.ThrustDirection3 = 0;
+GMAT ET_21.DutyCycle = 1;
+GMAT ET_21.ThrustScaleFactor = 1;
+GMAT ET_21.DecrementMass = true;
+GMAT ET_21.Tank = {ElectricTank1};
+GMAT ET_21.MixRatio = [ 1 ];
+GMAT ET_21.GravitationalAccel = 9.81;
+GMAT ET_21.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_21.MaximumUsablePower = 7.266;
+GMAT ET_21.MinimumUsablePower = 0.638;
+GMAT ET_21.ThrustCoeff1 = -5.19082;
+GMAT ET_21.ThrustCoeff2 = 2.96519;
+GMAT ET_21.ThrustCoeff3 = -14.4789;
+GMAT ET_21.ThrustCoeff4 = 54.05382;
+GMAT ET_21.ThrustCoeff5 = -0.00100092;
+GMAT ET_21.MassFlowCoeff1 = -0.004776;
+GMAT ET_21.MassFlowCoeff2 = 0.05717;
+GMAT ET_21.MassFlowCoeff3 = -0.09956;
+GMAT ET_21.MassFlowCoeff4 = 0.03211;
+GMAT ET_21.MassFlowCoeff5 = 2.13781;
+GMAT ET_21.FixedEfficiency = 0.7;
+GMAT ET_21.Isp = 2800;
+GMAT ET_21.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_22;
+GMAT ET_22.CoordinateSystem = SunICRF;
+GMAT ET_22.ThrustDirection1 = 1;
+GMAT ET_22.ThrustDirection2 = 0;
+GMAT ET_22.ThrustDirection3 = 0;
+GMAT ET_22.DutyCycle = 1;
+GMAT ET_22.ThrustScaleFactor = 1;
+GMAT ET_22.DecrementMass = true;
+GMAT ET_22.Tank = {ElectricTank1};
+GMAT ET_22.MixRatio = [ 1 ];
+GMAT ET_22.GravitationalAccel = 9.81;
+GMAT ET_22.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_22.MaximumUsablePower = 7.266;
+GMAT ET_22.MinimumUsablePower = 0.638;
+GMAT ET_22.ThrustCoeff1 = -5.19082;
+GMAT ET_22.ThrustCoeff2 = 2.96519;
+GMAT ET_22.ThrustCoeff3 = -14.4789;
+GMAT ET_22.ThrustCoeff4 = 54.05382;
+GMAT ET_22.ThrustCoeff5 = -0.00100092;
+GMAT ET_22.MassFlowCoeff1 = -0.004776;
+GMAT ET_22.MassFlowCoeff2 = 0.05717;
+GMAT ET_22.MassFlowCoeff3 = -0.09956;
+GMAT ET_22.MassFlowCoeff4 = 0.03211;
+GMAT ET_22.MassFlowCoeff5 = 2.13781;
+GMAT ET_22.FixedEfficiency = 0.7;
+GMAT ET_22.Isp = 2800;
+GMAT ET_22.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_23;
+GMAT ET_23.CoordinateSystem = SunICRF;
+GMAT ET_23.ThrustDirection1 = 1;
+GMAT ET_23.ThrustDirection2 = 0;
+GMAT ET_23.ThrustDirection3 = 0;
+GMAT ET_23.DutyCycle = 1;
+GMAT ET_23.ThrustScaleFactor = 1;
+GMAT ET_23.DecrementMass = true;
+GMAT ET_23.Tank = {ElectricTank1};
+GMAT ET_23.MixRatio = [ 1 ];
+GMAT ET_23.GravitationalAccel = 9.81;
+GMAT ET_23.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_23.MaximumUsablePower = 7.266;
+GMAT ET_23.MinimumUsablePower = 0.638;
+GMAT ET_23.ThrustCoeff1 = -5.19082;
+GMAT ET_23.ThrustCoeff2 = 2.96519;
+GMAT ET_23.ThrustCoeff3 = -14.4789;
+GMAT ET_23.ThrustCoeff4 = 54.05382;
+GMAT ET_23.ThrustCoeff5 = -0.00100092;
+GMAT ET_23.MassFlowCoeff1 = -0.004776;
+GMAT ET_23.MassFlowCoeff2 = 0.05717;
+GMAT ET_23.MassFlowCoeff3 = -0.09956;
+GMAT ET_23.MassFlowCoeff4 = 0.03211;
+GMAT ET_23.MassFlowCoeff5 = 2.13781;
+GMAT ET_23.FixedEfficiency = 0.7;
+GMAT ET_23.Isp = 2800;
+GMAT ET_23.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_24;
+GMAT ET_24.CoordinateSystem = SunICRF;
+GMAT ET_24.ThrustDirection1 = 1;
+GMAT ET_24.ThrustDirection2 = 0;
+GMAT ET_24.ThrustDirection3 = 0;
+GMAT ET_24.DutyCycle = 1;
+GMAT ET_24.ThrustScaleFactor = 1;
+GMAT ET_24.DecrementMass = true;
+GMAT ET_24.Tank = {ElectricTank1};
+GMAT ET_24.MixRatio = [ 1 ];
+GMAT ET_24.GravitationalAccel = 9.81;
+GMAT ET_24.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_24.MaximumUsablePower = 7.266;
+GMAT ET_24.MinimumUsablePower = 0.638;
+GMAT ET_24.ThrustCoeff1 = -5.19082;
+GMAT ET_24.ThrustCoeff2 = 2.96519;
+GMAT ET_24.ThrustCoeff3 = -14.4789;
+GMAT ET_24.ThrustCoeff4 = 54.05382;
+GMAT ET_24.ThrustCoeff5 = -0.00100092;
+GMAT ET_24.MassFlowCoeff1 = -0.004776;
+GMAT ET_24.MassFlowCoeff2 = 0.05717;
+GMAT ET_24.MassFlowCoeff3 = -0.09956;
+GMAT ET_24.MassFlowCoeff4 = 0.03211;
+GMAT ET_24.MassFlowCoeff5 = 2.13781;
+GMAT ET_24.FixedEfficiency = 0.7;
+GMAT ET_24.Isp = 2800;
+GMAT ET_24.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_25;
+GMAT ET_25.CoordinateSystem = SunICRF;
+GMAT ET_25.ThrustDirection1 = 1;
+GMAT ET_25.ThrustDirection2 = 0;
+GMAT ET_25.ThrustDirection3 = 0;
+GMAT ET_25.DutyCycle = 1;
+GMAT ET_25.ThrustScaleFactor = 1;
+GMAT ET_25.DecrementMass = true;
+GMAT ET_25.Tank = {ElectricTank1};
+GMAT ET_25.MixRatio = [ 1 ];
+GMAT ET_25.GravitationalAccel = 9.81;
+GMAT ET_25.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_25.MaximumUsablePower = 7.266;
+GMAT ET_25.MinimumUsablePower = 0.638;
+GMAT ET_25.ThrustCoeff1 = -5.19082;
+GMAT ET_25.ThrustCoeff2 = 2.96519;
+GMAT ET_25.ThrustCoeff3 = -14.4789;
+GMAT ET_25.ThrustCoeff4 = 54.05382;
+GMAT ET_25.ThrustCoeff5 = -0.00100092;
+GMAT ET_25.MassFlowCoeff1 = -0.004776;
+GMAT ET_25.MassFlowCoeff2 = 0.05717;
+GMAT ET_25.MassFlowCoeff3 = -0.09956;
+GMAT ET_25.MassFlowCoeff4 = 0.03211;
+GMAT ET_25.MassFlowCoeff5 = 2.13781;
+GMAT ET_25.FixedEfficiency = 0.7;
+GMAT ET_25.Isp = 2800;
+GMAT ET_25.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_26;
+GMAT ET_26.CoordinateSystem = SunICRF;
+GMAT ET_26.ThrustDirection1 = 1;
+GMAT ET_26.ThrustDirection2 = 0;
+GMAT ET_26.ThrustDirection3 = 0;
+GMAT ET_26.DutyCycle = 1;
+GMAT ET_26.ThrustScaleFactor = 1;
+GMAT ET_26.DecrementMass = true;
+GMAT ET_26.Tank = {ElectricTank1};
+GMAT ET_26.MixRatio = [ 1 ];
+GMAT ET_26.GravitationalAccel = 9.81;
+GMAT ET_26.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_26.MaximumUsablePower = 7.266;
+GMAT ET_26.MinimumUsablePower = 0.638;
+GMAT ET_26.ThrustCoeff1 = -5.19082;
+GMAT ET_26.ThrustCoeff2 = 2.96519;
+GMAT ET_26.ThrustCoeff3 = -14.4789;
+GMAT ET_26.ThrustCoeff4 = 54.05382;
+GMAT ET_26.ThrustCoeff5 = -0.00100092;
+GMAT ET_26.MassFlowCoeff1 = -0.004776;
+GMAT ET_26.MassFlowCoeff2 = 0.05717;
+GMAT ET_26.MassFlowCoeff3 = -0.09956;
+GMAT ET_26.MassFlowCoeff4 = 0.03211;
+GMAT ET_26.MassFlowCoeff5 = 2.13781;
+GMAT ET_26.FixedEfficiency = 0.7;
+GMAT ET_26.Isp = 2800;
+GMAT ET_26.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_27;
+GMAT ET_27.CoordinateSystem = SunICRF;
+GMAT ET_27.ThrustDirection1 = 1;
+GMAT ET_27.ThrustDirection2 = 0;
+GMAT ET_27.ThrustDirection3 = 0;
+GMAT ET_27.DutyCycle = 1;
+GMAT ET_27.ThrustScaleFactor = 1;
+GMAT ET_27.DecrementMass = true;
+GMAT ET_27.Tank = {ElectricTank1};
+GMAT ET_27.MixRatio = [ 1 ];
+GMAT ET_27.GravitationalAccel = 9.81;
+GMAT ET_27.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_27.MaximumUsablePower = 7.266;
+GMAT ET_27.MinimumUsablePower = 0.638;
+GMAT ET_27.ThrustCoeff1 = -5.19082;
+GMAT ET_27.ThrustCoeff2 = 2.96519;
+GMAT ET_27.ThrustCoeff3 = -14.4789;
+GMAT ET_27.ThrustCoeff4 = 54.05382;
+GMAT ET_27.ThrustCoeff5 = -0.00100092;
+GMAT ET_27.MassFlowCoeff1 = -0.004776;
+GMAT ET_27.MassFlowCoeff2 = 0.05717;
+GMAT ET_27.MassFlowCoeff3 = -0.09956;
+GMAT ET_27.MassFlowCoeff4 = 0.03211;
+GMAT ET_27.MassFlowCoeff5 = 2.13781;
+GMAT ET_27.FixedEfficiency = 0.7;
+GMAT ET_27.Isp = 2800;
+GMAT ET_27.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_28;
+GMAT ET_28.CoordinateSystem = SunICRF;
+GMAT ET_28.ThrustDirection1 = 1;
+GMAT ET_28.ThrustDirection2 = 0;
+GMAT ET_28.ThrustDirection3 = 0;
+GMAT ET_28.DutyCycle = 1;
+GMAT ET_28.ThrustScaleFactor = 1;
+GMAT ET_28.DecrementMass = true;
+GMAT ET_28.Tank = {ElectricTank1};
+GMAT ET_28.MixRatio = [ 1 ];
+GMAT ET_28.GravitationalAccel = 9.81;
+GMAT ET_28.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_28.MaximumUsablePower = 7.266;
+GMAT ET_28.MinimumUsablePower = 0.638;
+GMAT ET_28.ThrustCoeff1 = -5.19082;
+GMAT ET_28.ThrustCoeff2 = 2.96519;
+GMAT ET_28.ThrustCoeff3 = -14.4789;
+GMAT ET_28.ThrustCoeff4 = 54.05382;
+GMAT ET_28.ThrustCoeff5 = -0.00100092;
+GMAT ET_28.MassFlowCoeff1 = -0.004776;
+GMAT ET_28.MassFlowCoeff2 = 0.05717;
+GMAT ET_28.MassFlowCoeff3 = -0.09956;
+GMAT ET_28.MassFlowCoeff4 = 0.03211;
+GMAT ET_28.MassFlowCoeff5 = 2.13781;
+GMAT ET_28.FixedEfficiency = 0.7;
+GMAT ET_28.Isp = 2800;
+GMAT ET_28.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_29;
+GMAT ET_29.CoordinateSystem = SunICRF;
+GMAT ET_29.ThrustDirection1 = 1;
+GMAT ET_29.ThrustDirection2 = 0;
+GMAT ET_29.ThrustDirection3 = 0;
+GMAT ET_29.DutyCycle = 1;
+GMAT ET_29.ThrustScaleFactor = 1;
+GMAT ET_29.DecrementMass = true;
+GMAT ET_29.Tank = {ElectricTank1};
+GMAT ET_29.MixRatio = [ 1 ];
+GMAT ET_29.GravitationalAccel = 9.81;
+GMAT ET_29.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_29.MaximumUsablePower = 7.266;
+GMAT ET_29.MinimumUsablePower = 0.638;
+GMAT ET_29.ThrustCoeff1 = -5.19082;
+GMAT ET_29.ThrustCoeff2 = 2.96519;
+GMAT ET_29.ThrustCoeff3 = -14.4789;
+GMAT ET_29.ThrustCoeff4 = 54.05382;
+GMAT ET_29.ThrustCoeff5 = -0.00100092;
+GMAT ET_29.MassFlowCoeff1 = -0.004776;
+GMAT ET_29.MassFlowCoeff2 = 0.05717;
+GMAT ET_29.MassFlowCoeff3 = -0.09956;
+GMAT ET_29.MassFlowCoeff4 = 0.03211;
+GMAT ET_29.MassFlowCoeff5 = 2.13781;
+GMAT ET_29.FixedEfficiency = 0.7;
+GMAT ET_29.Isp = 2800;
+GMAT ET_29.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_30;
+GMAT ET_30.CoordinateSystem = SunICRF;
+GMAT ET_30.ThrustDirection1 = 1;
+GMAT ET_30.ThrustDirection2 = 0;
+GMAT ET_30.ThrustDirection3 = 0;
+GMAT ET_30.DutyCycle = 1;
+GMAT ET_30.ThrustScaleFactor = 1;
+GMAT ET_30.DecrementMass = true;
+GMAT ET_30.Tank = {ElectricTank1};
+GMAT ET_30.MixRatio = [ 1 ];
+GMAT ET_30.GravitationalAccel = 9.81;
+GMAT ET_30.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_30.MaximumUsablePower = 7.266;
+GMAT ET_30.MinimumUsablePower = 0.638;
+GMAT ET_30.ThrustCoeff1 = -5.19082;
+GMAT ET_30.ThrustCoeff2 = 2.96519;
+GMAT ET_30.ThrustCoeff3 = -14.4789;
+GMAT ET_30.ThrustCoeff4 = 54.05382;
+GMAT ET_30.ThrustCoeff5 = -0.00100092;
+GMAT ET_30.MassFlowCoeff1 = -0.004776;
+GMAT ET_30.MassFlowCoeff2 = 0.05717;
+GMAT ET_30.MassFlowCoeff3 = -0.09956;
+GMAT ET_30.MassFlowCoeff4 = 0.03211;
+GMAT ET_30.MassFlowCoeff5 = 2.13781;
+GMAT ET_30.FixedEfficiency = 0.7;
+GMAT ET_30.Isp = 2800;
+GMAT ET_30.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_31;
+GMAT ET_31.CoordinateSystem = SunICRF;
+GMAT ET_31.ThrustDirection1 = 1;
+GMAT ET_31.ThrustDirection2 = 0;
+GMAT ET_31.ThrustDirection3 = 0;
+GMAT ET_31.DutyCycle = 1;
+GMAT ET_31.ThrustScaleFactor = 1;
+GMAT ET_31.DecrementMass = true;
+GMAT ET_31.Tank = {ElectricTank1};
+GMAT ET_31.MixRatio = [ 1 ];
+GMAT ET_31.GravitationalAccel = 9.81;
+GMAT ET_31.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_31.MaximumUsablePower = 7.266;
+GMAT ET_31.MinimumUsablePower = 0.638;
+GMAT ET_31.ThrustCoeff1 = -5.19082;
+GMAT ET_31.ThrustCoeff2 = 2.96519;
+GMAT ET_31.ThrustCoeff3 = -14.4789;
+GMAT ET_31.ThrustCoeff4 = 54.05382;
+GMAT ET_31.ThrustCoeff5 = -0.00100092;
+GMAT ET_31.MassFlowCoeff1 = -0.004776;
+GMAT ET_31.MassFlowCoeff2 = 0.05717;
+GMAT ET_31.MassFlowCoeff3 = -0.09956;
+GMAT ET_31.MassFlowCoeff4 = 0.03211;
+GMAT ET_31.MassFlowCoeff5 = 2.13781;
+GMAT ET_31.FixedEfficiency = 0.7;
+GMAT ET_31.Isp = 2800;
+GMAT ET_31.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_32;
+GMAT ET_32.CoordinateSystem = SunICRF;
+GMAT ET_32.ThrustDirection1 = 1;
+GMAT ET_32.ThrustDirection2 = 0;
+GMAT ET_32.ThrustDirection3 = 0;
+GMAT ET_32.DutyCycle = 1;
+GMAT ET_32.ThrustScaleFactor = 1;
+GMAT ET_32.DecrementMass = true;
+GMAT ET_32.Tank = {ElectricTank1};
+GMAT ET_32.MixRatio = [ 1 ];
+GMAT ET_32.GravitationalAccel = 9.81;
+GMAT ET_32.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_32.MaximumUsablePower = 7.266;
+GMAT ET_32.MinimumUsablePower = 0.638;
+GMAT ET_32.ThrustCoeff1 = -5.19082;
+GMAT ET_32.ThrustCoeff2 = 2.96519;
+GMAT ET_32.ThrustCoeff3 = -14.4789;
+GMAT ET_32.ThrustCoeff4 = 54.05382;
+GMAT ET_32.ThrustCoeff5 = -0.00100092;
+GMAT ET_32.MassFlowCoeff1 = -0.004776;
+GMAT ET_32.MassFlowCoeff2 = 0.05717;
+GMAT ET_32.MassFlowCoeff3 = -0.09956;
+GMAT ET_32.MassFlowCoeff4 = 0.03211;
+GMAT ET_32.MassFlowCoeff5 = 2.13781;
+GMAT ET_32.FixedEfficiency = 0.7;
+GMAT ET_32.Isp = 2800;
+GMAT ET_32.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_33;
+GMAT ET_33.CoordinateSystem = SunICRF;
+GMAT ET_33.ThrustDirection1 = 1;
+GMAT ET_33.ThrustDirection2 = 0;
+GMAT ET_33.ThrustDirection3 = 0;
+GMAT ET_33.DutyCycle = 1;
+GMAT ET_33.ThrustScaleFactor = 1;
+GMAT ET_33.DecrementMass = true;
+GMAT ET_33.Tank = {ElectricTank1};
+GMAT ET_33.MixRatio = [ 1 ];
+GMAT ET_33.GravitationalAccel = 9.81;
+GMAT ET_33.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_33.MaximumUsablePower = 7.266;
+GMAT ET_33.MinimumUsablePower = 0.638;
+GMAT ET_33.ThrustCoeff1 = -5.19082;
+GMAT ET_33.ThrustCoeff2 = 2.96519;
+GMAT ET_33.ThrustCoeff3 = -14.4789;
+GMAT ET_33.ThrustCoeff4 = 54.05382;
+GMAT ET_33.ThrustCoeff5 = -0.00100092;
+GMAT ET_33.MassFlowCoeff1 = -0.004776;
+GMAT ET_33.MassFlowCoeff2 = 0.05717;
+GMAT ET_33.MassFlowCoeff3 = -0.09956;
+GMAT ET_33.MassFlowCoeff4 = 0.03211;
+GMAT ET_33.MassFlowCoeff5 = 2.13781;
+GMAT ET_33.FixedEfficiency = 0.7;
+GMAT ET_33.Isp = 2800;
+GMAT ET_33.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_34;
+GMAT ET_34.CoordinateSystem = SunICRF;
+GMAT ET_34.ThrustDirection1 = 1;
+GMAT ET_34.ThrustDirection2 = 0;
+GMAT ET_34.ThrustDirection3 = 0;
+GMAT ET_34.DutyCycle = 1;
+GMAT ET_34.ThrustScaleFactor = 1;
+GMAT ET_34.DecrementMass = true;
+GMAT ET_34.Tank = {ElectricTank1};
+GMAT ET_34.MixRatio = [ 1 ];
+GMAT ET_34.GravitationalAccel = 9.81;
+GMAT ET_34.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_34.MaximumUsablePower = 7.266;
+GMAT ET_34.MinimumUsablePower = 0.638;
+GMAT ET_34.ThrustCoeff1 = -5.19082;
+GMAT ET_34.ThrustCoeff2 = 2.96519;
+GMAT ET_34.ThrustCoeff3 = -14.4789;
+GMAT ET_34.ThrustCoeff4 = 54.05382;
+GMAT ET_34.ThrustCoeff5 = -0.00100092;
+GMAT ET_34.MassFlowCoeff1 = -0.004776;
+GMAT ET_34.MassFlowCoeff2 = 0.05717;
+GMAT ET_34.MassFlowCoeff3 = -0.09956;
+GMAT ET_34.MassFlowCoeff4 = 0.03211;
+GMAT ET_34.MassFlowCoeff5 = 2.13781;
+GMAT ET_34.FixedEfficiency = 0.7;
+GMAT ET_34.Isp = 2800;
+GMAT ET_34.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_35;
+GMAT ET_35.CoordinateSystem = SunICRF;
+GMAT ET_35.ThrustDirection1 = 1;
+GMAT ET_35.ThrustDirection2 = 0;
+GMAT ET_35.ThrustDirection3 = 0;
+GMAT ET_35.DutyCycle = 1;
+GMAT ET_35.ThrustScaleFactor = 1;
+GMAT ET_35.DecrementMass = true;
+GMAT ET_35.Tank = {ElectricTank1};
+GMAT ET_35.MixRatio = [ 1 ];
+GMAT ET_35.GravitationalAccel = 9.81;
+GMAT ET_35.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_35.MaximumUsablePower = 7.266;
+GMAT ET_35.MinimumUsablePower = 0.638;
+GMAT ET_35.ThrustCoeff1 = -5.19082;
+GMAT ET_35.ThrustCoeff2 = 2.96519;
+GMAT ET_35.ThrustCoeff3 = -14.4789;
+GMAT ET_35.ThrustCoeff4 = 54.05382;
+GMAT ET_35.ThrustCoeff5 = -0.00100092;
+GMAT ET_35.MassFlowCoeff1 = -0.004776;
+GMAT ET_35.MassFlowCoeff2 = 0.05717;
+GMAT ET_35.MassFlowCoeff3 = -0.09956;
+GMAT ET_35.MassFlowCoeff4 = 0.03211;
+GMAT ET_35.MassFlowCoeff5 = 2.13781;
+GMAT ET_35.FixedEfficiency = 0.7;
+GMAT ET_35.Isp = 2800;
+GMAT ET_35.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_36;
+GMAT ET_36.CoordinateSystem = SunICRF;
+GMAT ET_36.ThrustDirection1 = 1;
+GMAT ET_36.ThrustDirection2 = 0;
+GMAT ET_36.ThrustDirection3 = 0;
+GMAT ET_36.DutyCycle = 1;
+GMAT ET_36.ThrustScaleFactor = 1;
+GMAT ET_36.DecrementMass = true;
+GMAT ET_36.Tank = {ElectricTank1};
+GMAT ET_36.MixRatio = [ 1 ];
+GMAT ET_36.GravitationalAccel = 9.81;
+GMAT ET_36.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_36.MaximumUsablePower = 7.266;
+GMAT ET_36.MinimumUsablePower = 0.638;
+GMAT ET_36.ThrustCoeff1 = -5.19082;
+GMAT ET_36.ThrustCoeff2 = 2.96519;
+GMAT ET_36.ThrustCoeff3 = -14.4789;
+GMAT ET_36.ThrustCoeff4 = 54.05382;
+GMAT ET_36.ThrustCoeff5 = -0.00100092;
+GMAT ET_36.MassFlowCoeff1 = -0.004776;
+GMAT ET_36.MassFlowCoeff2 = 0.05717;
+GMAT ET_36.MassFlowCoeff3 = -0.09956;
+GMAT ET_36.MassFlowCoeff4 = 0.03211;
+GMAT ET_36.MassFlowCoeff5 = 2.13781;
+GMAT ET_36.FixedEfficiency = 0.7;
+GMAT ET_36.Isp = 2800;
+GMAT ET_36.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_37;
+GMAT ET_37.CoordinateSystem = SunICRF;
+GMAT ET_37.ThrustDirection1 = 1;
+GMAT ET_37.ThrustDirection2 = 0;
+GMAT ET_37.ThrustDirection3 = 0;
+GMAT ET_37.DutyCycle = 1;
+GMAT ET_37.ThrustScaleFactor = 1;
+GMAT ET_37.DecrementMass = true;
+GMAT ET_37.Tank = {ElectricTank1};
+GMAT ET_37.MixRatio = [ 1 ];
+GMAT ET_37.GravitationalAccel = 9.81;
+GMAT ET_37.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_37.MaximumUsablePower = 7.266;
+GMAT ET_37.MinimumUsablePower = 0.638;
+GMAT ET_37.ThrustCoeff1 = -5.19082;
+GMAT ET_37.ThrustCoeff2 = 2.96519;
+GMAT ET_37.ThrustCoeff3 = -14.4789;
+GMAT ET_37.ThrustCoeff4 = 54.05382;
+GMAT ET_37.ThrustCoeff5 = -0.00100092;
+GMAT ET_37.MassFlowCoeff1 = -0.004776;
+GMAT ET_37.MassFlowCoeff2 = 0.05717;
+GMAT ET_37.MassFlowCoeff3 = -0.09956;
+GMAT ET_37.MassFlowCoeff4 = 0.03211;
+GMAT ET_37.MassFlowCoeff5 = 2.13781;
+GMAT ET_37.FixedEfficiency = 0.7;
+GMAT ET_37.Isp = 2800;
+GMAT ET_37.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_38;
+GMAT ET_38.CoordinateSystem = SunICRF;
+GMAT ET_38.ThrustDirection1 = 1;
+GMAT ET_38.ThrustDirection2 = 0;
+GMAT ET_38.ThrustDirection3 = 0;
+GMAT ET_38.DutyCycle = 1;
+GMAT ET_38.ThrustScaleFactor = 1;
+GMAT ET_38.DecrementMass = true;
+GMAT ET_38.Tank = {ElectricTank1};
+GMAT ET_38.MixRatio = [ 1 ];
+GMAT ET_38.GravitationalAccel = 9.81;
+GMAT ET_38.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_38.MaximumUsablePower = 7.266;
+GMAT ET_38.MinimumUsablePower = 0.638;
+GMAT ET_38.ThrustCoeff1 = -5.19082;
+GMAT ET_38.ThrustCoeff2 = 2.96519;
+GMAT ET_38.ThrustCoeff3 = -14.4789;
+GMAT ET_38.ThrustCoeff4 = 54.05382;
+GMAT ET_38.ThrustCoeff5 = -0.00100092;
+GMAT ET_38.MassFlowCoeff1 = -0.004776;
+GMAT ET_38.MassFlowCoeff2 = 0.05717;
+GMAT ET_38.MassFlowCoeff3 = -0.09956;
+GMAT ET_38.MassFlowCoeff4 = 0.03211;
+GMAT ET_38.MassFlowCoeff5 = 2.13781;
+GMAT ET_38.FixedEfficiency = 0.7;
+GMAT ET_38.Isp = 2800;
+GMAT ET_38.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_39;
+GMAT ET_39.CoordinateSystem = SunICRF;
+GMAT ET_39.ThrustDirection1 = 1;
+GMAT ET_39.ThrustDirection2 = 0;
+GMAT ET_39.ThrustDirection3 = 0;
+GMAT ET_39.DutyCycle = 1;
+GMAT ET_39.ThrustScaleFactor = 1;
+GMAT ET_39.DecrementMass = true;
+GMAT ET_39.Tank = {ElectricTank1};
+GMAT ET_39.MixRatio = [ 1 ];
+GMAT ET_39.GravitationalAccel = 9.81;
+GMAT ET_39.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_39.MaximumUsablePower = 7.266;
+GMAT ET_39.MinimumUsablePower = 0.638;
+GMAT ET_39.ThrustCoeff1 = -5.19082;
+GMAT ET_39.ThrustCoeff2 = 2.96519;
+GMAT ET_39.ThrustCoeff3 = -14.4789;
+GMAT ET_39.ThrustCoeff4 = 54.05382;
+GMAT ET_39.ThrustCoeff5 = -0.00100092;
+GMAT ET_39.MassFlowCoeff1 = -0.004776;
+GMAT ET_39.MassFlowCoeff2 = 0.05717;
+GMAT ET_39.MassFlowCoeff3 = -0.09956;
+GMAT ET_39.MassFlowCoeff4 = 0.03211;
+GMAT ET_39.MassFlowCoeff5 = 2.13781;
+GMAT ET_39.FixedEfficiency = 0.7;
+GMAT ET_39.Isp = 2800;
+GMAT ET_39.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_40;
+GMAT ET_40.CoordinateSystem = SunICRF;
+GMAT ET_40.ThrustDirection1 = 1;
+GMAT ET_40.ThrustDirection2 = 0;
+GMAT ET_40.ThrustDirection3 = 0;
+GMAT ET_40.DutyCycle = 1;
+GMAT ET_40.ThrustScaleFactor = 1;
+GMAT ET_40.DecrementMass = true;
+GMAT ET_40.Tank = {ElectricTank1};
+GMAT ET_40.MixRatio = [ 1 ];
+GMAT ET_40.GravitationalAccel = 9.81;
+GMAT ET_40.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_40.MaximumUsablePower = 7.266;
+GMAT ET_40.MinimumUsablePower = 0.638;
+GMAT ET_40.ThrustCoeff1 = -5.19082;
+GMAT ET_40.ThrustCoeff2 = 2.96519;
+GMAT ET_40.ThrustCoeff3 = -14.4789;
+GMAT ET_40.ThrustCoeff4 = 54.05382;
+GMAT ET_40.ThrustCoeff5 = -0.00100092;
+GMAT ET_40.MassFlowCoeff1 = -0.004776;
+GMAT ET_40.MassFlowCoeff2 = 0.05717;
+GMAT ET_40.MassFlowCoeff3 = -0.09956;
+GMAT ET_40.MassFlowCoeff4 = 0.03211;
+GMAT ET_40.MassFlowCoeff5 = 2.13781;
+GMAT ET_40.FixedEfficiency = 0.7;
+GMAT ET_40.Isp = 2800;
+GMAT ET_40.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_41;
+GMAT ET_41.CoordinateSystem = SunICRF;
+GMAT ET_41.ThrustDirection1 = 1;
+GMAT ET_41.ThrustDirection2 = 0;
+GMAT ET_41.ThrustDirection3 = 0;
+GMAT ET_41.DutyCycle = 1;
+GMAT ET_41.ThrustScaleFactor = 1;
+GMAT ET_41.DecrementMass = true;
+GMAT ET_41.Tank = {ElectricTank1};
+GMAT ET_41.MixRatio = [ 1 ];
+GMAT ET_41.GravitationalAccel = 9.81;
+GMAT ET_41.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_41.MaximumUsablePower = 7.266;
+GMAT ET_41.MinimumUsablePower = 0.638;
+GMAT ET_41.ThrustCoeff1 = -5.19082;
+GMAT ET_41.ThrustCoeff2 = 2.96519;
+GMAT ET_41.ThrustCoeff3 = -14.4789;
+GMAT ET_41.ThrustCoeff4 = 54.05382;
+GMAT ET_41.ThrustCoeff5 = -0.00100092;
+GMAT ET_41.MassFlowCoeff1 = -0.004776;
+GMAT ET_41.MassFlowCoeff2 = 0.05717;
+GMAT ET_41.MassFlowCoeff3 = -0.09956;
+GMAT ET_41.MassFlowCoeff4 = 0.03211;
+GMAT ET_41.MassFlowCoeff5 = 2.13781;
+GMAT ET_41.FixedEfficiency = 0.7;
+GMAT ET_41.Isp = 2800;
+GMAT ET_41.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_42;
+GMAT ET_42.CoordinateSystem = SunICRF;
+GMAT ET_42.ThrustDirection1 = 1;
+GMAT ET_42.ThrustDirection2 = 0;
+GMAT ET_42.ThrustDirection3 = 0;
+GMAT ET_42.DutyCycle = 1;
+GMAT ET_42.ThrustScaleFactor = 1;
+GMAT ET_42.DecrementMass = true;
+GMAT ET_42.Tank = {ElectricTank1};
+GMAT ET_42.MixRatio = [ 1 ];
+GMAT ET_42.GravitationalAccel = 9.81;
+GMAT ET_42.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_42.MaximumUsablePower = 7.266;
+GMAT ET_42.MinimumUsablePower = 0.638;
+GMAT ET_42.ThrustCoeff1 = -5.19082;
+GMAT ET_42.ThrustCoeff2 = 2.96519;
+GMAT ET_42.ThrustCoeff3 = -14.4789;
+GMAT ET_42.ThrustCoeff4 = 54.05382;
+GMAT ET_42.ThrustCoeff5 = -0.00100092;
+GMAT ET_42.MassFlowCoeff1 = -0.004776;
+GMAT ET_42.MassFlowCoeff2 = 0.05717;
+GMAT ET_42.MassFlowCoeff3 = -0.09956;
+GMAT ET_42.MassFlowCoeff4 = 0.03211;
+GMAT ET_42.MassFlowCoeff5 = 2.13781;
+GMAT ET_42.FixedEfficiency = 0.7;
+GMAT ET_42.Isp = 2800;
+GMAT ET_42.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_43;
+GMAT ET_43.CoordinateSystem = SunICRF;
+GMAT ET_43.ThrustDirection1 = 1;
+GMAT ET_43.ThrustDirection2 = 0;
+GMAT ET_43.ThrustDirection3 = 0;
+GMAT ET_43.DutyCycle = 1;
+GMAT ET_43.ThrustScaleFactor = 1;
+GMAT ET_43.DecrementMass = true;
+GMAT ET_43.Tank = {ElectricTank1};
+GMAT ET_43.MixRatio = [ 1 ];
+GMAT ET_43.GravitationalAccel = 9.81;
+GMAT ET_43.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_43.MaximumUsablePower = 7.266;
+GMAT ET_43.MinimumUsablePower = 0.638;
+GMAT ET_43.ThrustCoeff1 = -5.19082;
+GMAT ET_43.ThrustCoeff2 = 2.96519;
+GMAT ET_43.ThrustCoeff3 = -14.4789;
+GMAT ET_43.ThrustCoeff4 = 54.05382;
+GMAT ET_43.ThrustCoeff5 = -0.00100092;
+GMAT ET_43.MassFlowCoeff1 = -0.004776;
+GMAT ET_43.MassFlowCoeff2 = 0.05717;
+GMAT ET_43.MassFlowCoeff3 = -0.09956;
+GMAT ET_43.MassFlowCoeff4 = 0.03211;
+GMAT ET_43.MassFlowCoeff5 = 2.13781;
+GMAT ET_43.FixedEfficiency = 0.7;
+GMAT ET_43.Isp = 2800;
+GMAT ET_43.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_44;
+GMAT ET_44.CoordinateSystem = SunICRF;
+GMAT ET_44.ThrustDirection1 = 1;
+GMAT ET_44.ThrustDirection2 = 0;
+GMAT ET_44.ThrustDirection3 = 0;
+GMAT ET_44.DutyCycle = 1;
+GMAT ET_44.ThrustScaleFactor = 1;
+GMAT ET_44.DecrementMass = true;
+GMAT ET_44.Tank = {ElectricTank1};
+GMAT ET_44.MixRatio = [ 1 ];
+GMAT ET_44.GravitationalAccel = 9.81;
+GMAT ET_44.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_44.MaximumUsablePower = 7.266;
+GMAT ET_44.MinimumUsablePower = 0.638;
+GMAT ET_44.ThrustCoeff1 = -5.19082;
+GMAT ET_44.ThrustCoeff2 = 2.96519;
+GMAT ET_44.ThrustCoeff3 = -14.4789;
+GMAT ET_44.ThrustCoeff4 = 54.05382;
+GMAT ET_44.ThrustCoeff5 = -0.00100092;
+GMAT ET_44.MassFlowCoeff1 = -0.004776;
+GMAT ET_44.MassFlowCoeff2 = 0.05717;
+GMAT ET_44.MassFlowCoeff3 = -0.09956;
+GMAT ET_44.MassFlowCoeff4 = 0.03211;
+GMAT ET_44.MassFlowCoeff5 = 2.13781;
+GMAT ET_44.FixedEfficiency = 0.7;
+GMAT ET_44.Isp = 2800;
+GMAT ET_44.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_45;
+GMAT ET_45.CoordinateSystem = SunICRF;
+GMAT ET_45.ThrustDirection1 = 1;
+GMAT ET_45.ThrustDirection2 = 0;
+GMAT ET_45.ThrustDirection3 = 0;
+GMAT ET_45.DutyCycle = 1;
+GMAT ET_45.ThrustScaleFactor = 1;
+GMAT ET_45.DecrementMass = true;
+GMAT ET_45.Tank = {ElectricTank1};
+GMAT ET_45.MixRatio = [ 1 ];
+GMAT ET_45.GravitationalAccel = 9.81;
+GMAT ET_45.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_45.MaximumUsablePower = 7.266;
+GMAT ET_45.MinimumUsablePower = 0.638;
+GMAT ET_45.ThrustCoeff1 = -5.19082;
+GMAT ET_45.ThrustCoeff2 = 2.96519;
+GMAT ET_45.ThrustCoeff3 = -14.4789;
+GMAT ET_45.ThrustCoeff4 = 54.05382;
+GMAT ET_45.ThrustCoeff5 = -0.00100092;
+GMAT ET_45.MassFlowCoeff1 = -0.004776;
+GMAT ET_45.MassFlowCoeff2 = 0.05717;
+GMAT ET_45.MassFlowCoeff3 = -0.09956;
+GMAT ET_45.MassFlowCoeff4 = 0.03211;
+GMAT ET_45.MassFlowCoeff5 = 2.13781;
+GMAT ET_45.FixedEfficiency = 0.7;
+GMAT ET_45.Isp = 2800;
+GMAT ET_45.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_46;
+GMAT ET_46.CoordinateSystem = SunICRF;
+GMAT ET_46.ThrustDirection1 = 1;
+GMAT ET_46.ThrustDirection2 = 0;
+GMAT ET_46.ThrustDirection3 = 0;
+GMAT ET_46.DutyCycle = 1;
+GMAT ET_46.ThrustScaleFactor = 1;
+GMAT ET_46.DecrementMass = true;
+GMAT ET_46.Tank = {ElectricTank1};
+GMAT ET_46.MixRatio = [ 1 ];
+GMAT ET_46.GravitationalAccel = 9.81;
+GMAT ET_46.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_46.MaximumUsablePower = 7.266;
+GMAT ET_46.MinimumUsablePower = 0.638;
+GMAT ET_46.ThrustCoeff1 = -5.19082;
+GMAT ET_46.ThrustCoeff2 = 2.96519;
+GMAT ET_46.ThrustCoeff3 = -14.4789;
+GMAT ET_46.ThrustCoeff4 = 54.05382;
+GMAT ET_46.ThrustCoeff5 = -0.00100092;
+GMAT ET_46.MassFlowCoeff1 = -0.004776;
+GMAT ET_46.MassFlowCoeff2 = 0.05717;
+GMAT ET_46.MassFlowCoeff3 = -0.09956;
+GMAT ET_46.MassFlowCoeff4 = 0.03211;
+GMAT ET_46.MassFlowCoeff5 = 2.13781;
+GMAT ET_46.FixedEfficiency = 0.7;
+GMAT ET_46.Isp = 2800;
+GMAT ET_46.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_47;
+GMAT ET_47.CoordinateSystem = SunICRF;
+GMAT ET_47.ThrustDirection1 = 1;
+GMAT ET_47.ThrustDirection2 = 0;
+GMAT ET_47.ThrustDirection3 = 0;
+GMAT ET_47.DutyCycle = 1;
+GMAT ET_47.ThrustScaleFactor = 1;
+GMAT ET_47.DecrementMass = true;
+GMAT ET_47.Tank = {ElectricTank1};
+GMAT ET_47.MixRatio = [ 1 ];
+GMAT ET_47.GravitationalAccel = 9.81;
+GMAT ET_47.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_47.MaximumUsablePower = 7.266;
+GMAT ET_47.MinimumUsablePower = 0.638;
+GMAT ET_47.ThrustCoeff1 = -5.19082;
+GMAT ET_47.ThrustCoeff2 = 2.96519;
+GMAT ET_47.ThrustCoeff3 = -14.4789;
+GMAT ET_47.ThrustCoeff4 = 54.05382;
+GMAT ET_47.ThrustCoeff5 = -0.00100092;
+GMAT ET_47.MassFlowCoeff1 = -0.004776;
+GMAT ET_47.MassFlowCoeff2 = 0.05717;
+GMAT ET_47.MassFlowCoeff3 = -0.09956;
+GMAT ET_47.MassFlowCoeff4 = 0.03211;
+GMAT ET_47.MassFlowCoeff5 = 2.13781;
+GMAT ET_47.FixedEfficiency = 0.7;
+GMAT ET_47.Isp = 2800;
+GMAT ET_47.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_48;
+GMAT ET_48.CoordinateSystem = SunICRF;
+GMAT ET_48.ThrustDirection1 = 1;
+GMAT ET_48.ThrustDirection2 = 0;
+GMAT ET_48.ThrustDirection3 = 0;
+GMAT ET_48.DutyCycle = 1;
+GMAT ET_48.ThrustScaleFactor = 1;
+GMAT ET_48.DecrementMass = true;
+GMAT ET_48.Tank = {ElectricTank1};
+GMAT ET_48.MixRatio = [ 1 ];
+GMAT ET_48.GravitationalAccel = 9.81;
+GMAT ET_48.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_48.MaximumUsablePower = 7.266;
+GMAT ET_48.MinimumUsablePower = 0.638;
+GMAT ET_48.ThrustCoeff1 = -5.19082;
+GMAT ET_48.ThrustCoeff2 = 2.96519;
+GMAT ET_48.ThrustCoeff3 = -14.4789;
+GMAT ET_48.ThrustCoeff4 = 54.05382;
+GMAT ET_48.ThrustCoeff5 = -0.00100092;
+GMAT ET_48.MassFlowCoeff1 = -0.004776;
+GMAT ET_48.MassFlowCoeff2 = 0.05717;
+GMAT ET_48.MassFlowCoeff3 = -0.09956;
+GMAT ET_48.MassFlowCoeff4 = 0.03211;
+GMAT ET_48.MassFlowCoeff5 = 2.13781;
+GMAT ET_48.FixedEfficiency = 0.7;
+GMAT ET_48.Isp = 2800;
+GMAT ET_48.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_49;
+GMAT ET_49.CoordinateSystem = SunICRF;
+GMAT ET_49.ThrustDirection1 = 1;
+GMAT ET_49.ThrustDirection2 = 0;
+GMAT ET_49.ThrustDirection3 = 0;
+GMAT ET_49.DutyCycle = 1;
+GMAT ET_49.ThrustScaleFactor = 1;
+GMAT ET_49.DecrementMass = true;
+GMAT ET_49.Tank = {ElectricTank1};
+GMAT ET_49.MixRatio = [ 1 ];
+GMAT ET_49.GravitationalAccel = 9.81;
+GMAT ET_49.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_49.MaximumUsablePower = 7.266;
+GMAT ET_49.MinimumUsablePower = 0.638;
+GMAT ET_49.ThrustCoeff1 = -5.19082;
+GMAT ET_49.ThrustCoeff2 = 2.96519;
+GMAT ET_49.ThrustCoeff3 = -14.4789;
+GMAT ET_49.ThrustCoeff4 = 54.05382;
+GMAT ET_49.ThrustCoeff5 = -0.00100092;
+GMAT ET_49.MassFlowCoeff1 = -0.004776;
+GMAT ET_49.MassFlowCoeff2 = 0.05717;
+GMAT ET_49.MassFlowCoeff3 = -0.09956;
+GMAT ET_49.MassFlowCoeff4 = 0.03211;
+GMAT ET_49.MassFlowCoeff5 = 2.13781;
+GMAT ET_49.FixedEfficiency = 0.7;
+GMAT ET_49.Isp = 2800;
+GMAT ET_49.ConstantThrust = 0.1;
+
+Create ElectricThruster ET_50;
+GMAT ET_50.CoordinateSystem = SunICRF;
+GMAT ET_50.ThrustDirection1 = 1;
+GMAT ET_50.ThrustDirection2 = 0;
+GMAT ET_50.ThrustDirection3 = 0;
+GMAT ET_50.DutyCycle = 1;
+GMAT ET_50.ThrustScaleFactor = 1;
+GMAT ET_50.DecrementMass = true;
+GMAT ET_50.Tank = {ElectricTank1};
+GMAT ET_50.MixRatio = [ 1 ];
+GMAT ET_50.GravitationalAccel = 9.81;
+GMAT ET_50.ThrustModel = ConstantThrustAndIsp;
+GMAT ET_50.MaximumUsablePower = 7.266;
+GMAT ET_50.MinimumUsablePower = 0.638;
+GMAT ET_50.ThrustCoeff1 = -5.19082;
+GMAT ET_50.ThrustCoeff2 = 2.96519;
+GMAT ET_50.ThrustCoeff3 = -14.4789;
+GMAT ET_50.ThrustCoeff4 = 54.05382;
+GMAT ET_50.ThrustCoeff5 = -0.00100092;
+GMAT ET_50.MassFlowCoeff1 = -0.004776;
+GMAT ET_50.MassFlowCoeff2 = 0.05717;
+GMAT ET_50.MassFlowCoeff3 = -0.09956;
+GMAT ET_50.MassFlowCoeff4 = 0.03211;
+GMAT ET_50.MassFlowCoeff5 = 2.13781;
+GMAT ET_50.FixedEfficiency = 0.7;
+GMAT ET_50.Isp = 2800;
+GMAT ET_50.ConstantThrust = 0.1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel ThePropagator_ForceModel;
+GMAT ThePropagator_ForceModel.CentralBody = Sun;
+GMAT ThePropagator_ForceModel.PointMasses = {Sun};
+GMAT ThePropagator_ForceModel.Drag = None;
+GMAT ThePropagator_ForceModel.SRP = Off;
+GMAT ThePropagator_ForceModel.RelativisticCorrection = Off;
+GMAT ThePropagator_ForceModel.ErrorControl = RSSStep;
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator ThePropagator;
+GMAT ThePropagator.FM = ThePropagator_ForceModel;
+GMAT ThePropagator.Type = RungeKutta89;
+GMAT ThePropagator.InitialStepSize = 60;
+GMAT ThePropagator.Accuracy = 9.999999999999999e-10;
+GMAT ThePropagator.MinStep = 0.001;
+GMAT ThePropagator.MaxStep = 2700;
+GMAT ThePropagator.MaxStepAttempts = 50;
+GMAT ThePropagator.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_1;
+GMAT FB_1.Thrusters = {ET_1};
+GMAT FB_1.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_2;
+GMAT FB_2.Thrusters = {ET_2};
+GMAT FB_2.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_3;
+GMAT FB_3.Thrusters = {ET_3};
+GMAT FB_3.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_4;
+GMAT FB_4.Thrusters = {ET_4};
+GMAT FB_4.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_5;
+GMAT FB_5.Thrusters = {ET_5};
+GMAT FB_5.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_6;
+GMAT FB_6.Thrusters = {ET_6};
+GMAT FB_6.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_7;
+GMAT FB_7.Thrusters = {ET_7};
+GMAT FB_7.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_8;
+GMAT FB_8.Thrusters = {ET_8};
+GMAT FB_8.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_9;
+GMAT FB_9.Thrusters = {ET_9};
+GMAT FB_9.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_10;
+GMAT FB_10.Thrusters = {ET_10};
+GMAT FB_10.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_11;
+GMAT FB_11.Thrusters = {ET_11};
+GMAT FB_11.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_12;
+GMAT FB_12.Thrusters = {ET_12};
+GMAT FB_12.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_13;
+GMAT FB_13.Thrusters = {ET_13};
+GMAT FB_13.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_14;
+GMAT FB_14.Thrusters = {ET_14};
+GMAT FB_14.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_15;
+GMAT FB_15.Thrusters = {ET_15};
+GMAT FB_15.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_16;
+GMAT FB_16.Thrusters = {ET_16};
+GMAT FB_16.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_17;
+GMAT FB_17.Thrusters = {ET_17};
+GMAT FB_17.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_18;
+GMAT FB_18.Thrusters = {ET_18};
+GMAT FB_18.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_19;
+GMAT FB_19.Thrusters = {ET_19};
+GMAT FB_19.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_20;
+GMAT FB_20.Thrusters = {ET_20};
+GMAT FB_20.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_21;
+GMAT FB_21.Thrusters = {ET_21};
+GMAT FB_21.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_22;
+GMAT FB_22.Thrusters = {ET_22};
+GMAT FB_22.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_23;
+GMAT FB_23.Thrusters = {ET_23};
+GMAT FB_23.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_24;
+GMAT FB_24.Thrusters = {ET_24};
+GMAT FB_24.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_25;
+GMAT FB_25.Thrusters = {ET_25};
+GMAT FB_25.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_26;
+GMAT FB_26.Thrusters = {ET_26};
+GMAT FB_26.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_27;
+GMAT FB_27.Thrusters = {ET_27};
+GMAT FB_27.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_28;
+GMAT FB_28.Thrusters = {ET_28};
+GMAT FB_28.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_29;
+GMAT FB_29.Thrusters = {ET_29};
+GMAT FB_29.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_30;
+GMAT FB_30.Thrusters = {ET_30};
+GMAT FB_30.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_31;
+GMAT FB_31.Thrusters = {ET_31};
+GMAT FB_31.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_32;
+GMAT FB_32.Thrusters = {ET_32};
+GMAT FB_32.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_33;
+GMAT FB_33.Thrusters = {ET_33};
+GMAT FB_33.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_34;
+GMAT FB_34.Thrusters = {ET_34};
+GMAT FB_34.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_35;
+GMAT FB_35.Thrusters = {ET_35};
+GMAT FB_35.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_36;
+GMAT FB_36.Thrusters = {ET_36};
+GMAT FB_36.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_37;
+GMAT FB_37.Thrusters = {ET_37};
+GMAT FB_37.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_38;
+GMAT FB_38.Thrusters = {ET_38};
+GMAT FB_38.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_39;
+GMAT FB_39.Thrusters = {ET_39};
+GMAT FB_39.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_40;
+GMAT FB_40.Thrusters = {ET_40};
+GMAT FB_40.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_41;
+GMAT FB_41.Thrusters = {ET_41};
+GMAT FB_41.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_42;
+GMAT FB_42.Thrusters = {ET_42};
+GMAT FB_42.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_43;
+GMAT FB_43.Thrusters = {ET_43};
+GMAT FB_43.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_44;
+GMAT FB_44.Thrusters = {ET_44};
+GMAT FB_44.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_45;
+GMAT FB_45.Thrusters = {ET_45};
+GMAT FB_45.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_46;
+GMAT FB_46.Thrusters = {ET_46};
+GMAT FB_46.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_47;
+GMAT FB_47.Thrusters = {ET_47};
+GMAT FB_47.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_48;
+GMAT FB_48.Thrusters = {ET_48};
+GMAT FB_48.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_49;
+GMAT FB_49.Thrusters = {ET_49};
+GMAT FB_49.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create FiniteBurn FB_50;
+GMAT FB_50.Thrusters = {ET_50};
+GMAT FB_50.ThrottleLogicAlgorithm = 'MaxNumberOfThrusters';
+
+Create ImpulsiveBurn DefaultIB;
+GMAT DefaultIB.CoordinateSystem = Local;
+GMAT DefaultIB.Origin = Earth;
+GMAT DefaultIB.Axes = VNB;
+GMAT DefaultIB.Element1 = 0;
+GMAT DefaultIB.Element2 = 0;
+GMAT DefaultIB.Element3 = 0;
+GMAT DefaultIB.DecrementMass = false;
+GMAT DefaultIB.Isp = 300;
+GMAT DefaultIB.GravitationalAccel = 9.81;
+
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+
+Create CoordinateSystem SunICRF;
+GMAT SunICRF.Origin = Sun;
+GMAT SunICRF.Axes = ICRF;
+
+%----------------------------------------
+%---------- Solvers
+%----------------------------------------
+
+Create FminconOptimizer DefaultSQP;
+GMAT DefaultSQP.ShowProgress = true;
+GMAT DefaultSQP.ReportStyle = Normal;
+GMAT DefaultSQP.ReportFile = 'FminconOptimizerDefaultSQP.data';
+GMAT DefaultSQP.MaximumIterations = 25;
+GMAT DefaultSQP.DiffMaxChange = '0.1000';
+GMAT DefaultSQP.DiffMinChange = '1.0000e-08';
+GMAT DefaultSQP.MaxFunEvals = '1000';
+GMAT DefaultSQP.TolX = '1.0000e-04';
+GMAT DefaultSQP.TolFun = '1.0000e-04';
+GMAT DefaultSQP.TolCon = '1.0000e-04';
+
+Create DifferentialCorrector DefaultDC;
+GMAT DefaultDC.ShowProgress = true;
+GMAT DefaultDC.ReportStyle = Normal;
+GMAT DefaultDC.ReportFile = 'DifferentialCorrectorDefaultDC.data';
+GMAT DefaultDC.MaximumIterations = 25;
+GMAT DefaultDC.DerivativeMethod = ForwardDifference;
+GMAT DefaultDC.Algorithm = NewtonRaphson;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create ReportFile DataOut;
+GMAT DataOut.SolverIterations = Current;
+GMAT DataOut.UpperLeft = [ 0.03529411764705882 0.07371007371007371 ];
+GMAT DataOut.Size = [ 0.5970588235294118 0.7936117936117936 ];
+GMAT DataOut.RelativeZOrder = 13;
+GMAT DataOut.Maximized = true;
+GMAT DataOut.Filename = 'C:\GMAT_Repo\EarthToMars_LowThrust_SNOPT\DataOutput.txt';
+GMAT DataOut.Precision = 16;
+GMAT DataOut.WriteHeaders = true;
+GMAT DataOut.LeftJustify = On;
+GMAT DataOut.ZeroFill = Off;
+GMAT DataOut.FixedWidth = true;
+GMAT DataOut.Delimiter = ' ';
+GMAT DataOut.ColumnWidth = 23;
+GMAT DataOut.WriteReport = true;
+
+Create OrbitView OrbitView1;
+GMAT OrbitView1.SolverIterations = Current;
+GMAT OrbitView1.UpperLeft = [ 0.271764705882353 0.09705159705159705 ];
+GMAT OrbitView1.Size = [ 0.4076470588235294 0.7764127764127764 ];
+GMAT OrbitView1.RelativeZOrder = 571;
+GMAT OrbitView1.Maximized = false;
+GMAT OrbitView1.Add = {Sat, Earth, Sun, Mars};
+GMAT OrbitView1.CoordinateSystem = SunICRF;
+GMAT OrbitView1.DrawObject = [ true true true true ];
+GMAT OrbitView1.DataCollectFrequency = 1;
+GMAT OrbitView1.UpdatePlotFrequency = 50;
+GMAT OrbitView1.NumPointsToRedraw = 0;
+GMAT OrbitView1.ShowPlot = true;
+GMAT OrbitView1.MaxPlotPoints = 50000;
+GMAT OrbitView1.ShowLabels = true;
+GMAT OrbitView1.ViewPointReference = Sun;
+GMAT OrbitView1.ViewPointVector = [ 0 0 500000000 ];
+GMAT OrbitView1.ViewDirection = Sun;
+GMAT OrbitView1.ViewScaleFactor = 1;
+GMAT OrbitView1.ViewUpCoordinateSystem = EarthMJ2000Eq;
+GMAT OrbitView1.ViewUpAxis = Z;
+GMAT OrbitView1.EclipticPlane = Off;
+GMAT OrbitView1.XYPlane = Off;
+GMAT OrbitView1.WireFrame = Off;
+GMAT OrbitView1.Axes = Off;
+GMAT OrbitView1.Grid = Off;
+GMAT OrbitView1.SunLine = Off;
+GMAT OrbitView1.UseInitialView = On;
+GMAT OrbitView1.StarCount = 7000;
+GMAT OrbitView1.EnableStars = Off;
+GMAT OrbitView1.EnableConstellations = On;
+
+Create XYPlot Fuel;
+GMAT Fuel.SolverIterations = Current;
+GMAT Fuel.UpperLeft = [ 0 0 ];
+GMAT Fuel.Size = [ 0.5 0.4496314496314496 ];
+GMAT Fuel.RelativeZOrder = 569;
+GMAT Fuel.Maximized = false;
+GMAT Fuel.XVariable = Sat.A1ModJulian;
+GMAT Fuel.YVariables = {Sat.ElectricTank1.FuelMass};
+GMAT Fuel.ShowGrid = true;
+GMAT Fuel.ShowPlot = true;
+
+%----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+
+Create Array RT_Array[50,4];
+Create Variable RunTime;
+GMAT RunTime = 80577209.63773109;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+BeginScript
+   BeginFiniteBurn FB_1(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_1(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_2(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_2(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_3(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_3(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_4(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_4(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_5(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_5(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_6(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_6(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_7(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_7(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_8(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_8(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_9(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_9(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_10(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_10(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_11(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_11(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_12(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_12(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_13(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_13(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_14(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_14(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_15(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_15(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_16(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_16(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_17(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_17(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_18(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_18(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_19(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_19(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_20(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_20(Sat);
+EndScript;
+BeginScript
+   BeginFiniteBurn FB_21(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_21(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_22(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_22(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_23(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_23(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_24(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_24(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_25(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_25(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_26(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_26(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_27(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_27(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_28(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_28(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_29(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_29(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_30(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_30(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_31(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_31(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_32(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_32(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_33(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_33(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_34(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_34(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_35(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_35(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_36(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_36(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_37(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_37(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_38(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_38(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_39(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_39(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_40(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_40(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_41(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_41(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_42(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_42(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_43(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_43(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_44(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_44(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_45(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_45(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_46(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_46(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_47(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_47(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_48(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_48(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_49(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = 402886.048188657};
+   EndFiniteBurn FB_49(Sat);
+EndScript;
+
+BeginScript
+   BeginFiniteBurn FB_50(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = RT_Array(50,1)};
+   EndFiniteBurn FB_50(Sat);
+EndScript;
+GMAT RT_Array(1,1) = RunTime/50;
+
+
+Report DataOut Sat.SunICRF.VX Sat.SunICRF.VY Sat.SunICRF.VZ Sat.SunICRF.X Sat.SunICRF.Y Sat.SunICRF.Z Sat.ElapsedDays Sat.ElectricTank1.FuelMass Mars.SunICRF.VX Mars.SunICRF.VY Mars.SunICRF.VZ Mars.SunICRF.X Mars.SunICRF.Y Mars.SunICRF.Z;
+Optimize DefaultSQP {SolveMode = Solve, ExitMode = DiscardAndContinue, ShowProgressWindow = true};
+   NonlinearConstraint DefaultSQP(Sat.SMA=7000);
+   Minimize DefaultSQP(Sat.Earth.RMAG);
+   Vary DefaultSQP(DefaultIB.Element1 = 0.5, {Lower = 0.0, Upper = 3.14159, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+EndOptimize;  % For optimizer DefaultSQP
+
+
+
+
+

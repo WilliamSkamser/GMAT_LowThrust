@@ -2,6 +2,7 @@ clc
 clear all;
 close all;
 format longg;
+
 %% Inital State
 t1=juliandate(2023,07,20,00,00,00);
 [Re_i,Ve_i]= planetEphemeris(t1,'Sun','Earth');
@@ -15,6 +16,7 @@ fid1 = fclose(fid1);
 %% GMAT
 %Insert inital state
 load_gmat();
+gmat.gmat.Clear(); %Clears GMAT API configuration
 gmat.gmat.LoadScript(Dir+FileName)
 
 sat = gmat.gmat.Construct("Spacecraft", "Sat");
@@ -28,38 +30,58 @@ sat.SetField('Z', Re_i(3));
 sat.SetField('VX', Ve_i(1));
 sat.SetField('VY', Ve_i(2));
 sat.SetField('VZ', Ve_i(3));
-sat.SetField("DryMass", 0);
+sat.SetField("DryMass", 1); %0
 
 eTank=gmat.gmat.Construct("ElectricTank", "ETank");
 eTank.SetField("FuelMass", 1000);
+ 
+fm = GMATAPI.Construct("ForceModel", "FM");
+fm.SetField("CentralBody", "Sun");
 
-%There seems to be a way to load a force model and proagator to propagate
-%by a step size. 
-
-fm = gmat.gmat.Construct("ForceModel", "FM");
-fm.SetField("CentralBody", "Sun")
-SunG=gmat.gmat.Construct("PointMassForce");
-SunG.SetField("BodyName","Sun")
-%fm.AddForce(SunG) %THIS SHOULD WORK!!!
-
+sungrav = GMATAPI.Construct("PointMassForce");
+sungrav.SetField("BodyName","Sun")
+fm.AddForce(sungrav);
+gmat.gmat.Initialize();
 %{
 psm = gmat.PropagationStateManager();
-psm.SetObject(sat)
-psm.BuildState()
-%fm.SetPropStateManager(psm) %THIS Command Doesn't work either!
-%fm.SetState(psm.GetState())
+psm.SetObject(sat);
+psm.BuildState();
+fm.SetPropStateManager(psm);
+fm.SetState(psm.GetState());
+gmat.gmat.Initialize();
+%  Map the spacecraft state into the model
+fm.BuildModelFromMap();
+% Load the physical parameters needed for the forces
+fm.UpdateInitialData();
+% Now access the state and get the derivative data
+pstate = sat.GetState().GetState();
+fm.GetDerivatives(pstate);
+dv = fm.GetDerivativeArray()
+vec = fm.GetDerivativesForSpacecraft(sat)
 %}
 
-ThePropagator= gmat.gmat.Construct("Propagator", "ThePropagator");
-gator = gmat.gmat.Construct("RungeKutta89");
-%pdprop.SetReference(gator);
-%pdprop.SetReference(fm); % It doesn't Know this command either!
-%pdprop.SetField("InitialStepSize", 60.0);
-%pdprop.SetField("Accuracy", 1.0e-12);
-%pdprop.SetField("MinStep", 0.0);
-
-%fm.SetPropStateManager(psm);
-%psm.setSwigOwnership(false());
+prop= GMATAPI.Construct("Propagator", "ThePropagator");
+gator = GMATAPI.Construct("RungeKutta89");
+prop.SetReference(gator);
+prop.SetReference(fm); % It doesn't Know this command either!
+prop.SetField("InitialStepSize", 86400);
+prop.SetField("Accuracy", 1.0e-9);
+prop.SetField("MinStep", 86400);
+prop.SetField("MaxStep", 86400);
+%Propagate steps
+%{
+gmat.gmat.Initialize();
+prop.AddPropObject(sat);
+prop.PrepareInternals();
+gator = prop.GetPropagator();
+pstate=gator.GetState()
+%fm.GetDerivativeArray()
+%fm.GetDerivatives(pstate, 0.0)
+for i = 1 : 144
+   gator.Step(60);
+   gator.GetState()
+end
+%}
 
 sunICRF = gmat.gmat.Construct("CoordinateSystem", "SunICRF", "Sun", "ICRF");
 
@@ -71,15 +93,7 @@ thrustSegment = gmat.gmat.Construct("ThrustSegment", "ThrustSegment1");
 %Need to be able to add MassSource
 
 runTime = gmat.gmat.Construct("Variable", "RunTime");
-%data = gmat.gmat.Construct("Array","Data[1,6]");
-%^  Try to figure out why this doesn't work
-
-%Note it doesn't seem that I can append the mission sequence through api
-%commands. However, there might be a way to add text to the file and run
-%the modifed script. --> do some testing of finit burns to determined if
-%they are any faster than running the script (Take the current solution and
-%put it as finit burns-> see if the run speed is simlar or faster. If not
-%give up on this approach 
+data = gmat.gmat.Construct("Array","Data");
 
 
 gmat.gmat.SaveScript(Dir+FileName)
