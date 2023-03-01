@@ -66,7 +66,7 @@
  Solution printed on file   9
  
  Time for MPS input                             0.00 seconds
- Time for solving problem                     175.08 seconds
+ Time for solving problem                     174.09 seconds
  Time for solution output                       0.00 seconds
- Time for constraint functions                175.52 seconds
+ Time for constraint functions                174.47 seconds
  Time for objective function                    0.00 seconds

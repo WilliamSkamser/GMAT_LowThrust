@@ -1,4 +1,5 @@
 function [F, G] = objFunc_conFunc(x)
+
 global NumberOfSteps
 global Th
 global mdot
@@ -44,9 +45,11 @@ Time = linspace(0,TOF,NumberOfSteps+1)';  % seconds
 % file2 = fullfile(my_dir,file2); 
 
 % Temporary File
-%file2 = tempname(
+
 file2='C:/GMAT_Repo/EarthToMars_LowThrust_SNOPT/ThrustProfile.thrust';
+%file2 = tempname('C:\GMAT_Repo\EarthToMars_LowThrust_SNOPT\ThrustProfileTemp');
 %file2 = [file2,'.thrust'];
+
 
 % Write the contents of the Thrust File
 for i=1:(NumberOfSteps+1)
@@ -156,6 +159,11 @@ con = [Vx/(AU/TU);
        Z/AU]; 
 Obj = TOF/TU;
 end
+% delete the file when we're done
+%prevState = recycle('off'); % turn recycle off to permanently delete files
+%delete(file2)
+%recycle(prevState); % restore the state of recycl
+
 F(1) = Obj;
 F(2:7)=con;
 G=[];
