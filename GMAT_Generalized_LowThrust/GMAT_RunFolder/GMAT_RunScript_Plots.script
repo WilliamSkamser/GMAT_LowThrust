@@ -1,11 +1,9 @@
 %General Mission Analysis Tool(GMAT) Script
-%Created: 2023-02-28 18:31:44
-
+%Created: 2023-02-28 19:34:12
 
 %----------------------------------------
 %---------- Spacecraft
 %----------------------------------------
-
 Create Spacecraft Sat;
 GMAT Sat.DateFormat = A1ModJulian;
 GMAT Sat.Epoch = '30145.5';
@@ -17,15 +15,16 @@ GMAT Sat.Z = -54000477.98531479;
 GMAT Sat.VX = 26.12608394345375;
 GMAT Sat.VY = 12.20163466276791;
 GMAT Sat.VZ = 5.289560312761584;
-GMAT Sat.DryMass = 1;
-GMAT Sat.Cd = 2.2;
-GMAT Sat.Cr = 1.8;
-GMAT Sat.DragArea = 15;
-GMAT Sat.SRPArea = 1;
+GMAT Sat.DryMass = 0;
+GMAT Sat.Cd = 0;
+GMAT Sat.Cr = 0;
+GMAT Sat.DragArea = 0;
+GMAT Sat.SRPArea = 0;
 GMAT Sat.SPADDragScaleFactor = 1;
 GMAT Sat.SPADSRPScaleFactor = 1;
-GMAT Sat.NAIFId = -12015001;
-GMAT Sat.NAIFIdReferenceFrame = -11015001;
+GMAT Sat.Tanks = {ETank};
+GMAT Sat.NAIFId = -10000001;
+GMAT Sat.NAIFIdReferenceFrame = -9000001;
 GMAT Sat.OrbitColor = Red;
 GMAT Sat.TargetColor = Teal;
 GMAT Sat.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
@@ -49,19 +48,20 @@ GMAT Sat.AttitudeDisplayStateType = 'Quaternion';
 GMAT Sat.AttitudeRateDisplayStateType = 'AngularVelocity';
 GMAT Sat.AttitudeCoordinateSystem = EarthMJ2000Eq;
 GMAT Sat.EulerAngleSequence = '321';
-
 %----------------------------------------
 %---------- Hardware Components
 %----------------------------------------
-
 Create ElectricTank ETank;
 GMAT ETank.AllowNegativeFuelMass = false;
 GMAT ETank.FuelMass = 1000;
 
+
+
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
-
 Create ForceModel FM;
 GMAT FM.CentralBody = Sun;
 GMAT FM.PointMasses = {Sun};
@@ -73,7 +73,6 @@ GMAT FM.ErrorControl = RSSStep;
 %----------------------------------------
 %---------- Propagators
 %----------------------------------------
-
 Create Propagator ThePropagator;
 GMAT ThePropagator.FM = FM;
 GMAT ThePropagator.Type = RungeKutta89;
@@ -81,39 +80,64 @@ GMAT ThePropagator.InitialStepSize = 86400;
 GMAT ThePropagator.Accuracy = 1e-09;
 GMAT ThePropagator.MinStep = 86400;
 GMAT ThePropagator.MaxStep = 86400;
-GMAT ThePropagator.MaxStepAttempts = 50;
-GMAT ThePropagator.StopIfAccuracyIsViolated = true;
+GMAT ThePropagator.MaxStepAttempts = 52;
+GMAT ThePropagator.StopIfAccuracyIsViolated = false;
 
 %----------------------------------------
 %---------- Coordinate Systems
 %----------------------------------------
-
 Create CoordinateSystem SunICRF;
 GMAT SunICRF.Origin = Sun;
 GMAT SunICRF.Axes = ICRF;
 
 %----------------------------------------
-%---------- DataInterfaces
+%---------- Thrust History File
 %----------------------------------------
-
 Create ThrustHistoryFile ThrustHistoryFile1;
+GMAT ThrustHistoryFile1.FileName = C:\GMAT_Repo\GMAT_Generalized_LowThrust\GMAT_RunFolder\GMAT_RunThrustProfile.thrust
+GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 Create ThrustSegment ThrustSegment1;
 GMAT ThrustSegment1.ThrustScaleFactor = 1;
 GMAT ThrustSegment1.ThrustScaleFactorSigma = 1e+70;
 GMAT ThrustSegment1.ApplyThrustScaleToMassFlow = false;
 GMAT ThrustSegment1.MassFlowScaleFactor = 1;
+GMAT ThrustSegment1.MassSource = {'ETank'};
 
 %----------------------------------------
 %---------- Arrays, Variables, Strings
 %----------------------------------------
 
-Create Array Data[0,0];
+Create Array Data[1,6];
 Create Variable RunTime;
+
+
+
 
 
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
-
 BeginMissionSequence;
+BeginScript 'Step1'
+   BeginFileThrust ThrustHistoryFile1(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = RunTime};
+   EndFileThrust ThrustHistoryFile1(Sat);
+EndScript;
+
+GMAT Data(1) = Sat.SunICRF.VX;
+GMAT Data(2) = Sat.SunICRF.VY;
+GMAT Data(3) = Sat.SunICRF.VZ;
+GMAT Data(4) = Sat.SunICRF.X;
+GMAT Data(5) = Sat.SunICRF.Y;
+GMAT Data(6) = Sat.SunICRF.Z;
+
+
+
+
+
+
+
+
+
+

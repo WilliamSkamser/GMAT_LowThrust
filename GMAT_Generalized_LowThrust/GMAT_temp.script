@@ -1,5 +1,5 @@
 %General Mission Analysis Tool(GMAT) Script
-%Created: 2023-02-28 18:31:44
+%Created: 2023-02-28 18:46:55
 
 
 %----------------------------------------
@@ -24,8 +24,8 @@ GMAT Sat.DragArea = 15;
 GMAT Sat.SRPArea = 1;
 GMAT Sat.SPADDragScaleFactor = 1;
 GMAT Sat.SPADSRPScaleFactor = 1;
-GMAT Sat.NAIFId = -12015001;
-GMAT Sat.NAIFIdReferenceFrame = -11015001;
+GMAT Sat.NAIFId = -12016001;
+GMAT Sat.NAIFIdReferenceFrame = -11016001;
 GMAT Sat.OrbitColor = Red;
 GMAT Sat.TargetColor = Teal;
 GMAT Sat.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
