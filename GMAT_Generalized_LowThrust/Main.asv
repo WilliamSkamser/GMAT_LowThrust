@@ -2,6 +2,14 @@ clc
 clear all;
 close all;
 format longg;
+%% NEXT STEPS TO WORK ON
+%Add more options for the
+
+
+
+
+
+
 
 %% Inital State (INPUTS)
 StartDate=juliandate(2023,07,20,00,00,00);
@@ -9,7 +17,11 @@ StartDate=juliandate(2023,07,20,00,00,00);
 DM=0; %DryMass
 FuelM=1000; %Fuel Mass
 PointMasses={};
+PlanetPlot={};
 %PointMasses={'Mercury','Venus','Earth','Luna','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'};
+%PlanetPlot={'Mercury','Venus','Earth','Luna','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'};
+
+
 %ThrustInputs
 ThrustMag=0.1; %N
 ISP=3000; 
@@ -34,7 +46,7 @@ WorkingDir=MainDir+"\GMAT_RunFolder";
 BlanksDir=WorkingDir+"\Blank_scripts";
 FileName_blankS="GMAT_BlankScript.script";
 FileName_blankT="GMAT_BlankThrustProfile.thrust";
-FileName_blankO="OrbitViewPlotCommands";
+FileName_blankO="OrbitViewPlotCommands.txt";
 FileName_runS="\GMAT_RunScript.script";
 FileName_runSP="\GMAT_RunScript_Plots.script";
 FileName_runT="\GMAT_RunThrustProfile.thrust";
@@ -196,7 +208,7 @@ fclose(fid1);
 sourceSP = fullfile(WorkingDir,FileName_runS);
 destinationSP = fullfile(WorkingDir,FileName_runSP);
 copyfile(sourceSP,destinationSP);
-%%% Insert Newlines before Mission sequence 
+% Insert Plot Commands before Mission sequence 
 FileRead2 = regexp(fileread(destinationSP),'\n','split');
 LineC3=find(contains(FileRead2,"BeginMissionSequence;"));
 CopyMissionSequence=strings(1,20);
@@ -204,50 +216,67 @@ for i=1:20
     CopyMissionSequence{i}=FileRead2{LineC3-4+i};
 end
 OrbitViewC = regexp(fileread(fullfile(BlanksDir,FileName_blankO)),'\n','split');
-fid2=fopen(fileread(fullfile(BlanksDir,FileName_blankO))
+LineC5=find(contains(OrbitViewC,"GMAT OrbitView1.Add = {"));
+OrbitViewAdd="GMAT OrbitView1.Add = {Sat, Sun";
+%Finds PlanetPlot in String array
+Mercury2=find(contains(PlanetPlot,'Mercury'));
+Venus2=find(contains(PlanetPlot,'Venus'));
+Earth2=find(contains(PlanetPlot,'Earth'));
+Luna2=find(contains(PlanetPlot,'Luna'));
+Mars2=find(contains(PlanetPlot,'Mars'));
+Jupiter2=find(contains(PlanetPlot,'Jupiter'));
+Saturn2=find(contains(PlanetPlot,'Saturn'));
+Uranus2=find(contains(PlanetPlot,'Uranus'));
+Neptune2=find(contains(PlanetPlot,'Neptune'));
+Pluto2=find(contains(PlanetPlot,'Pluto'));
+if Mercury2 >= 1
+    OrbitViewAdd=OrbitViewAdd+", Mercury";
+end
+if Venus2 >= 1
+    OrbitViewAdd=OrbitViewAdd+", Venus";
+end
+if Earth2 >= 1
+    OrbitViewAdd=OrbitViewAdd+", Earth";
+end
+if Luna2 >= 1
+    OrbitViewAdd=OrbitViewAdd+", Luna";
+end
+if Mars2 >= 1
+    OrbitViewAdd=OrbitViewAdd+", Mars";
+end
+if Jupiter2 >= 1
+    OrbitViewAdd=OrbitViewAdd+", Jupiter";
+end
+if Saturn2 >= 1
+    OrbitViewAdd=OrbitViewAdd+", Saturn";
+end
+if Uranus2 >= 1
+    OrbitViewAdd=OrbitViewAdd+", Uranus";
+end
+if Neptune2 >= 1
+    OrbitViewAdd=OrbitViewAdd+", Neptune";
+end
+if Pluto2 >= 1
+    OrbitViewAdd=OrbitViewAdd+", Pluto";
+end
+OrbitViewAdd=OrbitViewAdd+"};"; %end
+OrbitViewC{LineC5}=OrbitViewAdd;
+FileRead2New=FileRead2;
+%UpdateRunTime Variable
+LineC4=find(contains(FileRead2New,"Create Variable RunTime;"));
+RunTime="GMAT RunTime = "+num2str(EndTime)+";";
+FileRead2New{LineC4+1}=RunTime;
+%Plot and MissionSequenceCommands
+for i=1:(length(OrbitViewC))
+    FileRead2New{LineC3-4+i}=OrbitViewC{i};
+end
+for i=1:(length(CopyMissionSequence))
+    FileRead2New{LineC3-4+i+length(OrbitViewC)}=CopyMissionSequence{i};
+end
+%Rewrite File
+fid2 = fopen(destinationSP, 'w');
+fprintf(fid2, '%s\n', FileRead2New{:});
 fclose(fid2);
-%OrbitStringArray=strings(1,35);
-
-
-
-%{
-%----------------------------------------
-%---------- Subscribers
-%----------------------------------------
-
-Create OrbitView OrbitView1;
-GMAT OrbitView1.SolverIterations = Current;
-GMAT OrbitView1.UpperLeft = [ 0.003971405877680699 0 ];
-GMAT OrbitView1.Size = [ 0.7998411437648928 0.8501228501228502 ];
-GMAT OrbitView1.RelativeZOrder = 63;
-GMAT OrbitView1.Maximized = false;
-GMAT OrbitView1.Add = {Sat, Earth, Jupiter, Luna, Mars, Mercury, Neptune, Pluto, Saturn, Sun, Uranus, Venus};
-GMAT OrbitView1.CoordinateSystem = SunICRF;
-GMAT OrbitView1.DrawObject = [ true true true true true true true true true true true true ];
-GMAT OrbitView1.DataCollectFrequency = 1;
-GMAT OrbitView1.UpdatePlotFrequency = 50;
-GMAT OrbitView1.NumPointsToRedraw = 0;
-GMAT OrbitView1.ShowPlot = true;
-GMAT OrbitView1.MaxPlotPoints = 200000;
-GMAT OrbitView1.ShowLabels = true;
-GMAT OrbitView1.ViewPointReference = Sun;
-GMAT OrbitView1.ViewPointVector = [ 0 0 300000000 ];
-GMAT OrbitView1.ViewDirection = Sun;
-GMAT OrbitView1.ViewScaleFactor = 1;
-GMAT OrbitView1.ViewUpCoordinateSystem = SunICRF;
-GMAT OrbitView1.ViewUpAxis = Z;
-GMAT OrbitView1.EclipticPlane = Off;
-GMAT OrbitView1.XYPlane = Off;
-GMAT OrbitView1.WireFrame = Off;
-GMAT OrbitView1.Axes = Off;
-GMAT OrbitView1.Grid = Off;
-GMAT OrbitView1.SunLine = Off;
-GMAT OrbitView1.UseInitialView = On;
-GMAT OrbitView1.StarCount = 7000;
-GMAT OrbitView1.EnableStars = Off;
-GMAT OrbitView1.EnableConstellations = On;
- 
-%}
 %% Run Optimization
 
 %% Run Plot Script
