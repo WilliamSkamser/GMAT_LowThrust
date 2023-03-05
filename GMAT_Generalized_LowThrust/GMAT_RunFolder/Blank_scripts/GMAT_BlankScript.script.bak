@@ -9,12 +9,12 @@ GMAT Sat.DateFormat = UTCGregorian;
 GMAT Sat.Epoch = '20 Jul 2023 00:00:00.000';
 GMAT Sat.CoordinateSystem = SunICRF;
 GMAT Sat.DisplayStateType = Cartesian;
-GMAT Sat.X = 0;
-GMAT Sat.Y = 0;
-GMAT Sat.Z = 0;
-GMAT Sat.VX = 0;
-GMAT Sat.VY = 0;
-GMAT Sat.VZ = 0;
+GMAT Sat.X = 68405277.7525657;
+GMAT Sat.Y = -124569338.82142;
+GMAT Sat.Z = -54000478.8230257;
+GMAT Sat.VX = 26.12608398815661;
+GMAT Sat.VY = 12.20163451293511;
+GMAT Sat.VZ = 5.289560433755932;
 GMAT Sat.DryMass = 0;
 GMAT Sat.Cd = 0;
 GMAT Sat.Cr = 0;
@@ -54,6 +54,8 @@ GMAT Sat.EulerAngleSequence = '321';
 Create ElectricTank ETank;
 GMAT ETank.AllowNegativeFuelMass = false;
 GMAT ETank.FuelMass = 1000;
+
+
 
 
 %----------------------------------------
@@ -109,6 +111,8 @@ Create Array Data[1,6];
 Create Variable RunTime;
 
 
+
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
@@ -125,6 +129,8 @@ GMAT Data(3) = Sat.SunICRF.VZ;
 GMAT Data(4) = Sat.SunICRF.X;
 GMAT Data(5) = Sat.SunICRF.Y;
 GMAT Data(6) = Sat.SunICRF.Z;
+
+
 
 
 

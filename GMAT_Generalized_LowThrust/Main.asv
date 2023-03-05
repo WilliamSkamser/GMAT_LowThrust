@@ -3,7 +3,10 @@ clear all;
 close all;
 format longg;
 %% NEXT STEPS TO WORK ON
-%Add more options for the
+%Add more options for the Thrust Profile Script
+%Put into SolutionVisulizeOption
+%Put in Optimization Option
+%If optimise set to yes enter optimization function
 
 
 
@@ -20,26 +23,59 @@ PointMasses={};
 PlanetPlot={};
 %PointMasses={'Mercury','Venus','Earth','Luna','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'};
 %PlanetPlot={'Mercury','Venus','Earth','Luna','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'};
-
+ThrustSetting={'Thrust'}; %or Acceleration
+ThrustCoordinateOption={'ThrustAngles'}; %or ThrustCoordinate
+RelativisticCorrection= true; %or false
+SolarRadiationPressure= true; %or false
+%No NonIdeal Gravity or Drag perturbations
 
 %ThrustInputs
 ThrustMag=0.1; %N
 ISP=3000; 
+ThrustXYZ=0; 
 Alpha=zeros(100,1);
 Beta=zeros(100,1);
 EndTime=1000000; %Sec
-StartEpoch="20 Jul 2023 00:00:00.000"; %Can only be in  UTC Gregorian format
 
-
-%% Check Inputs
-if length(Alpha) ~= length(Beta)
-    fprintf("GMAT: Size of Thrust Direction Angle Don't Match")
+%% Julian Date to UTC Gregorian format
+StartEpoch=string(datetime(StartDate,'convertfrom','juliandate','Format','dd'' ''MMM'' ''yyyy'' ''HH:mm:ss.SSS'));
+%StartEpoch="20 Jul 2023 00:00:00.000"; %Can only be in  UTC Gregorian format
+%% Check Inputs of ThrustCoordinate
+ThrustAngle=find(contains(ThrustCoordinateOption,'ThrustAngles'));
+ThrustCoordinate=find(contains(ThrustCoordinateOption,'ThrustCoordinate'));
+if ThrustAngle >= 1
+    if length(Alpha) ~= length(Beta)
+        fprintf("GMAT: Size of Thrust Direction Angle Don't Match")
+        return
+    end
+    NumberOfSteps=length(Alpha);
+    ThrustVec=ThrustMag.*[cos(Beta).*cos(Alpha),cos(Beta).*sin(Alpha),sin(Beta)];
+    mdotO= ThrustMag/(ISP *9.807);
+    mdot=ones(NumberOfSteps+1,1)*mdotO;
+    %MassFlowRate
+elseif ThrustCoordinate >= 1
+    SizeXYZ=size(ThrustXYZ);
+    if SizeXYZ(2) == 3
+        ThrustVec=ThrustXYZ;
+        NumberOfSteps=length(ThrustVec(:,1));
+        ThrustMagnitude=ones(NumberOfSteps,1);
+        mdot=ones(NumberOfSteps+1,1);
+        for i=1:NumberOfSteps
+            ThrustMagnitude(i)=norm([ThrustVec(i,1),ThrustVec(i,2) ,ThrustVec(i,3)]);
+            mdot(i)= ThrustMagnitude(i)/(ISP *9.807); %THIS wouldn't Work
+            %ThrustXYZ is Acceleration not Force
+        end
+    else
+        fprintf("GMAT: Thrust XYZ does not have 3 columns")
+        return   
+    end    
+elseif ThrustAngle >= 1 && ThrustCoordinate >= 1
+    fprintf("GMAT: Thrust Angle and Thrust Coordinate Option Selected")
+    return
+else
+    fprintf("GMAT: No Thrust Coordinate Option Selected")
     return
 end
-NumberOfSteps=length(Alpha);
-ThrustVec=ThrustMag.*[cos(Beta).*cos(Alpha),cos(Beta).*sin(Alpha),sin(Beta)];
-mdot= ThrustMag/(ISP *9.807);
-%MassFlowRate
 %% Copy Files Over Files
 MainDir = pwd;
 WorkingDir=MainDir+"\GMAT_RunFolder";
@@ -58,7 +94,19 @@ copyfile(sourceS,destinationS);
 copyfile(sourceT,destinationT);
 %% Configure Thrust History Profile Script
 % Headlines for the Thrust File
-ThrustProfileModel="ModelThrustAndMassRate";
+Accel=find(contains(ThrustSetting,'Acceleration'));
+Thrus=find(contains(ThrustSetting,'Thrust'));
+if  Thrus >= 1
+    ThrustProfileModel="ModelThrustAndMassRate";
+elseif Accel >=1
+    ThrustProfileModel="ModelAccelAndMassRate";
+elseif Thrus >= 1 && Accel >=1
+    fprintf("GMAT: Acceleration and Thrust Option Selected")
+    return
+else
+    fprintf("GMAT: No Thrust Profile Option Selected")
+    return
+end
 headlines = ['BeginThrust{ThrustSegment1}', newline,...
     'Start_Epoch = '+StartEpoch,newline,...
     'Thrust_Vector_Coordinate_System = SunICRF',newline,...  
@@ -71,7 +119,7 @@ Thrust(1:(end-1),:)=ThrustVec;
 Time = linspace(0,EndTime,NumberOfSteps+1)';  % seconds
 for i=1:(NumberOfSteps+1)
     LineToChange = i+1;         % first 6 lines ae used for headers
-    NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),Thrust(i,2),Thrust(i,3),mdot);
+    NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),Thrust(i,2),Thrust(i,3),mdot(i));
     SS{LineToChange} = NewContent;
 end
 fid0 = fopen(destinationT, 'w');
@@ -174,6 +222,19 @@ if Pluto >= 1
     fm.AddForce(Plutograv);
     gmat.gmat.Initialize();
 end
+%{
+Create ForceModel FM;
+GMAT FM.CentralBody = Sun;
+GMAT FM.PointMasses = {Sun};
+GMAT FM.Drag = None;
+GMAT FM.SRP = On;
+
+GMAT FM.RelativisticCorrection = On;
+GMAT FM.ErrorControl = RSSStep;
+GMAT FM.SRP.Flux = 1367;
+GMAT FM.SRP.SRPModel = Spherical;
+GMAT FM.SRP.Nominal_Sun = 149597870.691;
+%}
 %Propagator
 prop= GMATAPI.Construct("Propagator", "ThePropagator");
 gator = GMATAPI.Construct("RungeKutta89");
@@ -193,14 +254,28 @@ BlankFPWD="'C:\GMAT_Repo\GMAT_Generalized_LowThrust\GMAT_RunFolder\Blank_scripts
 TextToChange1=ThrustHFFN+BlankFPWD;
 NewText1=ThrustHFFN+WorkingDir+FileName_runT;
 FileRead1 = regexp(fileread(destinationS),'\n','split');
+FileRead1New=FileRead1;
 LineC1=find(contains(FileRead1,TextToChange1));
+FileRead1New{LineC1}=NewText1;
 %StopIfAccuracyIsViolated = true -> = false
 StopATrue="GMAT ThePropagator.StopIfAccuracyIsViolated = true;";
 StopAFalse="GMAT ThePropagator.StopIfAccuracyIsViolated = false;";
 LineC2=find(contains(FileRead1,StopATrue));
+FileRead1New{LineC2}=StopAFalse;
+%RelativisticCorrection
+if RelativisticCorrection == true
+    LineC6=find(contains(FileRead1,"GMAT FM.RelativisticCorrection "));
+    FileRead1New{LineC6}="GMAT FM.RelativisticCorrection = On;";
+end
+%SolarRadiationPressure
+SRP_C=["GMAT FM.SRP.Flux = 1367;";"GMAT FM.SRP.SRPModel = Spherical;";"GMAT FM.SRP.Nominal_Sun = 149597870.691;"];
+if SolarRadiationPressure == true
+    LineC7=find(contains(FileRead1,"GMAT FM.ErrorControl = RSSStep;"));
+    for i=1:length(SRP_C)
+        FileRead1New{LineC7+i}=SRP_C(i);
+    end
+end
 %Rewrite File
-FileRead1{LineC1}=NewText1;
-FileRead1{LineC2}=StopAFalse;
 fid1 = fopen(destinationS, 'w');
 fprintf(fid1, '%s\n', FileRead1{:});
 fclose(fid1);
@@ -278,5 +353,7 @@ fid2 = fopen(destinationSP, 'w');
 fprintf(fid2, '%s\n', FileRead2New{:});
 fclose(fid2);
 %% Run Optimization
-
-%% Run Plot Script
+Optimize=0;
+if Optimize==1
+end
+%% Run Plot Script with Solution
