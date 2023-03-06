@@ -68,12 +68,12 @@ Create ForceModel FM;
 GMAT FM.CentralBody = Sun;
 GMAT FM.PointMasses = {Sun};
 GMAT FM.Drag = None;
-GMAT FM.SRP = On;
-GMAT FM.RelativisticCorrection = On;
+GMAT FM.SRP = Off;
+GMAT FM.RelativisticCorrection = Off;
 GMAT FM.ErrorControl = RSSStep;
-GMAT FM.SRP.Flux = 1367;
-GMAT FM.SRP.SRPModel = Spherical;
-GMAT FM.SRP.Nominal_Sun = 149597870.691;
+
+
+
 
 
 
@@ -90,7 +90,7 @@ GMAT ThePropagator.InitialStepSize = 86400;
 GMAT ThePropagator.Accuracy = 1e-09;
 GMAT ThePropagator.MinStep = 86400;
 GMAT ThePropagator.MaxStep = 86400;
-GMAT ThePropagator.MaxStepAttempts = 52;
+GMAT ThePropagator.MaxStepAttempts = 50;
 GMAT ThePropagator.StopIfAccuracyIsViolated = false;
 
 %----------------------------------------
@@ -120,7 +120,7 @@ GMAT ThrustSegment1.MassSource = {'ETank'};
 
 Create Array Data[1,6];
 Create Variable RunTime;
-GMAT RunTime = 1000000;
+GMAT RunTime = 83405339.69;
 
 
 
