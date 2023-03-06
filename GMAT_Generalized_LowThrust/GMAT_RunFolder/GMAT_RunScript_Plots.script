@@ -61,7 +61,6 @@ GMAT ETank.FuelMass = 1000;
 
 
 
-
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -105,7 +104,7 @@ GMAT SunICRF.Axes = ICRF;
 %---------- Thrust History File
 %----------------------------------------
 Create ThrustHistoryFile ThrustHistoryFile1;
-GMAT ThrustHistoryFile1.FileName = 'C:\GMAT_Repo\GMAT_Generalized_LowThrust\GMAT_RunFolder\GMAT_RunThrustProfile.thrust';
+GMAT ThrustHistoryFile1.FileName = 'C:\GMAT_Repo\GMAT_Generalized_LowThrust\GMAT_RunFolder\GMAT_ThrustProfileSolution.thrust';
 GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 Create ThrustSegment ThrustSegment1;
@@ -114,6 +113,14 @@ GMAT ThrustSegment1.ThrustScaleFactorSigma = 1e+70;
 GMAT ThrustSegment1.ApplyThrustScaleToMassFlow = false;
 GMAT ThrustSegment1.MassFlowScaleFactor = 1;
 GMAT ThrustSegment1.MassSource = {'ETank'};
+
+%----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+
+Create Array Data[1,6];
+Create Variable RunTime;
+GMAT RunTime = 1000000;
 
 
 
@@ -126,9 +133,9 @@ GMAT ThrustSegment1.MassSource = {'ETank'};
 
 Create OrbitView OrbitView1;
 GMAT OrbitView1.SolverIterations = Current;
-GMAT OrbitView1.UpperLeft = [ 0.003529411764705882 0 ];
-GMAT OrbitView1.Size = [ 0.7994117647058824 0.8501228501228502 ];
-GMAT OrbitView1.RelativeZOrder = 5;
+GMAT OrbitView1.UpperLeft = [ 0.003971405877680699 0 ];
+GMAT OrbitView1.Size = [ 0.7998411437648928 0.8501228501228502 ];
+GMAT OrbitView1.RelativeZOrder = 63;
 GMAT OrbitView1.Maximized = false;
 GMAT OrbitView1.Add = {Sat, Sun};
 GMAT OrbitView1.CoordinateSystem = SunICRF;
@@ -155,16 +162,7 @@ GMAT OrbitView1.UseInitialView = On;
 GMAT OrbitView1.StarCount = 7000;
 GMAT OrbitView1.EnableStars = Off;
 GMAT OrbitView1.EnableConstellations = On;
-
-%----------------------------------------
-%---------- Arrays, Variables, Strings
-%----------------------------------------
-
-Create Array Data[1,6];
-Create Variable RunTime;
-GMAT RunTime = 1000000;
-
-
+ 
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
@@ -181,7 +179,6 @@ GMAT Data(3) = Sat.SunICRF.VZ;
 GMAT Data(4) = Sat.SunICRF.X;
 GMAT Data(5) = Sat.SunICRF.Y;
 GMAT Data(6) = Sat.SunICRF.Z;
-
 
 
 

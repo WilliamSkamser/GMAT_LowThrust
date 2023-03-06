@@ -3,10 +3,10 @@ clear all;
 close all;
 format longg;
 %% NEXT STEPS TO WORK ON
-%Add more options for the Thrust Profile Script
-%Put into SolutionVisulizeOption
+
+
 %Put in Optimization Option
-%If optimise set to yes enter optimization function
+%If optimize set to yes enter optimization function
 
 
 
@@ -222,19 +222,6 @@ if Pluto >= 1
     fm.AddForce(Plutograv);
     gmat.gmat.Initialize();
 end
-%{
-Create ForceModel FM;
-GMAT FM.CentralBody = Sun;
-GMAT FM.PointMasses = {Sun};
-GMAT FM.Drag = None;
-GMAT FM.SRP = On;
-
-GMAT FM.RelativisticCorrection = On;
-GMAT FM.ErrorControl = RSSStep;
-GMAT FM.SRP.Flux = 1367;
-GMAT FM.SRP.SRPModel = Spherical;
-GMAT FM.SRP.Nominal_Sun = 149597870.691;
-%}
 %Propagator
 prop= GMATAPI.Construct("Propagator", "ThePropagator");
 gator = GMATAPI.Construct("RungeKutta89");
@@ -252,7 +239,7 @@ gmat.gmat.Clear();
 ThrustHFFN="GMAT ThrustHistoryFile1.FileName = ";
 BlankFPWD="'C:\GMAT_Repo\GMAT_Generalized_LowThrust\GMAT_RunFolder\Blank_scripts\GMAT_BlankThrustProfile.thrust';";
 TextToChange1=ThrustHFFN+BlankFPWD;
-NewText1=ThrustHFFN+WorkingDir+FileName_runT;
+NewText1=ThrustHFFN+"'"+WorkingDir+FileName_runT+"';";
 FileRead1 = regexp(fileread(destinationS),'\n','split');
 FileRead1New=FileRead1;
 LineC1=find(contains(FileRead1,TextToChange1));
@@ -270,6 +257,8 @@ end
 %SolarRadiationPressure
 SRP_C=["GMAT FM.SRP.Flux = 1367;";"GMAT FM.SRP.SRPModel = Spherical;";"GMAT FM.SRP.Nominal_Sun = 149597870.691;"];
 if SolarRadiationPressure == true
+    LineC8=find(contains(FileRead1,"GMAT FM.SRP ="));
+    FileRead1New{LineC8}="GMAT FM.SRP = On;";
     LineC7=find(contains(FileRead1,"GMAT FM.ErrorControl = RSSStep;"));
     for i=1:length(SRP_C)
         FileRead1New{LineC7+i}=SRP_C(i);
@@ -277,8 +266,34 @@ if SolarRadiationPressure == true
 end
 %Rewrite File
 fid1 = fopen(destinationS, 'w');
-fprintf(fid1, '%s\n', FileRead1{:});
+fprintf(fid1, '%s\n', FileRead1New{:});
 fclose(fid1);
+%% Run Optimization
+Optimize=0;
+if Optimize==1
+    
+    
+    %list of Varibles that need updating 
+    EndTime=EndTime;
+    mdot=mdot;
+    Thrust=Thrust;
+    Time=Time;
+end
+%% Solution Thrust Profile
+ThrustProfileSolution='\GMAT_ThrustProfileSolution.thrust'; 
+destinationSolution = fullfile(WorkingDir,ThrustProfileSolution);
+copyfile(destinationT,destinationSolution);
+% Write the contents of the Thrust File
+for i=1:NumberOfSteps+1
+    LineToChange = i+1;         % first 6 lines ae used for headers
+    NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),Thrust(i,2),Thrust(i,3),mdot(i));
+    SS{LineToChange} = NewContent;
+end
+fid3 = fopen(destinationSolution, 'w');
+fprintf(fid3,'%s',headlines);
+fprintf(fid3, '%s\n', SS{:});
+fprintf(fid3,'%s','EndThrust{ThrustSegment1}');
+fclose(fid3); 
 %% Configure GMAT Plot Script
 sourceSP = fullfile(WorkingDir,FileName_runS);
 destinationSP = fullfile(WorkingDir,FileName_runSP);
@@ -348,12 +363,20 @@ end
 for i=1:(length(CopyMissionSequence))
     FileRead2New{LineC3-4+i+length(OrbitViewC)}=CopyMissionSequence{i};
 end
+%Replace ThrustProfile with Solution Profile
+LineC9=find(contains(FileRead2,NewText1));
+NewText2=ThrustHFFN+"'"+destinationSolution+"';";
+FileRead2New{LineC9}=NewText2;
 %Rewrite File
 fid2 = fopen(destinationSP, 'w');
 fprintf(fid2, '%s\n', FileRead2New{:});
 fclose(fid2);
-%% Run Optimization
-Optimize=0;
-if Optimize==1
-end
-%% Run Plot Script with Solution
+%RunPlotScript
+load_gmat();
+
+
+
+
+
+
+
