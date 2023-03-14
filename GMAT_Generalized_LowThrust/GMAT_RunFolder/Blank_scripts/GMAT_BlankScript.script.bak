@@ -58,6 +58,8 @@ GMAT ETank.FuelMass = 1000;
 
 
 
+
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -68,6 +70,14 @@ GMAT FM.Drag = None;
 GMAT FM.SRP = Off;
 GMAT FM.RelativisticCorrection = Off;
 GMAT FM.ErrorControl = RSSStep;
+
+
+
+
+
+
+
+
 
 %----------------------------------------
 %---------- Propagators
@@ -113,6 +123,8 @@ Create Variable RunTime;
 
 
 
+
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
@@ -129,6 +141,8 @@ GMAT Data(3) = Sat.SunICRF.VZ;
 GMAT Data(4) = Sat.SunICRF.X;
 GMAT Data(5) = Sat.SunICRF.Y;
 GMAT Data(6) = Sat.SunICRF.Z;
+
+
 
 
 

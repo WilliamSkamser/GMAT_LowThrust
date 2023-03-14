@@ -7,7 +7,7 @@
 Create Spacecraft Sat;
 GMAT Sat.DateFormat = UTCGregorian;
 GMAT Sat.Epoch = '20 Jul 2023 00:00:00.000';
-GMAT Sat.CoordinateSystem = SunICRF;
+GMAT Sat.CoordinateSystem = CentralBodyICRF;
 GMAT Sat.DisplayStateType = Cartesian;
 GMAT Sat.X = 68405277.7525657;
 GMAT Sat.Y = -124569338.82142;
@@ -60,6 +60,7 @@ GMAT ETank.FuelMass = 1000;
 
 
 
+
 %----------------------------------------
 %---------- ForceModels
 %----------------------------------------
@@ -95,9 +96,9 @@ GMAT ThePropagator.StopIfAccuracyIsViolated = false;
 %----------------------------------------
 %---------- Coordinate Systems
 %----------------------------------------
-Create CoordinateSystem SunICRF;
-GMAT SunICRF.Origin = Sun;
-GMAT SunICRF.Axes = ICRF;
+Create CoordinateSystem CentralBodyICRF;
+GMAT CentralBodyICRF.Origin = Sun;
+GMAT CentralBodyICRF.Axes = ICRF;
 
 %----------------------------------------
 %---------- Thrust History File
@@ -125,6 +126,7 @@ Create Variable RunTime;
 
 
 
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
@@ -135,12 +137,13 @@ BeginScript 'Step1'
    EndFileThrust ThrustHistoryFile1(Sat);
 EndScript;
 
-GMAT Data(1) = Sat.SunICRF.VX;
-GMAT Data(2) = Sat.SunICRF.VY;
-GMAT Data(3) = Sat.SunICRF.VZ;
-GMAT Data(4) = Sat.SunICRF.X;
-GMAT Data(5) = Sat.SunICRF.Y;
-GMAT Data(6) = Sat.SunICRF.Z;
+GMAT Data(1) = Sat.CentralBodyICRF.VX;
+GMAT Data(2) = Sat.CentralBodyICRF.VY;
+GMAT Data(3) = Sat.CentralBodyICRF.VZ;
+GMAT Data(4) = Sat.CentralBodyICRF.X;
+GMAT Data(5) = Sat.CentralBodyICRF.Y;
+GMAT Data(6) = Sat.CentralBodyICRF.Z;
+
 
 
 

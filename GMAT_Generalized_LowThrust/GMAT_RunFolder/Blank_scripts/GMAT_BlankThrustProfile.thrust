@@ -1,6 +1,6 @@
 BeginThrust{ThrustSegment1}
 Start_Epoch = 20 Jul 2023 00:00:00.000
-Thrust_Vector_Coordinate_System = SunICRF
+Thrust_Vector_Coordinate_System = CentralBodyICRF
 Thrust_Vector_Interpolation_Method  = None
 Mass_Flow_Rate_Interpolation_Method = None
 ModelThrustAndMassRate

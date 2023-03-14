@@ -9,6 +9,7 @@ global t1
 global destinationT
 global destinationS
 global ISP
+global TargetBody
 % Extract Design Variables
 Thrust_alpha = x(1:NumberOfSteps);                   % rads
 Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps);   % rads
@@ -43,27 +44,21 @@ if Ans == 0
     Obj = 1e10;
 elseif Ans ==1
 % Extract Final States of Satellite 
-Sat_X = gmat.gmat.GetRuntimeObject("Sat.SunICRF.X");  Sat_X = Sat_X.GetNumber("Value");
-Sat_Y = gmat.gmat.GetRuntimeObject("Sat.SunICRF.Y");  Sat_Y = Sat_Y.GetNumber("Value");
-Sat_Z = gmat.gmat.GetRuntimeObject("Sat.SunICRF.Z");  Sat_Z = Sat_Z.GetNumber("Value");
-Sat_VX = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VX");  Sat_VX = Sat_VX.GetNumber("Value");
-Sat_VY = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VY");  Sat_VY = Sat_VY.GetNumber("Value");
-Sat_VZ = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VZ");  Sat_VZ = Sat_VZ.GetNumber("Value");
+Sat_X = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.X");  Sat_X = Sat_X.GetNumber("Value");
+Sat_Y = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.Y");  Sat_Y = Sat_Y.GetNumber("Value");
+Sat_Z = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.Z");  Sat_Z = Sat_Z.GetNumber("Value");
+Sat_VX = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.VX");  Sat_VX = Sat_VX.GetNumber("Value");
+Sat_VY = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.VY");  Sat_VY = Sat_VY.GetNumber("Value");
+Sat_VZ = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.VZ");  Sat_VZ = Sat_VZ.GetNumber("Value");
 t2=t1+(TOF/86400);
-[Rm,Vm]= planetEphemeris(t2,'Sun','Mars');
-Mars_VX=Vm(1);
-Mars_VY=Vm(2);
-Mars_VZ=Vm(3);
-Mars_X=Rm(1);
-Mars_Y=Rm(2);
-Mars_Z=Rm(3);
+[R_Target,V_Target]= planetEphemeris(t2,'Sun',string(TargetBody));
 %% Construct the Constraints and Objective Function
-X = Mars_X - Sat_X;
-Y = Mars_Y - Sat_Y;
-Z = Mars_Z - Sat_Z;
-Vx = Mars_VX - Sat_VX;
-Vy = Mars_VY - Sat_VY;
-Vz = Mars_VZ - Sat_VZ;
+X = R_Target(1) - Sat_X;
+Y = R_Target(2) - Sat_Y;
+Z = R_Target(3) - Sat_Z;
+Vx = V_Target(1) - Sat_VX;
+Vy = V_Target(2)  - Sat_VY;
+Vz = V_Target(3)  - Sat_VZ;
 con = [Vx/(AU/TU);
        Vy/(AU/TU);
        Vz/(AU/TU);

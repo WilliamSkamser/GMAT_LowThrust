@@ -1,7 +1,5 @@
-clc
-clear all;
-close all;
-format longg;
+function []=GMAT_LowThrust()
+%Global variables passed to SNOPT Objective/Constraint  function
 global NumberOfSteps
 global Th
 global mdot
@@ -12,76 +10,204 @@ global t1
 global destinationT
 global destinationS
 global ISP
+global TargetBody
 %% NEXT STEPS TO WORK ON
+%Problems to work on
+% Write comments explaning code (do this today)
+%1) Input Format Standardization
+    %Thrust vs Acceleration
+    %XYZ vs Alpha/Beta
+    %Read full TimeSteps vs Just EndTime
+    %Thrust Magnitude/Acceleration Magnitude
+    %Massflow Rate -> provided or interpolated
+    %StartDate
+    %Start position, Velocity
+    %Target Body -> uses Ephemeris in optimization
+    %N-bodies, SolarRadiation, Relativistic Correction
+    %N-bodies to plot
+    %CenterBody
+%2) Alpha, Beta angle interpolation for only thrust coordinate provided
+%3) Acceleration Massflow Rate
+%4) Function Input and Output
 
-% Test for errors -> debug
-% Test run current GMAT solution
 
-
-%% Inital State (INPUTS)
+%% Initial State (INPUTS)
 %Test data
-%READ initial guess with 200 steps
-fileG=pwd+"\GMAT_thrust.txt";
-fIDG=fopen(fileG,'r');
-AG=textscan(fIDG, '%f %f %f %f', 'headerlines',1);
-InitialGuess_Data2=cell2mat(AG);
-fclose(fIDG);
-Alpha=InitialGuess_Data2(:,2);
-Beta=InitialGuess_Data2(:,3);
-EndTime=InitialGuess_Data2(end,1);
-ISP=2800;
+TestSet=1;
+if TestSet==0 %BlankTestSet
+    Alpha=zeros(100,1);
+    Beta=zeros(100,1);
+    EndTime=1000000; %Sec
+    ISP=3000;
+    StartDate=juliandate(2002,12,23,20,39,01);
+    [R_i,V_i]= planetEphemeris(StartDate,'Sun','Earth');
+    DM=23; %DryMass
+    FuelM=1300; %Fuel Mass
+    PointMasses={'Mercury','Venus','Earth','Luna','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'};
+    PlanetPlot={'Mercury','Venus','Earth','Luna','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'};
+    ThrustSetting={'Thrust'}; %or Acceleration
+    ThrustCoordinateOption={'ThrustAngles'}; %or ThrustCoordinate
+    RelativisticCorrection= true;%true; %or false
+    SolarRadiationPressure= true;%true; %or false
+    CentralBody={'Sun'};%CentralBodyICRF
+    %ThrustInputs
+    ThrustMag=0.1; %N
+    ThrustXYZ=0; 
+    
+    %SNOPT Optimization options 
+    Optimize=0;
+    TargetBody={'Venus'};
+    LowBound =10; %in days
+    UpperBound= 3500; %in days
+    MajorFeasibilityTolerance=1e-6;
+    MajorOptimalityTolerance=1e-6;
+    OptimizationRunTimeLimit= 86400; %Seconds 
+    MajorIterationLimit=5000; 
+end
+
+if TestSet==1 %EathToMars(ThrustAngles) 1
+    fileG=pwd+"\GMAT_thrust.txt";
+    fIDG=fopen(fileG,'r');
+    AG=textscan(fIDG, '%f %f %f %f', 'headerlines',1);
+    InitialGuess_Data2=cell2mat(AG);
+    fclose(fIDG);
+    Alpha=InitialGuess_Data2(:,2);
+    Beta=InitialGuess_Data2(:,3);
+    EndTime=InitialGuess_Data2(end,1);
+    ISP=2800;
+    StartDate=juliandate(2023,07,20,00,00,00);
+    [R_i,V_i]= planetEphemeris(StartDate,'Sun','Earth');
+    DM=0; %DryMass
+    FuelM=1000; %Fuel Mass
+    PointMasses={};
+    PlanetPlot={'Earth','Mars'};
+    ThrustSetting={'Thrust'}; %or Acceleration
+    ThrustCoordinateOption={'ThrustAngles'}; %or ThrustCoordinate
+    RelativisticCorrection= false;%true; %or false
+    SolarRadiationPressure= false;%true; %or false
+    CentralBody={'Sun'};%CentralBodyICRF
+    %ThrustInputs
+    ThrustMag=0.1; %N
+    ThrustXYZ=0; 
+    
+    %SNOPT Optimization options 
+    Optimize=0;
+    TargetBody={'Mars'};
+    LowBound =10; %in days
+    UpperBound= 3500; %in days
+    MajorFeasibilityTolerance=1e-6;
+    MajorOptimalityTolerance=1e-6;
+    OptimizationRunTimeLimit= 86400; %Seconds 
+    MajorIterationLimit=1;%5000; 
+    
+end
+
+if TestSet==2 %EathToMars(Acceleration+Coordinate) 2
+    fileG=pwd+"\Earth_Mars_data.xlsx";
+    Table = readtable(fileG);
+    R_i=table2array(Table(1:3,1))';
+    V_i=table2array(Table(1:3,2))';
+    DM=0; %DryMass
+    FuelM=table2array(Table(1,5)); %Fuel Mass
+    ISP=table2array(Table(1,6));
+    PointMasses={};
+    PlanetPlot={'Earth','Mars'};
+    ThrustSetting={'Acceleration'}; %or Acceleration
+    ThrustCoordinateOption={'ThrustCoordinate'}; %or ThrustCoordinate
+    RelativisticCorrection= false;%true; %or false
+    SolarRadiationPressure= false;%true; %or false
+    CentralBody={'Sun'};%CentralBodyICRF
+    ThrustMag=table2array(Table(1,7));
+    Time=table2array(Table(:,8));
+    EndTime=Time(end);
+    ThrustXYZ=table2array(Table(:,9:11));
+    
+    %Assume values
+    StartDate=juliandate(2023,07,20,00,00,00);
+    
+    
+    
+    %SNOPT Optimization options 
+    Optimize=0;
+    TargetBody={'Mars'};
+    LowBound =10; %in days
+    UpperBound= 3500; %in days
+    MajorFeasibilityTolerance=1e-6;
+    MajorOptimalityTolerance=1e-6;
+    OptimizationRunTimeLimit= 86400; %Seconds 
+    MajorIterationLimit=5000;
+    
+end
+%}
 
 
 
 
-StartDate=juliandate(2023,07,20,00,00,00);
-[R_i,V_i]= planetEphemeris(StartDate,'Sun','Earth');
-DM=0; %DryMass
-FuelM=1000; %Fuel Mass
-PointMasses={};
-PlanetPlot={};
-%PointMasses={'Mercury','Venus','Earth','Luna','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'};
-%PlanetPlot={'Mercury','Venus','Earth','Luna','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'};
-ThrustSetting={'Thrust'}; %or Acceleration
-ThrustCoordinateOption={'ThrustAngles'}; %or ThrustCoordinate
-RelativisticCorrection= %true; %or false
-SolarRadiationPressure= %true; %or false
-%No NonIdeal Gravity or Drag perturbations
-Optimize=0;
-%ThrustInputs
-ThrustMag=0.1; %N
-%ISP=3000; 
-ThrustXYZ=0; 
-%Alpha=zeros(100,1);
-%Beta=zeros(100,1);
-%EndTime=1000000; %Sec
 %% Julian Date to UTC Gregorian format
-StartEpoch=string(datetime(StartDate,'convertfrom','juliandate','Format','dd'' ''MMM'' ''yyyy'' ''HH:mm:ss.SSS'));
+StartEpoch=string(datetime(StartDate,'convertfrom','juliandate','Format',...
+    'dd'' ''MMM'' ''yyyy'' ''HH:mm:ss.SSS'));
 %StartEpoch="20 Jul 2023 00:00:00.000"; %Can only be in  UTC Gregorian format
-%% Check Inputs of ThrustCoordinate
+%% Check Inputs of ThrustCoordinate and ThrustSetting
 ThrustAngle=find(contains(ThrustCoordinateOption,'ThrustAngles'));
 ThrustCoordinate=find(contains(ThrustCoordinateOption,'ThrustCoordinate'));
-if ThrustAngle >= 1
+Accel=find(contains(ThrustSetting,'Acceleration'));
+Thrus=find(contains(ThrustSetting,'Thrust'));
+if ThrustAngle >= 1 %For Alpha, Beta Angles
     if length(Alpha) ~= length(Beta)
-        fprintf("GMAT: Size of Thrust Direction Angle Don't Match")
+        fprintf("GMAT: Size of Thrust Direction Angles Don't Match")
         return
     end
     NumberOfSteps=length(Alpha);
+    Time = linspace(0,EndTime,NumberOfSteps+1)';  % seconds
     ThrustVec=ThrustMag.*[cos(Beta).*cos(Alpha),cos(Beta).*sin(Alpha),sin(Beta)];
-    mdotO= ThrustMag/(ISP *9.807);
-    mdot=ones(NumberOfSteps+1,1)*mdotO;
-    %MassFlowRate
+    if  Thrus >= 1 %ThrustForce
+        mdotO= ThrustMag/(ISP *9.807);
+        mdot=ones(NumberOfSteps+1,1)*mdotO;
+    elseif Accel >=1 %Acceleration
+        mdot=ones(NumberOfSteps+1,1);
+        PropellantMass=FuelM;
+        Mtotal=DM+PropellantMass;
+        TimeStep=Time(2);
+        for i=1:NumberOfSteps %MassFlow Rate interpolation
+            mdot(i)= (ThrustMagnitude(i)*Mtotal)/(ISP *9.807); %This may be wrong
+            PropellantMass=PropellantMass-(mdot(i)*TimeStep);
+            Mtotal=DM+PropellantMass;
+        end
+     end 
 elseif ThrustCoordinate >= 1
     SizeXYZ=size(ThrustXYZ);
     if SizeXYZ(2) == 3
         ThrustVec=ThrustXYZ;
         NumberOfSteps=length(ThrustVec(:,1));
+        Time = linspace(0,EndTime,NumberOfSteps+1)';  % seconds
         ThrustMagnitude=ones(NumberOfSteps,1);
+        Alpha=ones(NumberOfSteps,1);
+        Beta=ones(NumberOfSteps,1);
         mdot=ones(NumberOfSteps+1,1);
+        PropellantMass=FuelM;
+        Mtotal=DM+PropellantMass;
+        TimeStep=Time(2);
         for i=1:NumberOfSteps
-            ThrustMagnitude(i)=norm([ThrustVec(i,1),ThrustVec(i,2) ,ThrustVec(i,3)]);
-            mdot(i)= ThrustMagnitude(i)/(ISP *9.807); %THIS wouldn't Work
-            %ThrustXYZ is Acceleration not Force
+            ThrustMagnitude(i)=norm(ThrustVec(i,1:3));
+            if Optimize==1%Solve for alpha,beta angles 
+                %SEEMS to be broken
+                Beta(i)=asin(ThrustVec(i,3)/ThrustMagnitude(i));
+                Alpha(i)=acos((ThrustVec(i,1)/ThrustMagnitude(i)) / cos(Beta(i)));
+                ThrustVecNew=ThrustMagnitude(i).*[cos(Beta(i))*cos(Alpha(i)),...
+                    cos(Beta(i))*sin(Alpha(i)),sin(Beta(i))];
+                if (Alpha(i) ~= (asin((ThrustVec(i,2)/ThrustMagnitude(i)) / ...
+                        cos(Beta(i))))) || any(ThrustVecNew ~= ThrustVec(i,1:3)) 
+                    fprintf("GMAT: Thrust Angle Interpolation error");
+                    return
+                end
+            end
+            if  Thrus >= 1
+                mdot(i)= ThrustMagnitude(i)/(ISP *9.807);
+            elseif Accel >=1
+                mdot(i)= (ThrustMagnitude(i)*Mtotal)/(ISP *9.807); %This may be wrong
+                PropellantMass=PropellantMass-(mdot(i)*TimeStep);
+                Mtotal=DM+PropellantMass;
+            end 
         end
     else
         fprintf("GMAT: Thrust XYZ does not have 3 columns")
@@ -94,7 +220,7 @@ else
     fprintf("GMAT: No Thrust Coordinate Option Selected")
     return
 end
-%% Copy Files Over Files
+%% Copy Files Over To Working Directory
 MainDir = pwd;
 WorkingDir=MainDir+"\GMAT_RunFolder";
 BlanksDir=WorkingDir+"\Blank_scripts";
@@ -112,8 +238,6 @@ copyfile(sourceS,destinationS);
 copyfile(sourceT,destinationT);
 %% Configure Thrust History Profile Script
 % Headlines for the Thrust File
-Accel=find(contains(ThrustSetting,'Acceleration'));
-Thrus=find(contains(ThrustSetting,'Thrust'));
 if  Thrus >= 1
     ThrustProfileModel="ModelThrustAndMassRate";
 elseif Accel >=1
@@ -127,17 +251,17 @@ else
 end
 headlines = ['BeginThrust{ThrustSegment1}', newline,...
     'Start_Epoch = '+StartEpoch,newline,...
-    'Thrust_Vector_Coordinate_System = SunICRF',newline,...  
+    'Thrust_Vector_Coordinate_System = CentralBodyICRF',newline,...  
     'Thrust_Vector_Interpolation_Method  = None',newline,...
     'Mass_Flow_Rate_Interpolation_Method = None',newline,...
     ThrustProfileModel]; 
 Thrust = zeros(NumberOfSteps+1,3);
 Thrust(1:(end-1),:)=ThrustVec;
 % Obtain time history
-Time = linspace(0,EndTime,NumberOfSteps+1)';  % seconds
 for i=1:(NumberOfSteps+1)
     LineToChange = i+1;         % first 6 lines ae used for headers
-    NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),Thrust(i,2),Thrust(i,3),mdot(i));
+    NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),...
+        Thrust(i,2),Thrust(i,3),mdot(i));
     SS{LineToChange} = NewContent;
 end
 fid0 = fopen(destinationT, 'w');
@@ -149,11 +273,11 @@ fclose(fid0);
 load_gmat();
 gmat.gmat.Clear(); %Clears GMAT API configuration
 gmat.gmat.LoadScript(WorkingDir+FileName_runS);
-%Spacecraft
+%Spacecraft Configuration
 sat = gmat.gmat.Construct("Spacecraft", "Sat");
 sat.SetField("DateFormat", "A1ModJulian")           
 sat.SetField("Epoch", num2str(StartDate-2430000.0)) %modified Julian Date
-sat.SetField("CoordinateSystem", "SunICRF")
+sat.SetField("CoordinateSystem", "CentralBodyICRF")
 sat.SetField("DisplayStateType", "Cartesian")
 sat.SetField('X', R_i(1));
 sat.SetField('Y', R_i(2));
@@ -165,9 +289,9 @@ sat.SetField("DryMass", DM);
 %FuelSource
 eTank=gmat.gmat.Construct("ElectricTank", "ETank");
 eTank.SetField("FuelMass", FuelM);
-%ForceModel
+%ForceModel 
 fm = GMATAPI.Construct("ForceModel", "FM");
-fm.SetField("CentralBody", "Sun");
+fm.SetField("CentralBody", string(CentralBody)); %set to central body
 %Additional pointmasses to foce model
 %Finds PointMasses in String array
 Mercury=find(contains(PointMasses,'Mercury'));
@@ -250,6 +374,8 @@ prop.SetField("Accuracy", 1.0e-9);
 prop.SetField("MinStep", 86400);
 prop.SetField("MaxStep", 86400);
 prop.SetField("MaxStepAttempts", 50);
+%CoordinateSystem
+CentralBodyICRF = gmat.gmat.Construct("CoordinateSystem", "CentralBodyICRF", string(CentralBody), "ICRF");
 %Save script
 gmat.gmat.SaveScript(WorkingDir+FileName_runS);
 gmat.gmat.Clear();
@@ -273,7 +399,8 @@ if RelativisticCorrection == true
     FileRead1New{LineC6}="GMAT FM.RelativisticCorrection = On;";
 end
 %SolarRadiationPressure
-SRP_C=["GMAT FM.SRP.Flux = 1367;";"GMAT FM.SRP.SRPModel = Spherical;";"GMAT FM.SRP.Nominal_Sun = 149597870.691;"];
+SRP_C=["GMAT FM.SRP.Flux = 1367;";"GMAT FM.SRP.SRPModel = Spherical;";...
+    "GMAT FM.SRP.Nominal_Sun = 149597870.691;"];
 if SolarRadiationPressure == true
     LineC8=find(contains(FileRead1,"GMAT FM.SRP ="));
     FileRead1New{LineC8}="GMAT FM.SRP = On;";
@@ -286,7 +413,7 @@ end
 fid1 = fopen(destinationS, 'w');
 fprintf(fid1, '%s\n', FileRead1New{:});
 fclose(fid1);
-%RunPlotScript
+%RunScript
 load_gmat();
 gmat.gmat.Clear(); %Clears GMAT API configuration
 gmat.gmat.LoadScript(destinationS);
@@ -296,6 +423,10 @@ if Ans1 ~= 1
     return
 end
 %% Run SNOPT Optimization
+if Optimize==1 && any(size(TargetBody) ~= 1)
+    fprintf("Gmat: Target Body error")
+    return
+end
 if Optimize==1
     %Constants
     muS = 1.32712440018e+11;   % Km^3/sec^2 
@@ -313,11 +444,11 @@ if Optimize==1
     % Bounds
     lb = [-ones(NumberOfSteps,1)*pi;    % Alpha
           -ones(NumberOfSteps,1)*pi;    % Beta  
-          10*86400/TU];             % TOF (TU) %900
+          LowBound*86400/TU];             % TOF (TU) %900
 
     ub = [ones(NumberOfSteps,1)*pi;     % Alpha 
           ones(NumberOfSteps,1)*pi;     % Beta 
-          3500*86400/TU];            % TOF (TU) %1100
+          UpperBound*86400/TU];            % TOF (TU) %1100
     %lower and upper bounds
     xlow = lb;
     xupp = ub;
@@ -340,23 +471,25 @@ if Optimize==1
     snscreen on;  
     snsummary('SNOPt_summary.txt');
     %tolerance values, 1e-6 by default 
-    snsetr('Major feasibility tolerance',1e-6); 
-    snsetr('Major optimality tolerance',1e-6);
+    snsetr('Major feasibility tolerance',MajorFeasibilityTolerance); 
+    snsetr('Major optimality tolerance',MajorOptimalityTolerance);
     snsetr('Minor feasibility tolerance',1e-6);
     snsetr('Minor optimality tolerance',1e-6);
-    snseti('Time limit',345600);%86400) %Sets time limit to 1 day (in seconds)
-    snseti('Major iteration limit', 1);%5000);
+    snseti('Time limit',OptimizationRunTimeLimit);%345600); %Sets time limit to 1 day (in seconds)
+    snseti('Major iteration limit',MajorIterationLimit);
     snseti('Line search algorithm', 3)%More-Thuente line search
     load_gmat();
     tic
     [x,F,inform,xmul,Fmul,xstate,Fstate,output]= ...
-        snopt( x, xlow, xupp, xmul, xstate, Flow, Fupp, Fmul, Fstate, 'objFunc_conFunc', ObjAdd, ObjRow);
+        snopt( x, xlow, xupp, xmul, xstate, Flow, Fupp, Fmul, Fstate,...
+        'objFunc_conFunc', ObjAdd, ObjRow);
     toc
     % Extract Design Variables
     Thrust_alpha = x(1:NumberOfSteps);                   % rads
     Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps);   % rads
     EndTime     = x(end)*TU;                                           % s
-    ThrustVec=Th.*[cos(Thrust_beta).*cos(Thrust_alpha),cos(Thrust_beta).*sin(Thrust_alpha),sin(Thrust_beta)];
+    ThrustVec=Th.*[cos(Thrust_beta).*cos(Thrust_alpha),cos(Thrust_beta).*sin(Thrust_alpha), ...
+        sin(Thrust_beta)];
     Thrust = zeros(NumberOfSteps+1,3);
     Thrust(1:(end-1),:)=ThrustVec;
     Time = linspace(0,EndTime,NumberOfSteps+1)';  % seconds    
@@ -368,7 +501,8 @@ copyfile(destinationT,destinationSolution);
 % Write the contents of the Thrust File
 for i=1:NumberOfSteps+1
     LineToChange = i+1;         % first 6 lines ae used for headers
-    NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),Thrust(i,2),Thrust(i,3),mdot(i));
+    NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),...
+        Thrust(i,2),Thrust(i,3),mdot(i));
     SS{LineToChange} = NewContent;
 end
 fid3 = fopen(destinationSolution, 'w');
@@ -431,8 +565,15 @@ end
 if Pluto2 >= 1
     OrbitViewAdd=OrbitViewAdd+", Pluto";
 end
-OrbitViewAdd=OrbitViewAdd+"};"; %end
+%Update view Direction/Reference
+LineC7=find(contains(OrbitViewC,"GMAT OrbitView1.ViewPointReference = Sun;"));
+NewText3="GMAT OrbitView1.ViewPointReference = "+string(CentralBody)+";";
+LineC8=find(contains(OrbitViewC,"GMAT OrbitView1.ViewDirection"));
+NewText4="GMAT OrbitView1.ViewDirection = "+string(CentralBody)+";";
+OrbitViewAdd=OrbitViewAdd+"};"; 
 OrbitViewC{LineC5}=OrbitViewAdd;
+OrbitViewC{LineC7}=NewText3;
+OrbitViewC{LineC8}=NewText4;
 FileRead2New=FileRead2;
 %UpdateRunTime Variable
 LineC4=find(contains(FileRead2New,"Create Variable RunTime;"));
@@ -446,9 +587,9 @@ for i=1:(length(CopyMissionSequence))
     FileRead2New{LineC3-4+i+length(OrbitViewC)}=CopyMissionSequence{i};
 end
 %Replace ThrustProfile with Solution Profile
-LineC9=find(contains(FileRead2,NewText1));
+LineC6=find(contains(FileRead2,NewText1));
 NewText2=ThrustHFFN+"'"+destinationSolution+"';";
-FileRead2New{LineC9}=NewText2;
+FileRead2New{LineC6}=NewText2;
 %Rewrite File
 fid2 = fopen(destinationSP, 'w');
 fprintf(fid2, '%s\n', FileRead2New{:});
@@ -462,85 +603,4 @@ if Ans2 ~= 1
     fprintf("GMAT: Failed to Run GMAT Plot Script")
     return
 end
-%% Objective Function
-%{
-function [F, G] = objFunc_conFunc(x)
-global NumberOfSteps
-global Th
-global mdot
-global AU
-global TU
-global headlines
-global t1
-% Extract Design Variables
-Thrust_alpha = x(1:NumberOfSteps);                   % rads
-Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps);   % rads
-TOF     = x(end)*TU;                                           % s
-ThrustVec=Th.*[cos(Thrust_beta).*cos(Thrust_alpha),cos(Thrust_beta).*sin(Thrust_alpha),sin(Thrust_beta)];
-%% Create Thrust History 
-Thrust = zeros(NumberOfSteps+1,3);
-Thrust(1:(end-1),:)=ThrustVec;
-Time = linspace(0,EndTime,NumberOfSteps+1)';  % seconds
-mdotO= ThrustMag/(ISP *9.807);
-mdot=ones(NumberOfSteps+1,1)*mdotO;
-for i=1:(NumberOfSteps+1)
-    LineToChange = i+1;         % first 6 lines ae used for headers
-    NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),Thrust(i,2),Thrust(i,3),mdot(i));
-    SS{LineToChange} = NewContent;
-end
-fid0 = fopen(destinationT, 'w');
-fprintf(fid0,'%s',headlines);
-fprintf(fid0, '%s\n', SS{:});
-fprintf(fid0,'%s','EndThrust{ThrustSegment1}');
-fclose(fid0);
-%% RUN GMAT and Read the Results
-% Load GMAT SCRIPT
-gmat.gmat.LoadScript(destinationS);
-% Input the TOF as RunTime
-PropTime = gmat.gmat.GetObject('RunTime'); %This part seems to work
-PropTime.SetField('Value', TOF);
-% Run GMAT Script
-Ans = gmat.gmat.RunScript();
-if Ans == 0
-    con(1:6)= 1e10;
-    Obj = 1e10;
-elseif Ans ==1
-% Extract Final States of Satellite 
-Sat_X = gmat.gmat.GetRuntimeObject("Sat.SunICRF.X");  Sat_X = Sat_X.GetNumber("Value");
-Sat_Y = gmat.gmat.GetRuntimeObject("Sat.SunICRF.Y");  Sat_Y = Sat_Y.GetNumber("Value");
-Sat_Z = gmat.gmat.GetRuntimeObject("Sat.SunICRF.Z");  Sat_Z = Sat_Z.GetNumber("Value");
-Sat_VX = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VX");  Sat_VX = Sat_VX.GetNumber("Value");
-Sat_VY = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VY");  Sat_VY = Sat_VY.GetNumber("Value");
-Sat_VZ = gmat.gmat.GetRuntimeObject("Sat.SunICRF.VZ");  Sat_VZ = Sat_VZ.GetNumber("Value");
-t2=t1+(TOF/86400);
-[Rm,Vm]= planetEphemeris(t2,'Sun','Mars');
-Mars_VX=Vm(1);
-Mars_VY=Vm(2);
-Mars_VZ=Vm(3);
-Mars_X=Rm(1);
-Mars_Y=Rm(2);
-Mars_Z=Rm(3);
-%% Construct the Constraints and Objective Function
-X = Mars_X - Sat_X;
-Y = Mars_Y - Sat_Y;
-Z = Mars_Z - Sat_Z;
-Vx = Mars_VX - Sat_VX;
-Vy = Mars_VY - Sat_VY;
-Vz = Mars_VZ - Sat_VZ;
-con = [Vx/(AU/TU);
-       Vy/(AU/TU);
-       Vz/(AU/TU);
-       X/AU;
-       Y/AU;
-       Z/AU]; 
-Obj = TOF/TU;
-end
-F(1) = Obj;
-F(2:7)=con;
-G=[];
-end
-
-%}
-
-
-
+end%END
