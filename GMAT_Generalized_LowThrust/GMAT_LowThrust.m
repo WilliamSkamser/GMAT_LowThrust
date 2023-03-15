@@ -1,4 +1,9 @@
 function []=GMAT_LowThrust()
+%Note: 
+%Sometimes GMAT API will crash MATLAB. Use breakpoints at failure point
+%and copy load_gmat() into Command window.
+
+
 %Global variables passed to SNOPT Objective/Constraint  function
 global NumberOfSteps
 global Th
@@ -376,7 +381,8 @@ prop.SetField("MaxStep", 86400);
 prop.SetField("MaxStepAttempts", 50);
 %CoordinateSystem
 CentralBodyICRF = gmat.gmat.Construct("CoordinateSystem", "CentralBodyICRF", string(CentralBody), "ICRF");
-%Save script
+%GMAT API CRASH POINT! Use breakpoint, load_gmat() in command window, or
+%use gmat.gmat.LoadScript(WorkingDir+FileName_runS);
 gmat.gmat.SaveScript(WorkingDir+FileName_runS);
 gmat.gmat.Clear();
 %Replace ThrustProfile File Location
