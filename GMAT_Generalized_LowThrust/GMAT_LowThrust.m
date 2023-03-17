@@ -1,8 +1,13 @@
-function []=GMAT_LowThrust()
+function []=GMAT_LowThrust(TestSet)
 %Note: 
 %Sometimes GMAT API will crash MATLAB. Use breakpoints at failure point
 %and copy load_gmat() into Command window.
+%gmat.gmat.ShowObjects()
 
+%clear
+%clc
+%clear all
+%format longg
 
 %Global variables passed to SNOPT Objective/Constraint  function
 global NumberOfSteps
@@ -38,14 +43,14 @@ global TargetBody
 
 %% Initial State (INPUTS)
 %Test data
-TestSet=1;
+%TestSet=1;
 if TestSet==0 %BlankTestSet
     Alpha=zeros(100,1);
     Beta=zeros(100,1);
     EndTime=1000000; %Sec
     ISP=3000;
     StartDate=juliandate(2002,12,23,20,39,01);
-    [R_i,V_i]= planetEphemeris(StartDate,'Sun','Earth');
+    [R_i,V_i]= planetEphemeris(StartDate,'Sun','Mars');
     DM=23; %DryMass
     FuelM=1300; %Fuel Mass
     PointMasses={'Mercury','Venus','Earth','Luna','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'};
@@ -54,7 +59,7 @@ if TestSet==0 %BlankTestSet
     ThrustCoordinateOption={'ThrustAngles'}; %or ThrustCoordinate
     RelativisticCorrection= true;%true; %or false
     SolarRadiationPressure= true;%true; %or false
-    CentralBody={'Sun'};%CentralBodyICRF
+    CentralBody={'Mars'};%CentralBodyICRF
     %ThrustInputs
     ThrustMag=0.1; %N
     ThrustXYZ=0; 
@@ -96,14 +101,14 @@ if TestSet==1 %EathToMars(ThrustAngles) 1
     ThrustXYZ=0; 
     
     %SNOPT Optimization options 
-    Optimize=0;
+    Optimize=0;%1;
     TargetBody={'Mars'};
     LowBound =10; %in days
     UpperBound= 3500; %in days
     MajorFeasibilityTolerance=1e-6;
     MajorOptimalityTolerance=1e-6;
-    OptimizationRunTimeLimit= 86400; %Seconds 
-    MajorIterationLimit=1;%5000; 
+    OptimizationRunTimeLimit=86400; %Seconds 
+    MajorIterationLimit=5000*10; 
     
 end
 
@@ -380,7 +385,7 @@ prop.SetField("MinStep", 86400);
 prop.SetField("MaxStep", 86400);
 prop.SetField("MaxStepAttempts", 50);
 %CoordinateSystem
-CentralBodyICRF = gmat.gmat.Construct("CoordinateSystem", "CentralBodyICRF", string(CentralBody), "ICRF");
+%CentralBodyICRF = gmat.gmat.Construct("CoordinateSystem", "CentralBodyICRF", string(CentralBody), "ICRF");
 %GMAT API CRASH POINT! Use breakpoint, load_gmat() in command window, or
 %use gmat.gmat.LoadScript(WorkingDir+FileName_runS);
 gmat.gmat.SaveScript(WorkingDir+FileName_runS);
@@ -415,6 +420,10 @@ if SolarRadiationPressure == true
         FileRead1New{LineC7+i}=SRP_C(i);
     end
 end
+%CoordinateSystem
+%CentralBodyICRF = gmat.gmat.Construct("CoordinateSystem", "CentralBodyICRF", string(CentralBody), "ICRF");
+LineC0=find(contains(FileRead1,"GMAT CentralBodyICRF.Origin = Sun;"));
+FileRead1New{LineC0}="GMAT CentralBodyICRF.Origin = "+string(CentralBody)+";"; 
 %Rewrite File
 fid1 = fopen(destinationS, 'w');
 fprintf(fid1, '%s\n', FileRead1New{:});
@@ -483,6 +492,7 @@ if Optimize==1
     snsetr('Minor optimality tolerance',1e-6);
     snseti('Time limit',OptimizationRunTimeLimit);%345600); %Sets time limit to 1 day (in seconds)
     snseti('Major iteration limit',MajorIterationLimit);
+    snseti('Minor iteration limit',MajorIterationLimit*500)
     snseti('Line search algorithm', 3)%More-Thuente line search
     load_gmat();
     tic
@@ -506,7 +516,7 @@ destinationSolution = fullfile(WorkingDir,ThrustProfileSolution);
 copyfile(destinationT,destinationSolution);
 % Write the contents of the Thrust File
 for i=1:NumberOfSteps+1
-    LineToChange = i+1;         % first 6 lines ae used for headers
+    LineToChange = i+1;         % first 6 lines are used for header
     NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),...
         Thrust(i,2),Thrust(i,3),mdot(i));
     SS{LineToChange} = NewContent;

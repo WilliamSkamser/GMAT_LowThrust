@@ -94,12 +94,12 @@ snscreen on;
 snsummary('SNOPt_summary.txt');
 %tolerance values, 1e-6 by default 
 snsetr('Major feasibility tolerance',1e-6); 
-snsetr('Major optimality tolerance',9.9e+1);%1e-6);
+snsetr('Major optimality tolerance',1e-6);
 snsetr('Minor feasibility tolerance',1e-6);
-snsetr('Minor optimality tolerance',9.9e+1);%1e-6);
+snsetr('Minor optimality tolerance',1e-6);
 
-snseti('Time limit',345600);%86400) %Sets time limit to 1 day (in seconds)
-snseti('Major iteration limit', 1);%5000);
+snseti('Time limit',86400) %Sets time limit to 1 day (in seconds)
+snseti('Major iteration limit',5000);
 snseti('Line search algorithm', 3)%More-Thuente line search
 %Around 5% faster than default ,0) Backtracking line search
 
