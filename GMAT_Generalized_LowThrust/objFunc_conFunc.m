@@ -10,6 +10,8 @@ global destinationT
 global destinationS
 global ISP
 global TargetBody
+global TargetSetting
+global TargetSV
 % Extract Design Variables
 Thrust_alpha = x(1:NumberOfSteps);                   % rads
 Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps);   % rads
@@ -51,7 +53,18 @@ Sat_VX = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.VX");  Sat_VX = Sat_VX.
 Sat_VY = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.VY");  Sat_VY = Sat_VY.GetNumber("Value");
 Sat_VZ = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.VZ");  Sat_VZ = Sat_VZ.GetNumber("Value");
 t2=t1+(TOF/86400);
-[R_Target,V_Target]= planetEphemeris(t2,'Sun',string(TargetBody));
+if TargetSetting==1
+    [R_Target,V_Target]= planetEphemeris(t2,'Sun',string(TargetBody));
+elseif TargetSetting==1
+    R_Target(1)=TargetSV(1);
+    R_Target(2)=TargetSV(2);
+    R_Target(3)=TargetSV(3);
+    V_Target(1)=TargetSV(4);
+    V_Target(2)=TargetSV(5);
+    V_Target(3)=TargetSV(6);
+else
+    return
+end
 %% Construct the Constraints and Objective Function
 X = R_Target(1) - Sat_X;
 Y = R_Target(2) - Sat_Y;
