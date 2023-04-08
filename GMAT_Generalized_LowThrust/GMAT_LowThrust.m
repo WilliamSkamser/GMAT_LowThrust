@@ -1,11 +1,9 @@
 function []=GMAT_LowThrust(FileName,varargin)
-%GMAT_LowThrust("\GMAT_LowThrust_TemplateBad.xlsx")
-
+%GMAT_LowThrust("\GMAT_LowThrust_Template.xlsx")
     %arguments
     %    FileName string
     %end
-%FileName="\GMAT_LowThrust_Template.xlsx";
-%Global variables passed to SNOPT Objective/Constraint  function
+%Global variables passed to SNOPT Objective/Constraint function
 global NumberOfSteps
 global Th
 global mdot
@@ -21,11 +19,15 @@ global TargetSetting
 global TargetSV
 global MassFOn
 %% NEXT STEPS TO WORK ON
-%1) The Two Questions 
-    %XYZ vs Alpha/Beta
-    %Massflow Rate -> provided or interpolated
-%2) Alpha, Beta angle interpolation for only thrust coordinate provided
-%3) Acceleration Massflow Rate
+% 1)Mdot uniform in objective function
+% 2)Time Step is uniform in objective function
+% 3)Acceleration Massflow Rate?
+% 4)In inertial Referance frame not VNB
+%   -> Alpha,Beta angle Interpolation need to change
+% 5) Alpha and Beta angles provided don't match Thrust XYZ
+
+
+
 
 
 narginchk(1, 3);%Check input
@@ -321,7 +323,7 @@ if ThrustAngle >= 1 %For Alpha, Beta Angles   %%%THIS
         mdot=ones(NumberOfSteps,1);
         PropellantMass=FuelM;
         Mtotal=DM+PropellantMass;
-        TimeStep=Time(2);
+        TimeStep=Time(2); %Uniform Time Step
         ThrustMagnitude=ones(NumberOfSteps,1)*ThrustMag;
         for i=1:NumberOfSteps %MassFlow Rate interpolation
             mdot(i)= (ThrustMagnitude(i)*Mtotal)/(ISP *9.807); %This may be wrong
@@ -344,17 +346,8 @@ elseif ThrustCoordinate >= 1
         for i=1:NumberOfSteps
             ThrustMagnitude(i)=norm(ThrustVec(i,1:3));
             if Optimize==1%Solve for alpha,beta angles 
-                %SEEMS to be broken
                 Beta(i)=asin(ThrustVec(i,3)/ThrustMagnitude(i));
-                Alpha(i)=acos((ThrustVec(i,1)/ThrustMagnitude(i)) / cos(Beta(i)));
-                ThrustVecNew=ThrustMagnitude(i).*[cos(Beta(i))*cos(Alpha(i)),...
-                    cos(Beta(i))*sin(Alpha(i)),sin(Beta(i))];
-                if (Alpha(i) ~= (asin((ThrustVec(i,2)/ThrustMagnitude(i)) / ...
-                        cos(Beta(i))))) || any(ThrustVecNew ~= ThrustVec(i,1:3)) 
-                    fprintf("\nGMAT: Thrust Angle Interpolation error\n");
-                    dbstack()
-                    return
-                end
+                Alpha(i)=atan(ThrustVec(i,2)/ThrustVec(i,1));
             end
             if  Thrus >= 1
                 mdot(i)= ThrustMagnitude(i)/(ISP *9.807);
@@ -566,8 +559,6 @@ prop.SetField("MaxStep", 86400);
 prop.SetField("MaxStepAttempts", 50);
 %CoordinateSystem
 %CentralBodyICRF = gmat.gmat.Construct("CoordinateSystem", "CentralBodyICRF", string(CentralBody), "ICRF");
-%GMAT API CRASH POINT! Use breakpoint, load_gmat() in command window, or
-%use gmat.gmat.LoadScript(WorkingDir+FileName_runS);
 gmat.gmat.SaveScript(WorkingDir+FileName_runS);
 gmat.gmat.Clear();
 %Replace ThrustProfile File Location
@@ -676,7 +667,7 @@ if Optimize==1
     snseti('Time limit',Opt.OptimizationRunTimeLimit);%345600); %Sets time limit to 1 day (in seconds)
     snseti('Major iteration limit',Opt.MajorIterationLimit);
     snseti('Minor iteration limit',Opt.MajorIterationLimit*10000);
-    snseti('Line search algorithm', 3)%More-Thuente line search
+    snseti('Line search algorithm', 3)%More-Thuente line search, Seems to be faster than default line search
     load_gmat();
     tic
     [x,F,inform,xmul,Fmul,xstate,Fstate,output]= ...

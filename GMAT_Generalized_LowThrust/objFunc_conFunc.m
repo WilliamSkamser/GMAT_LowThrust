@@ -19,11 +19,11 @@ Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps);   % rads
 TOF     = x(end)*TU;                                           % s
 ThrustVec=Th.*[cos(Thrust_beta).*cos(Thrust_alpha),cos(Thrust_beta).*sin(Thrust_alpha),sin(Thrust_beta)];
 %% Create Thrust History 
-Thrust = zeros(NumberOfSteps,3);
+%Thrust = zeros(NumberOfSteps,3);
 %Thrust(1:(end-1),:)=ThrustVec;
 Thrust=ThrustVec;
 Time = linspace(0,TOF,NumberOfSteps)';  % seconds Assume Uniform timestep
-mdotO= Th/(ISP *9.807);
+mdotO= Th/(ISP *9.807); %Uniform mdot
 mdot=ones(NumberOfSteps,1)*mdotO;
 if MassFOn==1
     for i=1:(NumberOfSteps)

@@ -6,11 +6,11 @@
 %----------------------------------------
 Create Spacecraft Sat;
 GMAT Sat.DateFormat = A1ModJulian;
-GMAT Sat.Epoch = '22632.3604';
+GMAT Sat.Epoch = '22632.36042824';
 GMAT Sat.CoordinateSystem = CentralBodyICRF;
 GMAT Sat.DisplayStateType = Cartesian;
-GMAT Sat.X = -75513715.35908848;
-GMAT Sat.Y = -131231190.0929379;
+GMAT Sat.X = -75513715.35908839;
+GMAT Sat.Y = -131231190.0929381;
 GMAT Sat.Z = 9215.604778148234;
 GMAT Sat.VX = 25.33476403472029;
 GMAT Sat.VY = -14.9693793388435;
