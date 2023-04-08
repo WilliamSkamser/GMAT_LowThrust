@@ -12,21 +12,33 @@ global ISP
 global TargetBody
 global TargetSetting
 global TargetSV
+global MassFOn
 % Extract Design Variables
 Thrust_alpha = x(1:NumberOfSteps);                   % rads
 Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps);   % rads
 TOF     = x(end)*TU;                                           % s
 ThrustVec=Th.*[cos(Thrust_beta).*cos(Thrust_alpha),cos(Thrust_beta).*sin(Thrust_alpha),sin(Thrust_beta)];
 %% Create Thrust History 
-Thrust = zeros(NumberOfSteps+1,3);
-Thrust(1:(end-1),:)=ThrustVec;
-Time = linspace(0,TOF,NumberOfSteps+1)';  % seconds
+Thrust = zeros(NumberOfSteps,3);
+%Thrust(1:(end-1),:)=ThrustVec;
+Thrust=ThrustVec;
+Time = linspace(0,TOF,NumberOfSteps)';  % seconds Assume Uniform timestep
 mdotO= Th/(ISP *9.807);
-mdot=ones(NumberOfSteps+1,1)*mdotO;
-for i=1:(NumberOfSteps+1)
-    LineToChange = i+1;         % first 6 lines ae used for headers
-    NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),Thrust(i,2),Thrust(i,3),mdot(i));
-    SS{LineToChange} = NewContent;
+mdot=ones(NumberOfSteps,1)*mdotO;
+if MassFOn==1
+    for i=1:(NumberOfSteps)
+        LineToChange = i+1;         % first 6 lines ae used for headers
+        NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),...
+            Thrust(i,2),Thrust(i,3),mdot(i));
+        SS{LineToChange} = NewContent;
+    end
+else
+    for i=1:(NumberOfSteps)
+        LineToChange = i+1;         % first 6 lines ae used for headers
+        NewContent = compose("%.16f \t %.16f %.16f %.16f",Time(i),Thrust(i,1),...
+            Thrust(i,2),Thrust(i,3));
+        SS{LineToChange} = NewContent;
+    end
 end
 fid0 = fopen(destinationT, 'w');
 fprintf(fid0,'%s',headlines);
@@ -55,7 +67,7 @@ Sat_VZ = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.VZ");  Sat_VZ = Sat_VZ.
 t2=t1+(TOF/86400);
 if TargetSetting==1
     [R_Target,V_Target]= planetEphemeris(t2,'Sun',string(TargetBody));
-elseif TargetSetting==1
+elseif TargetSetting==0
     R_Target(1)=TargetSV(1);
     R_Target(2)=TargetSV(2);
     R_Target(3)=TargetSV(3);
