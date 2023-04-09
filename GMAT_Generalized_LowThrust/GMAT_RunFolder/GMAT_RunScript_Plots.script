@@ -67,7 +67,7 @@ GMAT ETank.FuelMass = 1000;
 %----------------------------------------
 Create ForceModel FM;
 GMAT FM.CentralBody = Sun;
-GMAT FM.PointMasses = {Sun, Mercury, Venus, Earth, Luna, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto};
+GMAT FM.PointMasses = {Sun};
 GMAT FM.Drag = None;
 GMAT FM.SRP = Off;
 GMAT FM.RelativisticCorrection = Off;
@@ -121,7 +121,7 @@ GMAT ThrustSegment1.MassSource = {'ETank'};
 
 Create Array Data[1,6];
 Create Variable RunTime;
-GMAT RunTime = 82080000;
+GMAT RunTime = 89968682.2619;
 
 
 
@@ -139,7 +139,7 @@ GMAT OrbitView1.UpperLeft = [ 0.003971405877680699 0 ];
 GMAT OrbitView1.Size = [ 0.7998411437648928 0.8501228501228502 ];
 GMAT OrbitView1.RelativeZOrder = 63;
 GMAT OrbitView1.Maximized = false;
-GMAT OrbitView1.Add = {Sat, Sun, Mercury, Venus, Earth, Luna, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto};
+GMAT OrbitView1.Add = {Sat, Sun, Earth, Mars};
 GMAT OrbitView1.CoordinateSystem = CentralBodyICRF;
 GMAT OrbitView1.DrawObject = [ true true true true true true true true true true true true ];
 GMAT OrbitView1.DataCollectFrequency = 1;

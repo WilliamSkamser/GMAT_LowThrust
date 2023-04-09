@@ -1,5 +1,9 @@
 function []=GMAT_LowThrust(FileName,varargin)
-%GMAT_LowThrust("\GMAT_LowThrust_Template.xlsx")
+%% Tests to run
+%1) GMAT_LowThrust("\MarsXYZExample.xlsx")
+%2) GMAT_LowThrust("\MarsAnglesExample.xlsx")
+%3) GMAT_LowThrust("\JupiterXYZExample.xlsx")
+%4) GMAT_LowThrust("\JupiterAnglesExample.xlsx")
     %arguments
     %    FileName string
     %end

@@ -67,7 +67,7 @@ GMAT ETank.FuelMass = 1000;
 %----------------------------------------
 Create ForceModel FM;
 GMAT FM.CentralBody = Sun;
-GMAT FM.PointMasses = {Sun, Mercury, Venus, Earth, Luna, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto};
+GMAT FM.PointMasses = {Sun};
 GMAT FM.Drag = None;
 GMAT FM.SRP = Off;
 GMAT FM.RelativisticCorrection = Off;
