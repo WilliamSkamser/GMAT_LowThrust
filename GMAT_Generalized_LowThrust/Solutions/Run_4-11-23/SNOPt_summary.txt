@@ -1,0 +1,573 @@
+
+ ==============================
+ S N O P T  7.6.0    (Jan 2017)
+ ==============================
+ Line search algorithm                                            3
+ XXX  Second keyword not recognized:  SEARCH
+ 
+ SNMEMA EXIT 100 -- finished successfully
+ SNMEMA INFO 104 -- memory requirements estimated
+
+ Nonzero derivs  Jij      2395
+ Non-constant    Jij's    2394     Constant Jij's           1
+ 
+ SNJAC  EXIT 100 -- finished successfully
+ SNJAC  INFO 102 -- Jacobian structure estimated
+
+ 
+ ===>  WARNING - Column    200 of the Jacobian is empty.
+ ===>  WARNING - Column    400 of the Jacobian is empty.
+ 
+ Scale option  0
+ 
+
+ Nonlinear constraints       6     Linear constraints       1
+ Nonlinear variables       399     Linear variables         2
+ Jacobian  variables       399     Objective variables      0
+ Total constraints           7     Total variables        401
+ 
+ Itn      0: Feasible linear rows
+ Itn      0: PP1.  Minimizing  Norm(x-x0)
+
+ Itn      0: PP1.  Norm(x-x0) approximately minimized  (0.00E+00)
+
+ 
+ The user has defined       0   out of    2394   first  derivatives
+ 
+ Itn      0: Hessian set to a scaled identity matrix
+
+        Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
+          100    326 -4.5E-01  1.0E+00  8.2E-15  6.0446297E+00     32
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+     0    186               1  1.9E+00  9.0E-01  2.7142857E-01    100           r  T
+ Itn    186: Hessian set to a scaled identity matrix
+
+        Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
+          100    173 -1.3E+00  1.0E+00  3.3E-14  3.7333538E+01    163
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+     1    121  1.0E+00      2  6.9E-01  3.9E-01  4.4177895E+00    184 2.6E+00   r  T
+
+        Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
+          100     62 -8.5E-02  1.0E+00  2.7E-15  5.8709947E+00    275
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+     2    108  9.0E-02      4  6.3E-01  3.6E-01  5.1843514E+01    283 2.0E+02 sM   T
+     3     86  2.6E-01      5  5.4E-01  1.2E+00  1.0151574E+01    336 1.8E+01
+     4     93  2.8E-01      6  5.7E-01  3.6E-01  6.7681151E+00    319 1.2E+01
+     5     39  6.6E-02      7  5.4E-01  1.8E+00  1.5002935E+01    315 5.8E+01
+
+        Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
+          100     12           1.5E-01  5.1E-01  3.0887112E+01    279
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+     6    122  1.2E-01      8  4.7E-01  4.0E-01  1.6107762E+01    284 7.2E+01
+
+        Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
+          100     65  2.5E+00  1.0E+00  1.9E-13  1.1220191E+02    217
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+     7    170  2.0E-02      9  4.6E-01  2.9E-01  5.4171447E+01    265 3.9E+02
+
+        Minor NumInf  FP mult  FP step   rgNorm         SumInf     nS
+          100      1           2.4E-03  1.7E+00  1.4014127E+01    165
+          200      1           2.7E-02  1.9E-01  3.6737287E+00     65
+
+        Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
+          300    214 -3.3E+00  1.0E+00  1.4E-13  3.5960502E+02     17
+          400     69 -1.3E+00  1.0E+00  4.1E-13  2.6691394E+02    111
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+     8    455  1.1E-02     10  4.6E-01  2.9E-01  1.4978557E+02    162 1.2E+03
+
+        Minor NumInf  FP mult  FP step   rgNorm         SumInf     nS
+          100      3           9.6E-03  7.7E-01  1.0515769E+02     62
+ Itn   1555: Infeasible QP subproblem
+ Itn   1555: Elastic Phase 1 -- making non-elastic variables feasible
+ Itn   1565: Infeasible subproblem. Elastic mode started with weight =  1.0E+05
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          200    156  2.0E+05  2.4E-03           2.7939102E+04
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+     9    298  1.4E-03     11  4.6E-01  5.8E-01  9.4598558E+02     22 8.2E+03     i
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100     18  1.4E+00  1.0E+00  9.6E-12  4.1900921E+03     38
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    10    119  1.2E-04     12  4.6E-01  5.8E-01  1.3506237E+04     57 1.2E+05     i
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100     51 -3.8E+00  3.3E-01  1.9E-01  4.6164570E+03      1
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    11    151  1.6E-04     13  4.6E-01  5.8E-01  1.3930475E+04     51 1.2E+05     i
+ Itn   1948: Hessian off-diagonals discarded
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100      1 -2.6E-01  1.0E+00  1.0E-11  4.4528990E+03     36
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    12    101  1.2E-04     14  4.6E-01  5.8E-01  1.4124681E+04     37 1.2E+05   R i
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100     25 -4.9E+00  1.0E+00  2.7E-12  6.0927038E+03    136
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    13    125  9.5E-05     15  4.6E-01  5.8E-01  1.4124219E+04    161 1.2E+05 s   i
+    14     37  5.7E-04     16  4.6E-01  5.8E-01  1.4861310E+04    197 1.3E+05     i
+    15     50  1.4E-03     17  4.6E-01  5.8E-01  1.5569063E+04    201 1.4E+05     i
+    16     43  4.8E-04     18  4.6E-01  5.8E-01  1.6396778E+04    226 1.5E+05     i
+    17     45  1.3E-03     19  4.5E-01  5.7E-01  1.6875914E+04    234 1.5E+05     i
+    18     47  1.1E-03     20  4.5E-01  5.7E-01  1.7195653E+04    245 1.5E+05     i
+    19     31  9.8E-04     21  4.5E-01  5.7E-01  1.7713165E+04    249 1.6E+05     i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    20     30  1.1E-03     22  4.5E-01  5.7E-01  1.7931752E+04    252 1.6E+05     i
+    21     28  7.9E-04     23  4.5E-01  5.7E-01  1.8171005E+04    264 1.6E+05     i
+    22     18  7.0E-04     24  4.5E-01  5.7E-01  1.8414293E+04    269 1.6E+05     i
+ Itn   2503: Hessian off-diagonals discarded
+    23     10  8.2E-04     25  4.5E-01  5.7E-01  1.8524758E+04    268 1.6E+05   R i
+    24     24  1.3E-03     26  4.5E-01  5.7E-01  1.8610731E+04    289 1.7E+05 s   i
+    25      4  2.6E-03     27  4.5E-01  5.7E-01  1.9122638E+04    290 1.7E+05     i
+    26      2  1.6E-03     28  4.5E-01  5.7E-01  1.9389645E+04    289 1.7E+05     i
+    27      3  1.4E-03     29  4.5E-01  5.6E-01  1.9441674E+04    291 1.7E+05     i
+    28      3  1.3E-03     30  4.5E-01  5.6E-01  1.9597970E+04    293 1.8E+05     i
+    29      3  1.0E-03     31  4.5E-01  5.6E-01  1.9710829E+04    293 1.8E+05     i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    30      4  1.1E-03     32  4.5E-01  5.6E-01  1.9768014E+04    296 1.8E+05     i
+    31      1  1.1E-03     33  4.5E-01  5.6E-01  1.9861206E+04    296 1.8E+05     i
+    32      1  1.1E-03     34  4.5E-01  5.6E-01  1.9916930E+04    296 1.8E+05     i
+    33      4  1.0E-03     35  4.5E-01  5.6E-01  1.9991610E+04    293 1.8E+05     i
+ Itn   2562: Hessian off-diagonals discarded
+    34     10  9.4E-04     36  4.5E-01  5.6E-01  2.0010943E+04    300 1.8E+05   R i
+    35      7  3.0E-03     37  4.4E-01  5.6E-01  2.0270521E+04    298 1.8E+05 s   i
+    36      6  1.9E-03     38  4.4E-01  5.5E-01  2.0575595E+04    303 1.9E+05     i
+    37      1  1.1E-03     39  4.4E-01  5.5E-01  2.0566068E+04    303 1.9E+05     i
+    38      3  7.5E-04     40  4.4E-01  5.5E-01  2.0585425E+04    303 1.9E+05     i
+    39      3  6.1E-04     41  4.4E-01  5.5E-01  2.0591509E+04    301 1.9E+05     i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    40      4  5.2E-04     42  4.4E-01  5.5E-01  2.0581976E+04    302 1.9E+05     i
+    41      1  4.0E-04     43  4.4E-01  5.5E-01  2.0575447E+04    302 1.9E+05     i
+    42      1  3.0E-04     44  4.4E-01  5.5E-01  2.0570841E+04    302 1.9E+05     i
+    43      1  2.2E-04     45  4.4E-01  5.5E-01  2.0573731E+04    302 1.9E+05     i
+    44      1  1.9E-04     46  4.4E-01  5.5E-01  2.0575227E+04    302 1.9E+05     i
+ Itn   2600: Hessian off-diagonals discarded
+    45     14  1.6E-04     47  4.4E-01  5.5E-01  2.0577253E+04    313 1.9E+05   R i
+    46      8  3.6E-03     48  4.4E-01  5.5E-01  2.1634805E+04    310 2.0E+05 s   i
+    47      2  2.4E-03     49  4.4E-01  5.5E-01  2.1620323E+04    309 2.0E+05     i
+    48      2  2.7E-03     50  4.4E-01  5.4E-01  2.1606975E+04    308 2.0E+05     i
+    49      2  2.6E-03     51  4.4E-01  5.4E-01  2.1592943E+04    307 2.0E+05     i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    50      1  2.4E-03     52  4.4E-01  5.4E-01  2.1588700E+04    307 2.0E+05     i
+    51      2  2.1E-03     53  4.4E-01  5.4E-01  2.1586219E+04    308 2.0E+05     i
+    52      3  2.0E-03     54  4.4E-01  5.4E-01  2.1579328E+04    306 2.0E+05     i
+    53      1  2.1E-03     55  4.4E-01  5.4E-01  2.1573858E+04    306 2.0E+05     i
+    54      2  2.1E-03     56  4.3E-01  5.4E-01  2.1569557E+04    305 2.0E+05     i
+    55      2  2.0E-03     57  4.3E-01  5.4E-01  2.1563949E+04    304 2.0E+05     i
+ Itn   2639: Hessian off-diagonals discarded
+    56     12  2.0E-03     58  4.3E-01  5.3E-01  2.1559431E+04    313 2.0E+05   R i
+    57      1  1.8E-02     59  4.3E-01  5.2E-01  2.2600015E+04    313 2.1E+05 s   i
+    58      2  3.8E-03     60  4.3E-01  5.2E-01  2.2760462E+04    312 2.1E+05     i
+    59      2  5.4E-03     61  4.3E-01  5.2E-01  2.2755534E+04    311 2.1E+05     i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    60      2  5.7E-03     62  4.3E-01  5.1E-01  2.2750091E+04    310 2.1E+05     i
+    61      2  5.9E-03     63  4.2E-01  5.1E-01  2.2745562E+04    311 2.1E+05     i
+    62      3  5.6E-03     64  4.2E-01  5.1E-01  2.2741371E+04    311 2.1E+05     i
+    63      2  4.7E-03     65  4.2E-01  5.1E-01  2.2738291E+04    310 2.1E+05     i
+    64      2  4.6E-03     66  4.2E-01  5.0E-01  2.2735352E+04    309 2.1E+05     i
+    65      2  4.9E-03     67  4.2E-01  5.0E-01  2.2732203E+04    310 2.1E+05     i
+    66      1  4.5E-03     68  4.2E-01  5.0E-01  2.2729385E+04    310 2.1E+05     i
+ Itn   2670: Hessian off-diagonals discarded
+    67      7  4.1E-03     69  4.2E-01  6.8E-01  2.2726982E+04    316 2.1E+05   R i
+    68      1  3.5E-02     70  4.1E-01  9.5E-01  2.4545247E+04    316 2.3E+05 s   i
+    69      3  2.3E-02     71  4.1E-01  4.7E-01  2.5977677E+04    318 2.5E+05     i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    70      2  2.5E-02     72  4.0E-01  4.6E-01  2.6146356E+04    319 2.5E+05     i
+    71      2  2.0E-02     73  4.0E-01  4.5E-01  2.6114875E+04    318 2.5E+05     i
+    72      2  1.6E-02     74  4.0E-01  4.4E-01  2.6091683E+04    319 2.5E+05     i
+    73      2  1.2E-02     75  3.9E-01  4.4E-01  2.6049760E+04    318 2.5E+05     i
+    74      4  1.1E-02     76  3.9E-01  4.3E-01  2.5998273E+04    315 2.5E+05     i
+    75      3  1.1E-02     77  3.9E-01  4.3E-01  2.5936430E+04    313 2.5E+05     i
+    76      3  1.1E-02     78  3.9E-01  4.2E-01  2.5865668E+04    315 2.5E+05     i
+    77      4  1.1E-02     79  3.9E-01  4.2E-01  2.5783009E+04    318 2.5E+05     i
+ Itn   2703: Hessian off-diagonals discarded
+    78     25  1.1E-02     80  3.8E-01  8.1E+00  2.5693720E+04    340 2.5E+05   R i
+    79     13  3.8E-02     81  3.8E-01  1.2E+01  3.1758003E+04    344 4.2E+05 s   i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    80      4  1.6E-01     82  3.5E-01  1.0E+01  4.3096443E+04    343 8.4E+05     i
+    81      9  3.2E-01     83  3.2E-01  6.4E+00  4.5135735E+04    335 1.0E+06     i
+    82      9  1.9E-01     84  3.1E-01  5.8E+00  4.2624440E+04    331 1.0E+06     i
+    83      2  1.1E-01     85  3.0E-01  1.4E+00  3.9249861E+04    330 5.2E+05     i
+    84     10  3.7E-01     86  2.7E-01  2.8E+00  3.3382537E+04    329 2.8E+03     i
+    85     17  2.9E-01     87  2.5E-01  4.3E+00  3.0447621E+04    335 2.3E+02     i
+    86     13  1.3E-01     88  2.3E-01  4.6E+00  2.9112651E+04    337 6.6E+01     i
+    87     68  9.9E-01     89  6.4E-01  3.6E+00  6.2500850E+04    352 6.6E+01
+    88     73  1.0E+00     90  2.2E-01  1.7E+00  1.5183644E+04    342 6.6E+01     i
+ Itn   2946: Hessian off-diagonals discarded
+    89     29  7.5E-02     91  2.1E-01  4.2E+00  1.4437130E+04    362 6.6E+01   R i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+    90     18  3.1E-01     92  1.4E-01  2.9E+00  1.5211924E+04    357 1.4E+05 s   i
+    91     20  1.0E+00     93  2.7E-01  9.8E+00  1.1013565E+04    358 1.9E+03
+    92     55  1.0E+00     94  1.3E-01  9.8E-01  1.0145558E+04    362 3.5E+02     i
+    93     15  1.0E+00     95  5.5E-02  3.1E-01  6.6829919E+03    364 2.1E+02     i
+    94      4  1.0E+00     96  4.5E-02  6.9E-01  5.3883992E+03    361 2.1E+02     i
+    95     17  1.0E+00     97  4.2E-02  3.0E-02  4.8965450E+03    361 2.1E+02     i
+    96      7  1.0E+00     98  3.5E-02  4.9E-01  4.2631909E+03    363 2.1E+02     i
+    97      4  1.0E+00     99  4.6E-02  1.4E-01  3.9471211E+03    364 2.1E+02     i
+    98      6  1.0E+00    100  3.2E-02  6.9E-01  3.5400200E+03    359 2.1E+02     i
+    99      9  1.0E+00    101  2.7E-02  4.0E-01  3.2577240E+03    365 2.1E+02     i
+ Itn   3130: Hessian off-diagonals discarded
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   100      7  1.0E+00    102  2.6E-02  7.8E-01  2.9626766E+03    363 2.1E+02   R i
+   101      4  1.0E+00    103  2.6E-02  6.5E-01  2.7458736E+03    364 2.1E+02 s   i
+   102     12  1.0E+00    104  2.2E-02  6.0E-01  2.4932690E+03    359 2.1E+02     i
+   103      9  1.0E+00    105  4.1E-02  2.6E-01  2.3557648E+03    363 2.1E+02     i
+   104      8  1.0E+00    106  6.5E-02  3.7E-01  2.2684022E+03    362 2.1E+02     i
+   105      7  1.0E+00    107  1.7E-02  6.3E-01  1.9131517E+03    360 2.1E+02     i
+   106      4  1.0E+00    108  1.7E-02  5.0E-01  1.7792623E+03    359 2.1E+02     i
+   107     11  1.0E+00    109  4.8E-02  2.1E-01  1.6142247E+03    363 2.1E+02     i
+   108      6  1.0E+00    110  1.5E-02  4.4E-01  1.3751277E+03    358 2.1E+02     i
+   109      4  1.0E+00    111  2.7E-02  8.7E-02  1.2541766E+03    355 2.1E+02     i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   110      5  1.0E+00    112  2.9E-02  2.4E-02  1.1318472E+03    357 2.1E+02     i
+ Itn   3207: Hessian off-diagonals discarded
+   111      4  1.0E+00    113  2.5E-02  1.2E-01  1.0335855E+03    354 2.1E+02   R i
+   112      2  1.0E+00    114  9.0E-03  5.5E-01  9.9670739E+02    355 2.1E+02 s   i
+   113      6  1.0E+00    115  9.3E-03  7.4E-01  9.6284040E+02    358 2.1E+02     i
+   114      3  1.0E+00    116  7.8E-03  6.0E-01  8.8599856E+02    356 2.1E+02     i
+   115     10  1.0E+00    117  7.8E-03  6.7E-01  8.0974248E+02    357 2.1E+02     i
+   116     25  1.0E+00    118  5.8E-03  8.3E-01  5.5015523E+02    351 2.1E+02
+   117     28  4.2E-01    119  3.2E-03  6.6E-01  4.2647861E+02    354 2.1E+02     i
+   118     24  1.0E+00    120  2.1E-02  1.1E+00  4.0631265E+02    371 2.1E+02
+   119     17  1.0E+00    121  6.0E-03  7.4E-01  1.8882994E+01    365 2.1E+02
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   120      7  1.0E+00    122  4.4E-03  5.5E-01  2.0513507E+01    359 3.7E+05
+   121     35  1.0E+00    124  1.4E-05  3.0E-01  2.1444910E-01    393 6.5E+03  M
+   122      1  1.0E+00    126 (4.1E-08) 1.3E-01  3.3773173E-01    393 1.2E+09
+ Itn   3369: Hessian off-diagonals discarded
+   123      1  1.0E+00    128 (4.3E-11) 2.9E-01  3.3773197E-01    393 1.5E+09   R
+   124      1  1.0E+00    130 (1.2E-12) 2.9E-01  3.3773196E-01    393 8.1E+05   R
+ Itn   3371: Hessian set to a scaled identity matrix
+   125     49  1.0E+00    132 (2.2E-12) 5.9E-03  3.3773196E-01    346           r
+   126     45  1.0E+00    134  1.1E+00  1.0E+05 -1.5408181E-01    352         sm
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100     38 -1.0E-03  5.6E-02  9.8E-04  2.5504108E-01    264
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   127    144  1.0E+00    136  2.2E-01  2.2E+04  3.1659013E-01    303 7.7E-01  m
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100     38  1.7E-03  1.0E+00  4.8E-15  2.2576699E-01    211
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   128    161  3.8E-02    137  2.1E-01  2.1E+04  3.1301601E-01    257 7.7E-01
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100     49 -9.7E-04  5.8E-01  4.1E-04  2.3457281E-01    179
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   129    148  2.8E-02    138  2.1E-01  2.1E+04  3.1089460E-01    226 7.7E-01
+
+        Minor NumInf  FP mult  FP step   rgNorm         SumInf     nS
+          100      4           4.3E-03  1.9E+00  2.3201286E+02    126
+          200      4           4.5E-01  2.2E-01  2.0206506E+02     26
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          300     80  8.9E+02  2.2E-06           1.0028696E+05
+          400     87  4.3E+02  9.4E-04           4.4158618E+04
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   130    436  1.0E+00    140  2.2E+00  1.3E+00 -2.8193996E-02        7.7E-01  m  i
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100    121  2.0E+03  1.0E+00  4.4E-11  4.6474563E+04      1
+          200     78  1.1E+04  7.4E-01           2.6363147E+04
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   131    298  1.0E+00    142  5.5E-01  5.3E-01 -9.6004246E+04      1 5.6E+04  M  i
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100    119 -1.9E+03  3.9E-02           1.4301173E+05
+          200     37 -1.5E+02  1.0E+00  3.4E-09  9.2861426E+04      2
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   132    215  1.4E-06    143  5.5E-01  6.3E-02  4.5818857E+04      2 7.5E+05     i
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100     68           6.4E-01  8.1E+01  1.5983558E+04      1
+          200     34 -1.1E+02  3.2E-01  6.1E-01  1.0323821E+04      1
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   133    255  1.8E-02    144  5.4E-01  4.5E-01  6.8489476E+04      2 1.2E+06     i
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100    111 -3.8E+02  4.9E-06  1.1E-09  3.5152489E+04      3
+          200     62           4.1E-01  6.3E+01  2.6707206E+04      2
+          300     30  1.3E+01  5.0E-04  9.5E-11  2.5935692E+04      3
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   134    357  1.2E-01    145  5.3E-01  5.1E-01  5.5726256E+04      3 9.0E+05     i
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100     27           1.0E+00  8.8E-13  2.5170794E+04      3
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   135    175  1.0E-02    146  5.3E-01  5.0E-01  4.8069009E+04      3 5.6E+05     i
+ Itn   5654: Hessian off-diagonals discarded
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100    249 -4.5E+03  1.0E+00  4.2E-11  1.1742320E+05     15
+          200    210           1.0E+00  1.4E-12  4.7128206E+04     47
+          300     75  1.5E+02  1.0E+00  4.5E-12  3.7883451E+04    127
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   136    385  3.4E-02    147  5.1E-01  5.9E+00  4.6316674E+04    204 5.6E+05   R iT
+   137     58  2.3E-02    148  5.1E-01  1.6E+00  4.7600566E+04    215 5.9E+05 s   i
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100     94           3.2E-02  1.4E+06  3.6222990E+05    117
+          200     42  2.3E+04  6.1E-01  9.0E+03  5.2680057E+04    175
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   138    249  2.3E-01    149  4.7E-01  2.4E+00  4.9602016E+04    206 6.1E+05     i
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100         3.3E-01  1.0E+00  2.5E-12  4.7322458E+04    194
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   139    100  8.9E-03    150  4.7E-01  4.3E+00  6.2901645E+04    194 1.1E+06     i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   140     37  3.4E-02    151  4.7E-01  3.9E+00  6.2473451E+04    193 1.1E+06     i
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100     25           1.0E+00  2.9E-11  4.4166354E+04    164
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   141    142  8.8E-02    152  4.6E-01  1.7E+00  6.0698282E+04    189 1.1E+06     i
+   142     61  3.9E-02    153  4.5E-01  3.2E-01  6.0124396E+04    184 1.1E+06     i
+   143     52  5.9E-02    154  4.5E-01  6.4E-01  5.9003477E+04    196 1.1E+06     i
+   144     46  5.2E-02    155  4.4E-01  4.9E-01  5.1116753E+04    197 7.5E+05     i
+   145     60  4.0E-02    156  4.3E-01  5.3E-01  5.0716156E+04    197 7.5E+05     i
+   146     72  5.6E-02    157  4.3E-01  2.8E-01  5.0178866E+04    191 7.5E+05     i
+ Itn   6916: Hessian off-diagonals discarded
+
+        Minor NonOpt  QP mult  QP step   rgNorm Elastic QP obj     nS
+          100      8 -6.4E+01  1.0E+00  1.6E-12  5.3587493E+04    216
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   147    106  5.1E-02    158  4.2E-01  2.1E+00  4.6726811E+04    222 5.0E+05   R i
+   148     26  1.0E-01    159  4.1E-01  1.3E-01  5.9812675E+04    225 1.5E+06 s   i
+   149     33  9.8E-02    161  4.0E-01  1.1E+00  6.0260231E+04    223 1.6E+06  M  i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   150     35  9.7E-02    163  3.9E-01  2.9E+00  6.1841717E+04    231 1.9E+06     i
+   151     17  1.6E-01    165  3.8E-01  3.4E+00  6.2482284E+04    234 2.1E+06  M  i
+   152     25  1.0E+00    166  2.0E-01  7.9E+00  5.6709303E+04    221 2.2E+06     i
+   153     61  4.4E-01    167  2.0E-01  7.5E+00  5.0970684E+04    218 7.9E+03     i
+   154     73  4.7E-01    168  2.2E-01  6.5E+00  4.7155972E+04    220 7.3E+02     i
+   155     31  1.0E+00    169  2.0E-01  6.4E+00  4.3258003E+04    217 2.3E+02     i
+   156     79  1.0E+00    170  1.6E-01  9.1E+00  3.4794313E+04    230 2.3E+02     i
+   157     85  1.0E+00    171  1.6E-01  5.5E+00  3.0282036E+04    234 2.3E+02     i
+   158     42  1.0E+00    172  1.3E-01  6.3E+00  2.3113182E+04    235 2.3E+02     i
+ Itn   7529: Hessian off-diagonals discarded
+   159     46  1.0E+00    173  1.1E-01  3.9E+00  1.8315782E+04    242 2.3E+02   R i
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   160     22  1.0E+00    174  7.4E-02  3.5E+00  1.4634091E+04    235 2.3E+02 s   i
+   161     31  1.0E+00    175  6.0E-02  4.5E+00  1.3882592E+04    229 2.3E+02     i
+   162     31  1.0E+00    176  4.8E-02  3.9E+00  1.2282202E+04    225 2.3E+02     i
+   163     27  1.0E+00    177  4.5E-02  3.3E+00  1.1264108E+04    217 2.3E+02     i
+   164     46  1.0E+00    178  3.4E-02  3.2E+00  9.2337238E+03    218 2.3E+02     i
+   165     35  1.0E+00    179  2.8E-02  2.9E+00  7.9817382E+03    214 2.3E+02     i
+   166     84  1.0E+00    180  2.6E-02  3.0E+00  5.5069691E+03    221 2.3E+02     i
+   167     73  1.0E+00    181  4.2E-02  3.0E+00  3.8405836E+03    217 2.3E+02
+   168     72  1.0E+00    182  4.5E-02  3.7E+00  1.7616264E+03    216 2.3E+02
+   169     89  1.0E+00    183  6.0E-02  2.3E+00  7.6430277E+02    228 2.3E+02
+ Itn   8085: Hessian off-diagonals discarded
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   170     61  5.0E-01    184  3.4E-02  1.4E+00  7.1724043E+02    248 2.3E+02   R
+   171     46  4.2E-01    185  2.6E-02  1.4E+00  6.4853732E+02    239 9.9E+03 s
+   172     51  1.0E+00    186  2.1E-02  1.2E+00  5.2969780E+02    237 1.1E+03
+   173     50  3.2E-01    187  1.6E-02  1.0E+00  5.9405984E+02    230 4.1E+05
+   174     41  2.9E-01    188  1.7E-02  8.0E-01  5.3418240E+02    234 2.7E+05
+   175     18  2.8E-01    189  1.3E-02  7.7E-01  4.1311692E+02    227 1.7E+04
+   176     14  4.0E-01    190  9.9E-03  9.5E-01  3.2355597E+02    230 4.6E+03
+   177     15  1.6E-01    191  9.3E-03  9.8E-01  3.5439032E+02    238 4.6E+05
+   178     33  1.0E+00    192  1.2E-02  6.8E-01  2.1429965E+02    236 3.2E+04
+   179     23  3.0E-01    193  9.8E-03  6.2E-01  2.2916340E+02    242 5.5E+05
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   180     31  1.0E+00    194  1.3E-02  5.7E-01  1.3816190E+02    240 6.6E+04
+ Itn   8468: Hessian off-diagonals discarded
+   181     13  3.7E-01    195  7.7E-03  7.4E-01  1.4134338E+02    242 4.2E+05   R
+   182     12  1.2E-01    196  7.0E-03  5.5E-01  2.1244581E+02    243 2.2E+06 s
+   183     10  2.4E-01    197  6.2E-03  6.4E-01  1.2478431E+02    236 2.7E+05
+   184      9  1.3E-01    198  5.5E-03  4.9E-01  3.4614626E+02    244 9.5E+06
+   185     11  1.0E+00    199  9.3E-03  8.7E-01  1.2731828E+02    242 1.1E+06
+   186      5  2.6E-01    200  7.4E-03  6.1E-01  2.1346091E+02    240 3.2E+06
+   187      8  1.0E+00    201  5.8E-03  5.8E-01  1.0102161E+02    243 1.3E+06
+   188     11  4.1E-01    202  4.8E-03  5.0E-01  7.9441398E+01    245 1.3E+06
+   189      3  1.0E+00    203  5.7E-03  5.8E-01  6.7163264E+01    245 1.3E+06
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   190      6  1.0E+00    204  4.2E-03  4.0E-01  3.1697834E+01    242 1.3E+06
+   191      2  3.7E-01    205  2.9E-03  4.2E-01  2.4418717E+01    241 1.3E+06
+ Itn   8558: Hessian off-diagonals discarded
+   192      8  3.1E-01    206  2.2E-03  4.5E-01  4.3101433E+01    242 5.2E+06   R
+   193      8  4.8E-01    207  1.4E-03  3.9E-01  3.5528163E+01    243 5.3E+06 s
+   194      8  1.0E+00    208  9.7E-04  2.4E-01  7.3244217E+00    246 5.3E+06
+   195     43  1.0E+00    210  4.3E-05  1.2E+00  1.8607846E-01    286 5.3E+06  M
+   196     83  1.0E+00    211 (1.1E-07) 6.4E-02  1.8304908E-01    365 5.4E+06
+   197     39  1.0E+00    212 (6.0E-09) 2.2E-01  1.8304772E-01    332 5.4E+06
+   198     15  1.0E+00    213  2.0E-06  6.9E-02  1.8303870E-01    323 5.4E+06
+   199      8  1.0E+00    214 (2.1E-07) 7.4E-02  1.8302222E-01    323 5.4E+06
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   200     29  1.0E+00    215 (1.0E-07) 2.1E-02  1.8301989E-01    296 5.4E+06
+   201     24  2.1E-01    216 (3.3E-07) 4.4E-02  1.8301690E-01    280 5.4E+06
+   202     22  1.3E-01    217 (7.5E-07) 5.3E-02  1.8301393E-01    266 5.4E+06
+ Itn   8845: Hessian off-diagonals discarded
+   203     55  2.1E-02    218 (7.6E-07) 7.4E-02  1.8301302E-01    319 5.4E+06   R
+   204     83  1.0E+00    220 (1.8E-11) 3.8E-02  1.8301124E-01    238 5.4E+06 sM
+   205     17  1.1E-02    221  2.9E-06  1.7E-01  1.8299503E-01    234 5.4E+06
+   206     10  2.9E-03    222  3.2E-06  2.1E-01  1.8298647E-01    231 5.4E+06
+   207      9  1.7E-03    223  3.4E-06  2.6E-01  1.8297906E-01    235 5.4E+06
+   208      7  1.4E-03    224  3.6E-06  3.0E-01  1.8297255E-01    235 5.4E+06
+   209     13  7.8E-04    225  3.7E-06  3.1E-01  1.8296750E-01    235 5.4E+06
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   210     16  6.6E-04    226  3.8E-06  3.1E-01  1.8296229E-01    230 5.4E+06
+   211     20  6.9E-04    227  3.8E-06  3.4E-01  1.8295720E-01    231 5.4E+06
+   212     13  4.5E-04    228  3.9E-06  4.0E-01  1.8295258E-01    231 5.4E+06
+   213     16  5.8E-04    229  3.9E-06  3.8E-01  1.8294686E-01    234 5.4E+06
+ Itn   9104: Hessian off-diagonals discarded
+   214     14  8.2E-04    230  4.1E-06  3.9E-01  1.8294051E-01    241 5.4E+06   R
+   215      8  1.3E-03    231  4.1E-06  2.5E-01  1.8293804E-01    240 5.4E+06 s
+   216      7  4.4E-03    232  4.2E-06  2.8E-01  1.8293078E-01    238 5.4E+06
+   217      8  2.9E-03    233  4.4E-06  3.1E-01  1.8292478E-01    237 5.4E+06
+   218      7  2.0E-03    234  4.5E-06  3.1E-01  1.8291911E-01    237 5.4E+06
+   219      3  1.3E-03    235  4.6E-06  3.4E-01  1.8291438E-01    235 5.4E+06
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   220      7  9.3E-04    236  4.6E-06  3.3E-01  1.8291036E-01    237 5.4E+06
+   221      8  8.8E-04    237  4.7E-06  3.5E-01  1.8290626E-01    236 5.4E+06
+   222      6  1.2E-03    238  4.7E-06  3.7E-01  1.8290160E-01    237 5.4E+06
+   223      4  9.4E-04    239  4.8E-06  3.6E-01  1.8289724E-01    238 5.4E+06
+   224      8  8.0E-04    240  4.9E-06  3.8E-01  1.8289318E-01    237 5.4E+06
+ Itn   9184: Hessian off-diagonals discarded
+   225      9  1.0E-03    241  4.9E-06  4.5E-01  1.8288879E-01    243 5.4E+06   R
+   226      7  3.5E-03    242  4.9E-06  3.2E-01  1.8288506E-01    241 5.4E+06 s
+   227      6  7.2E-04    243  4.9E-06  3.3E-01  1.8288312E-01    238 5.4E+06
+   228      6  3.8E-03    244  5.3E-06  3.9E-01  1.8288051E-01    237 5.4E+06
+   229      4  1.7E-03    245  5.4E-06  3.7E-01  1.8287613E-01    238 5.4E+06
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   230      4  1.6E-03    246  5.5E-06  3.9E-01  1.8287211E-01    237 5.4E+06
+   231      4  9.9E-04    247  5.5E-06  4.2E-01  1.8286843E-01    236 5.4E+06
+   232      5  2.0E-03    248  5.8E-06  4.2E-01  1.8286672E-01    238 5.4E+06
+   233      5  7.6E-04    249  5.8E-06  4.4E-01  1.8286344E-01    238 5.4E+06
+   234      4  6.1E-04    250  5.8E-06  4.5E-01  1.8286036E-01    237 5.4E+06
+   235      8  5.5E-04    251  5.9E-06  4.6E-01  1.8285741E-01    240 5.4E+06
+ Itn   9246: Hessian off-diagonals discarded
+   236     10  4.2E-04    252  5.9E-06  5.6E-01  1.8285485E-01    243 5.4E+06   R
+   237      8  3.7E-03    253  5.9E-06  3.9E-01  1.8285102E-01    240 5.4E+06 s
+   238      4  5.4E-04    254  5.9E-06  4.1E-01  1.8284943E-01    239 5.4E+06
+   239      4  2.5E-03    255  6.1E-06  4.5E-01  1.8284745E-01    238 5.4E+06
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   240      3  1.6E-03    256  6.2E-06  4.2E-01  1.8284471E-01    240 5.4E+06
+   241      6  8.9E-04    257  6.2E-06  4.7E-01  1.8284167E-01    237 5.4E+06
+   242      4  1.7E-04    258  6.2E-06  4.6E-01  1.8284061E-01    238 5.4E+06
+   243      5  1.6E-04    259  6.2E-06  4.8E-01  1.8283956E-01    238 5.4E+06
+   244      8  5.1E-04    260  6.3E-06  4.8E-01  1.8283699E-01    235 5.4E+06
+   245      6  1.4E-04    261  6.3E-06  4.9E-01  1.8283599E-01    236 5.4E+06
+   246      6  4.1E-04    262  6.3E-06  4.9E-01  1.8283364E-01    237 5.4E+06
+ Itn   9310: Hessian off-diagonals discarded
+   247     10  1.4E-07    263  6.3E-06  6.3E-01  1.8283364E-01    244 5.4E+06   R
+   248      7  1.0E-02    264  6.3E-06  4.2E-01  1.8282685E-01    240 5.4E+06 s
+   249      6  2.4E-03    265  6.4E-06  4.4E-01  1.8282428E-01    237 5.4E+06
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   250      9  1.0E-03    266  6.5E-06  4.7E-01  1.8282098E-01    235 5.4E+06
+   251      4  1.0E-03    267  6.6E-06  4.8E-01  1.8281816E-01    236 5.4E+06
+   252      1  1.3E-07    268  6.6E-06  4.8E-01  1.8281816E-01    236 5.4E+06
+   253      5  3.8E-04    269  6.6E-06  4.9E-01  1.8281581E-01    236 5.4E+06
+   254     19  1.7E-07    271  6.6E-06  4.3E-01  1.8281581E-01    240 5.4E+06  M
+   255     26  4.6E-04    272  6.6E-06  3.1E-01  1.8281344E-01    233 5.4E+06
+   256     27  4.8E-08    273  6.6E-06  4.4E-01  1.8281343E-01    227 5.4E+06
+   257     38  2.2E-08    274  6.6E-06  4.6E-01  1.8281343E-01    238 5.4E+06
+   258     49  4.6E-05    275  6.6E-06  3.9E-01  1.8281186E-01    246 5.4E+06
+ Itn   9511: Hessian off-diagonals discarded
+   259     19  2.6E-04    276  6.6E-06  6.6E-01  1.8281001E-01    246 5.4E+06   R
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   260     11  1.2E-02    277  6.6E-06  4.6E-01  1.8280214E-01    236 5.4E+06 s
+   261      9  5.2E-04    278  6.6E-06  4.7E-01  1.8279930E-01    236 5.4E+06
+   262     21  2.3E-04    279  6.6E-06  5.5E-01  1.8279717E-01    246 5.4E+06
+   263     27  4.9E-08    280  6.6E-06  4.0E-01  1.8279717E-01    222 5.4E+06
+   264     24  3.0E-05    281  6.6E-06  5.9E-01  1.8279621E-01    233 5.4E+06
+   265     43  3.8E-08    282  6.6E-06  6.6E-01  1.8279621E-01    219 5.4E+06
+   266     40  5.9E-05    283  6.6E-06  5.2E-01  1.8279378E-01    234 5.4E+06
+   267     50  4.8E-08    285  6.6E-06  3.1E-01  1.8279378E-01    253 5.4E+06  M
+   268      1  2.1E-08    286  6.6E-06  3.1E-01  1.8279378E-01    253 5.4E+06
+   269     66  3.2E-05    287  6.6E-06  5.0E-01  1.8279266E-01    252 5.4E+06
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction     nS Penalty
+   270      1  1.9E-08    288  6.6E-06  5.0E-01  1.8279266E-01    252 5.4E+06
+   271     21  2.7E-04    289  6.7E-06  6.2E-01  1.8278971E-01    252 5.4E+06
+ Itn   9844: Hessian off-diagonals discarded
+   272     28  1.6E-04    290  6.7E-06  6.7E-01  1.8278765E-01    245 5.4E+06   R
+   273     16  1.2E-02    291  6.7E-06  5.0E-01  1.8278066E-01    234 5.4E+06 s
+   274     33  7.8E-08    292  6.7E-06  4.8E-01  1.8278065E-01    208 5.4E+06
+   275      1  1.4E-08    293  6.7E-06  4.8E-01  1.8278065E-01    208 5.4E+06
+   276     71  3.5E-05    294  6.7E-06  5.5E-01  1.8277919E-01    241 5.4E+06
+   277      7  6.1E-05    295  6.7E-06  1.4E+00  1.8277833E-01    234 5.4E+06      t
+ 
+ SNOPTA EXIT  30 -- resource limit error
+ SNOPTA INFO  31 -- iteration limit reached
+
+ Problem name
+ No. of iterations               10000   Objective            1.8260597690E-01
+ No. of major iterations           277   Linear    obj. term  1.8260597690E-01
+ Penalty parameter           5.351E+06   Nonlinear obj. term  0.0000000000E+00
+ User function calls (total)    118848   Calls with modes 1,2 (known g)    295
+ Calls for forward differencing 117705   Calls for central differencing      0
+ No. of superbasics                234   No. of basic nonlinears             6
+ No. of degenerate steps            99   Percentage                       0.99
+ Max x                     140 1.0E+00   Max pi                      7 1.0E+00
+ Max Primal infeas         140 1.8E-07   Max Dual infeas           401 1.7E+00
+ Nonlinear constraint violn    6.7E-06
+ 
+ 
+
+ Solution printed on file   9
+ 
+ Time for MPS input                             0.00 seconds
+ Time for solving problem                   41662.97 seconds
+ Time for solution output                       0.00 seconds
+ Time for constraint functions              41659.86 seconds
+ Time for objective function                    0.00 seconds
+
+Elapsed time is 42274.260915 seconds.
+No script provided to load.
+>> 42274.260915/60/60
+
+ans =
+
+          11.7428502541667

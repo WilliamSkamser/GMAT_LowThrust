@@ -11,6 +11,7 @@ for i=1:length(thrustVec(:,1))
 end
 Beta2=Beta2';
 Alpha2=Alpha2';
+
 thrustMag=table2array(Table(:,12));
 Alpha=table2array(Table(:,13));
 Beta=table2array(Table(:,14));

@@ -105,7 +105,7 @@ GMAT CentralBodyICRF.Axes = ICRF;
 %---------- Thrust History File
 %----------------------------------------
 Create ThrustHistoryFile ThrustHistoryFile1;
-GMAT ThrustHistoryFile1.FileName = 'C:\GMAT_Repo\GMAT_Generalized_LowThrust\GMAT_RunFolder\GMAT_RunThrustProfile.thrust';
+GMAT ThrustHistoryFile1.FileName = 'C:\Users\willi\Desktop\Test_GMAT_LowThrust\GMAT_RunFolder\GMAT_RunThrustProfile.thrust';
 GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 Create ThrustSegment ThrustSegment1;

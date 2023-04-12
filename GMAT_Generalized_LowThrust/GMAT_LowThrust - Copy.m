@@ -1,8 +1,42 @@
-function []=GMAT_LowThrust(FileName,varargin)
-%GMAT_LowThrust("\GMAT_LowThrust_Template.xlsx")
-    %arguments
-    %    FileName string
-    %end
+function [x]=GMAT_LowThrust(FileName,varargin)
+%GMAT_LowThrust writes GMAT script files to propagate and optimize
+%low-thrust trajectory problems
+%   
+%   Low_Thrust problems may be propagated as is or optimized.
+%   Optimization is done using SNOPT 7.7 Matlab interface (Other versions
+%   may work). 
+%   Snopt Matlab foulder must be within path varible for optimization to work 
+%   The constaint / objective function is called objFunc_conFunc
+%
+%Optimization limitations:
+%
+%
+%   [x]=GMAT_LowThrust(FileName,varargin)
+%   The FileName varible is a 
+%
+%   Example function call: 
+%   GMAT_LowThrust("\MarsAccelerationProblem.xlsx",'Optimize',Opt)
+%
+% ....
+%Future Work:
+%   Replacing/Providing option to optimize with GMAT's CSALT plugin
+%   Improve run time of optimization
+
+
+
+
+%2461912.5
+%May 21 2028
+%
+
+
+
+
+
+
+
+
+
 %Global variables passed to SNOPT Objective/Constraint function
 global NumberOfSteps
 global Th
@@ -18,18 +52,7 @@ global TargetBody
 global TargetSetting
 global TargetSV
 global MassFOn
-%% NEXT STEPS TO WORK ON
-% 1)Mdot uniform in objective function
-% 2)Time Step is uniform in objective function
-% 3)Acceleration Massflow Rate?
-% 4)In inertial Referance frame not VNB
-%   -> Alpha,Beta angle Interpolation need to change
-% 5) Alpha and Beta angles provided don't match Thrust XYZ
-
-
-
-
-
+global UpperBoundTOF
 narginchk(1, 3);%Check input
 if contains(class(FileName),'string') 
     Fname=char(FileName);
@@ -44,9 +67,10 @@ else
     return   
 end
 defaultopt = struct( ...
-    'LowBound',10,'UpperBound',3500,'MajorFeasibilityTolerance',1e-6,...
+    'TOF_LowBound',50,'TOF_UpperBound',3500,'MajorFeasibilityTolerance',1e-6,...
     'MajorOptimalityTolerance',1e-6,'OptimizationRunTimeLimit',86400,...
     'MajorIterationLimit',5000);
+    Opt=defaultopt;
     %Optimize=0;
     %LowBound =10; %in days
     %UpperBound= 3500; %in days
@@ -59,7 +83,6 @@ if nargin>1
     if (contains(class(Optimize),'string') || contains(class(Optimize),'char')) ...
             && contains(Optimize,'Optimize')
         fprintf("\n SNOPT Optimizer On\n")
-        Opt=defaultopt;
         Optimize=1;%Turns SNOPT on for other parts of code
         if nargin>2
             if ~isstruct(varargin{2})
@@ -68,10 +91,10 @@ if nargin>1
                 return 
             end
             InputStruct=varargin{2};
-            if isfield(InputStruct,'LowBound')
+            if isfield(InputStruct,'TOF_LowBound')
                 Opt.LowBound=InputStruct.LowBound;
             end
-            if isfield(InputStruct,'UpperBound')
+            if isfield(InputStruct,'TOF_UpperBound')
                 Opt.UpperBound=InputStruct.UpperBound;
             end
             if isfield(InputStruct,'MajorFeasibilityTolerance')
@@ -97,8 +120,9 @@ end
 fileG=pwd+FileName;
 InputTable = readtable(fileG,'ReadVariableNames',false);
 PlanetsArray={'Sun','Mercury','Venus','Earth','Luna','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'};
-%Array of all possible planets in string arrays
-StartDate=table2array(InputTable(1,1)); 
+%^Array of all possible planets in string arrays
+%Start Date Input
+StartDate=table2array(InputTable(1,1));
 if contains(class(StartDate),'double')~=1
     fprintf("\nGMAT: Invalid Start Date\n");
     dbstack()
@@ -111,12 +135,14 @@ else
     dbstack()
     return
 end
+%Central Body Input
 CentralBody=table2array(InputTable(1,2));%CentralBodyICRF
 if ismember(CentralBody,PlanetsArray)~= 1 || contains(class(CentralBody),'cell')~=1
     fprintf("\nGMAT: Invalid Central Body\n");
     dbstack()
     return
 end
+%Initial Position & Velocity Input
 R_i=table2array(InputTable(1:3,3))';%Sat inital State Vector
 V_i=table2array(InputTable(1:3,4))';
 if contains(class(R_i),'double')~=1 || contains(class(V_i),'double')~=1 || ...
@@ -125,49 +151,57 @@ if contains(class(R_i),'double')~=1 || contains(class(V_i),'double')~=1 || ...
     dbstack()
     return
 end
-FinalStateType=table2array(InputTable(1,5));
-if contains(class(FinalStateType),'cell')~=1
-    fprintf("\nGMAT: Invalid Final State Type\n");
-    dbstack()
-    return
-elseif contains(FinalStateType, 'Planetary Rendezvous')
-    TargetBody=table2array(InputTable(1,6));
-    if contains(class(TargetBody),'cell')~=1 || ismember(TargetBody,PlanetsArray) ~= 1
-        fprintf("\nGMAT: Invalid Target Body\n");
+%Final State Type Input, Only needed for optimization
+if Optimize==1
+    FinalStateType=table2array(InputTable(1,5));
+    if contains(class(FinalStateType),'cell')~=1
+        fprintf("\nGMAT: Invalid Final State Type\n");
+        dbstack()
+        return
+    elseif contains(FinalStateType, 'Planetary Rendezvous') 
+        TargetBody=table2array(InputTable(1,6));
+        if contains(class(TargetBody),'cell')~=1 || ismember(TargetBody,PlanetsArray) ~= 1
+            fprintf("\nGMAT: Invalid Target Body\n");
+            dbstack()
+            return
+        end
+        TargetSetting=1;
+    elseif contains(FinalStateType, 'State Vector') 
+        TargetBody={'None'};
+        TargetSetting=0;
+        R_f=table2array(InputTable(1:3,7))';
+        V_f=table2array(InputTable(1:3,8))';
+        if contains(class(R_f),'double')~=1 || contains(class(V_f),'double')~=1 || ...
+            any(isnan(R_f)) || any(isnan(V_f))
+            fprintf("\nGMAT: Invalid Final State Vector\n");
+            dbstack()
+            return
+        end
+        TargetSV(1:3)=R_f;
+        TargetSV(4:6)=V_f;
+    else
+        fprintf("\nGMAT: Invalid Final State Type\n");
         dbstack()
         return
     end
-    TargetSetting=1;
-elseif contains(FinalStateType, 'State Vector')
-    TargetBody={'None'};
-    TargetSetting=0;
-    R_f=table2array(InputTable(1:3,7))';
-    V_f=table2array(InputTable(1:3,8))';
-    if contains(class(R_f),'double')~=1 || contains(class(V_f),'double')~=1 || ...
-        any(isnan(R_f)) || any(isnan(V_f))
-        fprintf("\nGMAT: Invalid Final State Vector\n");
-        dbstack()
-        return
-    end
-    TargetSV(1:3)=R_f;
-    TargetSV(4:6)=V_f;
-else
-    fprintf("\nGMAT: Invalid Final State Type\n");
-    dbstack()
-    return
+else %For when Optimize==0
 end
+%Initial Fuel Mass input
 FuelM=table2array(InputTable(1,9)); %Fuel Mass
 if isnumeric(FuelM)~=1 || FuelM<0 || FuelM> 10^6
     fprintf("\nGMAT: Invalid Fuel Mass\n");
     dbstack()
     return
-end   
+end
+%Dry Mass input, can be zero
 DM=table2array(InputTable(1,10)); %Dry Mass
 if isnumeric(DM)~=1 || DM<0 || DM> 10^6
     fprintf("\nGMAT: Invalid Dry Mass\n");
     dbstack()
     return
-end   
+end  
+%Mass Flow Option, Checks if you want to decrement Fuel Mass every time
+%step
 MassFlowOption=table2array(InputTable(1,11)); %Check Mass Flow option
 if contains(class(MassFlowOption),'cell')~=1
     fprintf("\nGMAT: Invalid Mass Flow Option\n");
@@ -187,6 +221,8 @@ else
     dbstack()
     return
 end
+%Gravitational Point Masses, GMAT will default to just Sun for 2-body
+%problems
 PointMasses=table2array(InputTable(1:end,13));
 if contains(class(PointMasses),'cell')==1 %Check if in PlanetsArray
     PointMasses=PointMasses(~cellfun('isempty', PointMasses));
@@ -205,6 +241,7 @@ else
     dbstack()
     return
 end
+%Planets to Plot input, only for visualization on final solution orbit plot
 PlanetPlot=table2array(InputTable(1:end,14));
 if contains(class(PlanetPlot),'cell')==1 %Check if in PlanetsArray
     PlanetPlot=PlanetPlot(~cellfun('isempty', PlanetPlot));
@@ -223,6 +260,8 @@ else
     dbstack()
     return
 end
+%Thrust Setting Input, tells function if magnitude/XYZ are acceleration
+%(m/s^2) values or Thust Forces (Newtons)
 ThrustSetting=table2array(InputTable(1,15)); %Thrust Setting 
 if contains(class(ThrustSetting),'cell')~=1
     fprintf("\nGMAT: Invalid Thrust Setting Type\n");
@@ -240,6 +279,7 @@ if isnumeric(ThrustMag)~=1 || isnan(ThrustMag) || ThrustMag<0 || ThrustMag> 1
     dbstack()
     return
 end 
+%Time vector array input
 Time=table2array(InputTable(:,18));
 if ~isnumeric(Time) 
     fprintf("\nGMAT: Invalid Time Array\n");
@@ -261,8 +301,9 @@ else
         end
     end
 end
-%Time(~isnan(Time))
-ThrustCoordinateOption=table2array(InputTable(1,16)); %REMOVE THIS PART SOON!
+%Check for "thrust coordinate type", if providing angles (Alpha, Beta) or just XYZ
+%vector component form
+ThrustCoordinateOption=table2array(InputTable(1,16)); 
 if contains(class(ThrustCoordinateOption),'cell')~=1
     fprintf("\nGMAT: Invalid Thrust Coordinate Type\n");
     dbstack()
@@ -290,8 +331,8 @@ else
     dbstack()
     return
 end
-%disable options by default in propagator 
-%Can turn on here in code 
+%Disable options by default in propagator 
+%Can turn on here in code, may add to excel sheet later 
 RelativisticCorrection= false;%true; %or false
 SolarRadiationPressure= false;%true; %or false
 %% Julian Date to UTC Gregorian format
@@ -308,13 +349,14 @@ if isempty(MassFOn)
     MassFOn=0;
 end
 NumberOfSteps=length(Time);
-if ThrustAngle >= 1 %For Alpha, Beta Angles   %%%THIS
+if ThrustAngle >= 1 %For Alpha, Beta Angles
+    %This assumes that magnitude is constant for all time steps
+    %Mass flow rate is constant for Thrust (newtons) case
     if length(Alpha) ~= length(Beta)
         fprintf("\nGMAT: Size of Thrust Direction Angles Don't Match\n")
         dbstack()
         return
     end
-   % Time = linspace(0,EndTime,NumberOfSteps)';  % seconds
     ThrustVec=ThrustMag.*[cos(Beta).*cos(Alpha),cos(Beta).*sin(Alpha),sin(Beta)];
     if  Thrus >= 1 %ThrustForce
         mdotO= ThrustMag/(ISP *9.807);
@@ -326,16 +368,15 @@ if ThrustAngle >= 1 %For Alpha, Beta Angles   %%%THIS
         TimeStep=Time(2); %Uniform Time Step
         ThrustMagnitude=ones(NumberOfSteps,1)*ThrustMag;
         for i=1:NumberOfSteps %MassFlow Rate interpolation
-            mdot(i)= (ThrustMagnitude(i)*Mtotal)/(ISP *9.807); %This may be wrong
+            mdot(i)= (ThrustMagnitude(i)*Mtotal)/(ISP *9.807); 
             PropellantMass=PropellantMass-(mdot(i)*TimeStep);
             Mtotal=DM+PropellantMass;
         end
      end 
-elseif ThrustCoordinate >= 1
+elseif ThrustCoordinate >= 1 %For XYZ thrust vector componets 
     SizeXYZ=size(ThrustXYZ);
     if SizeXYZ(2) == 3
         ThrustVec=ThrustXYZ;
-        %Time = linspace(0,EndTime,NumberOfSteps)';  % seconds
         ThrustMagnitude=ones(NumberOfSteps,1);
         Alpha=ones(NumberOfSteps,1);
         Beta=ones(NumberOfSteps,1);
@@ -345,14 +386,15 @@ elseif ThrustCoordinate >= 1
         TimeStep=Time(2);
         for i=1:NumberOfSteps
             ThrustMagnitude(i)=norm(ThrustVec(i,1:3));
-            if Optimize==1%Solve for alpha,beta angles 
-                Beta(i)=asin(ThrustVec(i,3)/ThrustMagnitude(i));
-                Alpha(i)=atan(ThrustVec(i,2)/ThrustVec(i,1));
-            end
+            %if Optimize==1%Solve for alpha,beta angles 
+            Beta(i)=asin(ThrustVec(i,3)/ThrustMagnitude(i));
+            Alpha(i)=atan(ThrustVec(i,2)/ThrustVec(i,1));
+            %end
+            %Mass Flow Rate Calculation
             if  Thrus >= 1
                 mdot(i)= ThrustMagnitude(i)/(ISP *9.807);
             elseif Accel >=1
-                mdot(i)= (ThrustMagnitude(i)*Mtotal)/(ISP *9.807); %This may be wrong
+                mdot(i)= (ThrustMagnitude(i)*Mtotal)/(ISP *9.807);
                 PropellantMass=PropellantMass-(mdot(i)*TimeStep);
                 Mtotal=DM+PropellantMass;
             end 
@@ -370,7 +412,7 @@ else
     fprintf("\nGMAT: No Thrust Coordinate Option Selected\n")
     dbstack()
     return
-end %%%THIS
+end
 %% Copy Files Over To Working Directory
 MainDir = pwd;
 WorkingDir=MainDir+"\GMAT_RunFolder";
@@ -610,11 +652,20 @@ if Ans1 ~= 1
     return
 end
 %% Run SNOPT Optimization
+%This Optimization assumes that magnitude remains constant and if fuel mass
+%is decremented it's constants for all time steps.
+%The design varibles are the Alpha and Beta angle array and TOF
+%Time of Flight Bounds
+UpperBoundTOF=Opt.TOF_UpperBound*86400;
+LowBoundTOF=Opt.TOF_LowBound*86400;
+x=[Alpha/(2*pi);Beta/(2*pi);EndTime/UpperBoundTOF];
+%Check Target body array
 if Optimize==1 && any(size(TargetBody) ~= 1)
     fprintf("\nGMAT: Target Body Size Error\n")
     dbstack()
     return
 end
+%Run SNOPT
 if Optimize==1
     %Constants
     muS = 1.32712440018e+11;   % Km^3/sec^2 
@@ -626,18 +677,18 @@ if Optimize==1
     %Isp = ISP;             % s^-1
     %Vex = Isp*g;            % m/s
     %m0  = FuelM;             % kg
-    t1 = StartDate;
+    t1 = StartDate;   
     %Initial Guess vector (Alpha, Beta, TOF)
-    x=[Alpha;Beta;EndTime/TU];
+   % x=[Alpha/(2*pi);Beta/(2*pi);EndTime/UpperBoundTOF];
     % Bounds
     %[F, G] = objFunc_conFunc(x)
-    lb = [-ones(NumberOfSteps,1)*pi;    % Alpha
-          -ones(NumberOfSteps,1)*pi;    % Beta  
-          Opt.LowBound*86400/TU];             % TOF (TU) %900
+    lb = [-ones(NumberOfSteps,1);    % Alpha
+          -ones(NumberOfSteps,1);    % Beta  
+          LowBoundTOF/UpperBoundTOF];             % TOF (TU) %900
 
-    ub = [ones(NumberOfSteps,1)*pi;     % Alpha 
-          ones(NumberOfSteps,1)*pi;     % Beta 
-          Opt.UpperBound*86400/TU];            % TOF (TU) %1100
+    ub = [ones(NumberOfSteps,1);     % Alpha 
+          ones(NumberOfSteps,1);     % Beta 
+         1];            % UpperBoundTOF/UpperBoundTOF
     %lower and upper bounds
     xlow = lb;
     xupp = ub;
@@ -675,9 +726,9 @@ if Optimize==1
         'objFunc_conFunc', ObjAdd, ObjRow);
     toc
     % Extract Design Variables
-    Thrust_alpha = x(1:NumberOfSteps);                   % rads
-    Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps);   % rads
-    EndTime     = x(end)*TU;                                           % s
+    Thrust_alpha = x(1:NumberOfSteps)*(2*pi);                   % rads
+    Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps)*(2*pi);   % rads
+    EndTime     = x(end)*UpperBoundTOF;                                           % s
     ThrustVec=Th.*[cos(Thrust_beta).*cos(Thrust_alpha),cos(Thrust_beta).*sin(Thrust_alpha), ...
         sin(Thrust_beta)];
     Thrust = zeros(NumberOfSteps+1,3);

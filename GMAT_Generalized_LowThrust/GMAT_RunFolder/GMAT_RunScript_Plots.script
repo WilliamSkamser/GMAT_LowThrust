@@ -6,15 +6,15 @@
 %----------------------------------------
 Create Spacecraft Sat;
 GMAT Sat.DateFormat = A1ModJulian;
-GMAT Sat.Epoch = '30145.5';
+GMAT Sat.Epoch = '31912.5';
 GMAT Sat.CoordinateSystem = CentralBodyICRF;
 GMAT Sat.DisplayStateType = Cartesian;
-GMAT Sat.X = -75513715.35908842;
-GMAT Sat.Y = -131231190.092938;
-GMAT Sat.Z = 9215.604778148234;
-GMAT Sat.VX = 25.3347640347203;
-GMAT Sat.VY = -14.9693793388435;
-GMAT Sat.VZ = 0.0005756992184391407;
+GMAT Sat.X = -75526210.7596257;
+GMAT Sat.Y = -120407477.598366;
+GMAT Sat.Z = -52193684.1654433;
+GMAT Sat.VX = 25.3380292128082;
+GMAT Sat.VY = -13.7452737754017;
+GMAT Sat.VZ = -5.95842309474128;
 GMAT Sat.DryMass = 0;
 GMAT Sat.Cd = 0;
 GMAT Sat.Cr = 0;
@@ -121,7 +121,7 @@ GMAT ThrustSegment1.MassSource = {'ETank'};
 
 Create Array Data[1,6];
 Create Variable RunTime;
-GMAT RunTime = 89968682.2619;
+GMAT RunTime = 82080000;
 
 
 
@@ -164,7 +164,7 @@ GMAT OrbitView1.UseInitialView = On;
 GMAT OrbitView1.StarCount = 7000;
 GMAT OrbitView1.EnableStars = Off;
 GMAT OrbitView1.EnableConstellations = On;
- 
+
 %----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
