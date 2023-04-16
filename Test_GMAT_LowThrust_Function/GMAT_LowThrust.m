@@ -1,9 +1,13 @@
-function [x]=GMAT_LowThrust(FileName,varargin)
+function [OutPut_Data]=GMAT_LowThrust(FileName,varargin)
+%[Time,ThrustVec,Alpha,Beta]=GMAT_LowThrust("\MarsAccelerationProblem2.xlsx");
+
+
+
 %GMAT_LowThrust writes GMAT script files to propagate and optimize
 %low-thrust trajectory problems
 %   
 %   Low_Thrust problems may be propagated as is or optimized.
-%   Optimization is done using SNOPT 7.7 Matlab interface (Other versions
+%   Optimization is done using SNOPT 7.6 Matlab interface (Other versions
 %   may work). 
 %   Snopt Matlab foulder must be within path varible for optimization to work 
 %   The constaint / objective function is called objFunc_conFunc
@@ -92,10 +96,10 @@ if nargin>1
             end
             InputStruct=varargin{2};
             if isfield(InputStruct,'TOF_LowBound')
-                Opt.LowBound=InputStruct.LowBound;
+                Opt.TOF_LowBound=InputStruct.TOF_LowBound;
             end
             if isfield(InputStruct,'TOF_UpperBound')
-                Opt.UpperBound=InputStruct.UpperBound;
+                Opt.TOF_UpperBound=InputStruct.TOF_UpperBound;
             end
             if isfield(InputStruct,'MajorFeasibilityTolerance')
                 Opt.MajorFeasibilityTolerance=InputStruct.MajorFeasibilityTolerance;
@@ -903,7 +907,9 @@ if Optimize==1
         sin(Thrust_beta)];
     Thrust = zeros(NumberOfSteps+1,3);
     Thrust(1:(end-1),:)=ThrustVec;
-    Time = linspace(0,EndTime,NumberOfSteps)';  % seconds    
+    Time = linspace(0,EndTime,NumberOfSteps)';  % seconds
+    Alpha=Thrust_alpha;
+    Beta=Thrust_beta;
 end
 %% Solution Thrust Profile
 ThrustProfileSolution='\GMAT_ThrustProfileSolution.thrust'; 
@@ -1061,5 +1067,9 @@ if Ans2 ~= 1
     fprintf("\nGMAT: Failed to Run GMAT Plot Script\n")
     dbstack()
     return
+else %Remove Optimizer Run files
+    delete(destinationS);
+    delete(destinationT); 
+    OutPut_Data=struct('Time',Time,'ThrustXYZ',ThrustVec,'Alpha',Alpha,'Beta',Beta,'X',x);
 end
 end%END

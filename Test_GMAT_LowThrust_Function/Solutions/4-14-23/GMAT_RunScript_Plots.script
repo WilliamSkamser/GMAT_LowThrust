@@ -6,15 +6,15 @@
 %----------------------------------------
 Create Spacecraft Sat;
 GMAT Sat.DateFormat = A1ModJulian;
-GMAT Sat.Epoch = '31912.5';
+GMAT Sat.Epoch = '32929.5';
 GMAT Sat.CoordinateSystem = CentralBodyICRF;
 GMAT Sat.DisplayStateType = Cartesian;
-GMAT Sat.X = -75526210.7596257;
-GMAT Sat.Y = -120407477.598366;
-GMAT Sat.Z = -52193684.1654433;
-GMAT Sat.VX = 25.3380292128082;
-GMAT Sat.VY = -13.7452737754017;
-GMAT Sat.VZ = -5.95842309474128;
+GMAT Sat.X = -141654272.817827;
+GMAT Sat.Y = 40291679.1139839;
+GMAT Sat.Z = 17466418.8028519;
+GMAT Sat.VX = -9.2950230352282;
+GMAT Sat.VY = -26.2060908514653;
+GMAT Sat.VZ = -11.3586642884688;
 GMAT Sat.DryMass = 0;
 GMAT Sat.Cd = 0;
 GMAT Sat.Cr = 0;
@@ -54,6 +54,7 @@ GMAT Sat.EulerAngleSequence = '321';
 Create ElectricTank ETank;
 GMAT ETank.AllowNegativeFuelMass = false;
 GMAT ETank.FuelMass = 1000;
+
 
 
 
@@ -105,7 +106,7 @@ GMAT CentralBodyICRF.Axes = ICRF;
 %---------- Thrust History File
 %----------------------------------------
 Create ThrustHistoryFile ThrustHistoryFile1;
-GMAT ThrustHistoryFile1.FileName = 'C:\GMAT_Repo\Test_GMAT_LowThrust_Function\GMAT_RunFolder\GMAT_ThrustProfileSolution.thrust';
+GMAT ThrustHistoryFile1.FileName = 'C:\GMAT_Repo\Test_GMAT_LowThrust_Function\GMAT_RunFolder\GMAT_RunThrustProfile.thrust';
 GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
 
 Create ThrustSegment ThrustSegment1;
@@ -114,14 +115,6 @@ GMAT ThrustSegment1.ThrustScaleFactorSigma = 1e+70;
 GMAT ThrustSegment1.ApplyThrustScaleToMassFlow = false;
 GMAT ThrustSegment1.MassFlowScaleFactor = 1;
 GMAT ThrustSegment1.MassSource = {'ETank'};
-
-%----------------------------------------
-%---------- Arrays, Variables, Strings
-%----------------------------------------
-
-Create Array Data[1,6];
-Create Variable RunTime;
-GMAT RunTime = 50681502.6944;
 
 
 
@@ -135,11 +128,11 @@ GMAT RunTime = 50681502.6944;
 
 Create OrbitView OrbitView1;
 GMAT OrbitView1.SolverIterations = Current;
-GMAT OrbitView1.UpperLeft = [ 0.003971405877680699 0 ];
-GMAT OrbitView1.Size = [ 0.7998411437648928 0.8501228501228502 ];
-GMAT OrbitView1.RelativeZOrder = 63;
-GMAT OrbitView1.Maximized = false;
-GMAT OrbitView1.Add = {Sat, Sun, Earth, Mars};
+GMAT OrbitView1.UpperLeft = [ 0.003529411764705882 0 ];
+GMAT OrbitView1.Size = [ 0.7994117647058824 0.8501228501228502 ];
+GMAT OrbitView1.RelativeZOrder = 16;
+GMAT OrbitView1.Maximized = true;
+GMAT OrbitView1.Add = {Sat, Sun, Earth, Jupiter};
 GMAT OrbitView1.CoordinateSystem = CentralBodyICRF;
 GMAT OrbitView1.DrawObject = [ true true true true true true true true true true true true ];
 GMAT OrbitView1.DataCollectFrequency = 1;
@@ -166,6 +159,15 @@ GMAT OrbitView1.EnableStars = Off;
 GMAT OrbitView1.EnableConstellations = On;
 
 %----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+
+Create Array Data[1,6];
+Create Variable RunTime;
+GMAT RunTime = 257465697.076774;
+
+
+%----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
 BeginMissionSequence;
@@ -181,6 +183,7 @@ GMAT Data(3) = Sat.CentralBodyICRF.VZ;
 GMAT Data(4) = Sat.CentralBodyICRF.X;
 GMAT Data(5) = Sat.CentralBodyICRF.Y;
 GMAT Data(6) = Sat.CentralBodyICRF.Z;
+
 
 
 

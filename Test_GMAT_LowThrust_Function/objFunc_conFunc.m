@@ -24,9 +24,9 @@ ThrustVec=Th.*[cos(Thrust_beta).*cos(Thrust_alpha),cos(Thrust_beta).*sin(Thrust_
 %Thrust(1:(end-1),:)=ThrustVec;
 Thrust=ThrustVec;
 Time = linspace(0,TOF,NumberOfSteps)';  % seconds Assume Uniform timestep
-mdotO= Th/(ISP *9.807); %Uniform mdot
-mdot=ones(NumberOfSteps,1)*mdotO;
 if MassFOn==1
+    mdotO= Th/(ISP *9.807); %Uniform mdot
+    mdot=ones(NumberOfSteps,1)*mdotO;
     for i=1:(NumberOfSteps)
         LineToChange = i+1;         % first 6 lines ae used for headers
         NewContent = compose("%.16f \t %.16f %.16f %.16f %.16f",Time(i),Thrust(i,1),...
@@ -65,8 +65,8 @@ Sat_Z = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.Z");  Sat_Z = Sat_Z.GetN
 Sat_VX = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.VX");  Sat_VX = Sat_VX.GetNumber("Value");
 Sat_VY = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.VY");  Sat_VY = Sat_VY.GetNumber("Value");
 Sat_VZ = gmat.gmat.GetRuntimeObject("Sat.CentralBodyICRF.VZ");  Sat_VZ = Sat_VZ.GetNumber("Value");
-t2=t1+(TOF/86400);
 if TargetSetting==1
+    t2=t1+(TOF/86400);
     [R_Target,V_Target]= planetEphemeris(t2,'Sun',string(TargetBody));
 elseif TargetSetting==0
     R_Target(1)=TargetSV(1);
