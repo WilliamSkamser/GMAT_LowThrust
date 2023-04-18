@@ -121,7 +121,7 @@ GMAT ThrustSegment1.MassSource = {'ETank'};
 
 Create Array Data[1,6];
 Create Variable RunTime;
-GMAT RunTime = 257465697.0767740309238434;
+GMAT RunTime = 340880740.5224364995956421  ;
 
 
 
