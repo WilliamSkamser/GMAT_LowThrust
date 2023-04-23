@@ -6,4 +6,6 @@ xlswrite(NewExcelTable,O_Struct.ThrustXYZ,1,'S2')
 xlswrite(NewExcelTable,O_Struct.Alpha,1,'V2')
 xlswrite(NewExcelTable,O_Struct.Beta,1,'W2')
 end
-%LowThrustOutputStructToExcel(O_Struct,"\JupiterAccelerationFFSProblem2.xlsx")
+% 
+% Example: LowThrustOutputStructToExcel(O_Struct,"\JupiterAccelerationFFSProblem2.xlsx")
+%New Excel file is called: "\JupiterAccelerationFFSProblem2_SolutionData.xlsx"

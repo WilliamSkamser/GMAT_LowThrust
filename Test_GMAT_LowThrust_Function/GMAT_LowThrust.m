@@ -1,43 +1,103 @@
-function [OutPut_Data]=GMAT_LowThrust(FileName,varargin)
-%[Time,ThrustVec,Alpha,Beta]=GMAT_LowThrust("\MarsAccelerationProblem2.xlsx");
-
-
-
-%GMAT_LowThrust writes GMAT script files to propagate and optimize
-%low-thrust trajectory problems
+function [OutPut_DataStruct]=GMAT_LowThrust(FileName,varargin)
+%% README (Instructions)
+%   GMAT_LowThrust writes GMAT script files to propagate and optimize
+%   low-thrust trajectory problems
 %   
 %   Low_Thrust problems may be propagated as is or optimized.
+%   The bin folder of GMAT must be within your path variable for the API
+%   commands used in this function to work.
 %   Optimization is done using SNOPT 7.6 Matlab interface (Other versions
-%   may work). 
-%   Snopt Matlab foulder must be within path varible for optimization to work 
-%   The constaint / objective function is called objFunc_conFunc
+%   may work).
+%   SNOPT Guide Link: 
+%   https://ccom.ucsd.edu/~optimizers/docs/snopt/interfaces.html#matlab
+%   https://ccom.ucsd.edu/~optimizers/static/pdfs/sndoc7.pdf
+%   SNOPT Matlab folder must be within the path variable for optimization to work 
+%   The constraint / objective function is called using objFunc_conFunc
 %
-%Optimization limitations:
+%   Optimization Notes and Limitations:
 %
+%   1) Optimization assumes that thrust/acceleration magnitude remains
+%   constant, and if fuel mass is decremented, it's constant for all time steps.
+%   2) Optimization works by updating a GMAT thrust history file and rerunning a
+%   GMAT script. This process is computationally inefficient as files must be
+%   saved to the hard drive. -> Long run times
+%   3) Optimization performance depends on how the design variable, constraint,
+%   and objective bounds are defined. You may want to adjust these parameters
+%   to improve the performance of your problem. 
+%   4) Problems with more than 200 steps tend to take more than 10 hours to
+%   optimize for optimal time of flight. 
 %
-%   [x]=GMAT_LowThrust(FileName,varargin)
-%   The FileName varible is a 
+%   Function inputs and outputs:
+%   
+%   [OutPut_DataStruct]=GMAT_LowThrust(FileName,varargin)
+%   1) OutPut_DataStruct includes the time step array, ICRF coordinates thrust
+%   array, Alpha (in-plane), and Beta (out-plane) thrust angles. X is the design
+% variable array from the last optimization iteration. 
+%   2) FileName is the name of the Excel file that includes the set-up
+%   information about your problem. Example input: "\EarthToMarsProblem.xlsx"
+%   3) varargin includes the optional inputs
+%       i) 'Optimize' option tells the function that you want to optimize your
+%       low-thrust problem. This will launch the SNOPT optimization
+%       sequence and run 'objFunc_conFunc' (objective/constraint function)
+%       ii) By default, the optimizer will run with default settings. To
+%       change settings, you need to pass in a struct after 'Optimize' that
+%       includes your optimization settings. Example:
+%   opt = struct( ...
+%    'TOF_LowBound',200,'TOF_UpperBound',1000,'MajorFeasibilityTolerance',1e-6,...
+%    'MajorOptimalityTolerance',1e-6,'OptimizationRunTimeLimit',86400,...
+%    'MajorIterationLimit',5000,'Obj','Cons');
+%       a) TOF_LowBound and TOF_UpperBound, are the lower and upper bound
+%       time of flight used in the optimization sequence. Values in days
+%       b) MajorFeasibilityTolerance and MajorOptimalityTolerance are the feasibility 
+%       and optimality tolerance SNOPT settings 
+%       c) OptimizationRunTimeLimit is how long the SNOPT optimization
+%       sequence will run. In seconds
+%       d) MajorIterationLimit is the limit on the number of major
+%       iterations that will be run during optimization
+%       e) Obj is the objective function setting option. The two settings are
+%       'Cons' and 'TOF'
+%           'Cons' is used to minimize the state vector constraints without
+%           defining the Time of Flight as the objective to minimize 
+%           'TOF' is used to optimize the Time of Flight as the
+%           objective function
+%   4) The function will also generate the files GMAT_RunScript_Plots.script and 
+%   GMAT_ThrustProfileSolution.thrust in the GMAT_RunFolder. GMAT_RunScript_Plots is a GMAT file
+%   that can be used to plot the orbital trajectory (for visualization) and 
+%   GMAT_ThrustProfileSolution is the thrust history file used to propagate
+%   the trajectory. During optimization, the files GMAT_RunScript and
+%   GMAT_RunThrustProfile will also be created. GMAT_RunThrustProfile will 
+%   have the most up-to-date iteration in the optimization sequence.
+%   If you need to end the optimization sequence before GMAT_RunScript_Plots 
+%   and GMAT_ThrustProfileSolution.thrust are generated, you can modify the
+%   existing GMAT_RunScript_Plots to run the last iteration of GMAT_RunThrustProfile.
+%   5) The file SNOPT_summary.txt will also be created during the
+%   optimization sequence. This file includes a summary of the SNOPT optimization.
 %
-%   Example function call: 
-%   [x]=GMAT_LowThrust("\MarsAccelerationProblem.xlsx",'Optimize',Opt)
+%   Example Input:
 %
-% ....
-%Future Work:
-%   Replacing/Providing option to optimize with GMAT's CSALT plugin
+%   Propgating trajectory without optimization:
+%   OutPut_DataStruct=GMAT_LowThrust("\EarthToMarsProblem.xlsx")
+%
+%   Optimizing using default settings:
+%   OutPut_DataStruct=GMAT_LowThrust("\EarthToMarsProblem.xlsx",'Optimize')
+%
+%   Optimizing using own settings struct:
+%   OutPut_DataStruct=GMAT_LowThrust("\EarthToMarsProblem.xlsx",'Optimize',Opt)
+%   
+%   Supporting Functions:
+%
+%   X_interpreter-> can be used to generate output struct if optimization
+%   sequence is paused/terminated before completion. 
+%   GMAT_LowThrustDataInterolator-> can be used to increase or decrease the
+%   number of time steps of a problem.
+%   LowThrustOutputStructToExcel-> can be used to regenerate the Excel set-up
+%   sheet using output struct. 
+%
+%   Known Errors:   'Minor iteration limit' is stuck at 10000
+%   
+%   Future Work:
+%   Replacing/Providing the option to optimize with GMAT's CSALT plugin
 %   Improve run time of optimization
-
-
-
-
-%2461912.5
-%May 21 2028
-%
-
-
-
-
-
-
 
 
 
@@ -57,6 +117,7 @@ global TargetSetting
 global TargetSV
 global MassFOn
 global UpperBoundTOF
+global OptObj
 narginchk(1, 3);%Check input
 if contains(class(FileName),'string') 
     Fname=char(FileName);
@@ -71,9 +132,9 @@ else
     return   
 end
 defaultopt = struct( ...
-    'TOF_LowBound',50,'TOF_UpperBound',(2*3500),'MajorFeasibilityTolerance',1e-6,...
+    'TOF_LowBound',50,'TOF_UpperBound',(3000),'MajorFeasibilityTolerance',1e-6,...
     'MajorOptimalityTolerance',1e-6,'OptimizationRunTimeLimit',86400,...
-    'MajorIterationLimit',5000);
+    'MajorIterationLimit',5000,'Obj','Cons');
     Opt=defaultopt;
     %Optimize=0;
     %LowBound =10; %in days
@@ -82,6 +143,7 @@ defaultopt = struct( ...
     %MajorOptimalityTolerance=1e-6;
     %OptimizationRunTimeLimit= 86400; %Seconds 
     %MajorIterationLimit=5000; 
+    %'Obj' Objective Function is Time Of Flight or Minimize Constraints
 if nargin>1
     Optimize=varargin{1};
     if (contains(class(Optimize),'string') || contains(class(Optimize),'char')) ...
@@ -113,7 +175,17 @@ if nargin>1
             if isfield(InputStruct,'MajorIterationLimit')
                 Opt.MajorIterationLimit=InputStruct.MajorIterationLimit;
             end
+            if isfield(InputStruct,'Obj')
+                Opt.Obj=InputStruct.Obj;
+            end
         end
+        if contains(class(Opt.Obj),'char')==1
+            if contains(Opt.Obj,'Cons')==1
+                OptObj=2;
+            else
+                OptObj=1;
+            end       
+        end        
         fprintf("\n SNOPT Optimizer Options Set To\n")
         disp(Opt)
     end
@@ -432,6 +504,7 @@ destinationS = fullfile(WorkingDir,FileName_runS);
 %sourceT = fullfile(BlanksDir,FileName_blankT);
 destinationT = fullfile(WorkingDir,FileName_runT);
 mkdir(WorkingDir);
+%GMAT Script Template
 ScriptTemp =...
     {'%General Mission Analysis Tool(GMAT) Script',...
 '%Created: 2023-02-28 19:34:12',...
@@ -843,55 +916,58 @@ end
 if Optimize==1
     %Constants
     muS = 1.32712440018e+11;   % Km^3/sec^2 
-   % g   = 9.807;                 % m/s^2
     AU  = 149598000;            % km
     TU  = sqrt(AU^3/muS);       % sec
-    %VU  = AU/TU;                % km/sec
     Th = ThrustMag;               % kg m/s^2
-    %Isp = ISP;             % s^-1
-    %Vex = Isp*g;            % m/s
-    %m0  = FuelM;             % kg
     t1 = StartDate;   
     %Initial Guess vector (Alpha, Beta, TOF)
-   % x=[Alpha/(2*pi);Beta/(2*pi);EndTime/UpperBoundTOF];
-    % Bounds
-    %[F, G] = objFunc_conFunc(x)
+ 
     lb = [-ones(NumberOfSteps,1);    % Alpha
           -ones(NumberOfSteps,1);    % Beta  
-          LowBoundTOF/UpperBoundTOF];             % TOF (TU) %900
+            LowBoundTOF/UpperBoundTOF];             % TOF (TU) %900
 
     ub = [ones(NumberOfSteps,1);     % Alpha 
-          ones(NumberOfSteps,1);     % Beta 
-         1];            % UpperBoundTOF/UpperBoundTOF
+          ones(NumberOfSteps,1);    % Beta 
+          UpperBoundTOF/UpperBoundTOF];            % UpperBoundTOF/UpperBoundTOF
     %lower and upper bounds
     xlow = lb;
     xupp = ub;
-    %bounds on objective function
-    Flow=zeros(7, 1);
-    Fupp=zeros(7, 1);
-    Flow(1) = 0;
-    Fupp(1) = ub(end);%inf;
-    %bounds of constraints
-    Flow(2:7) = 0;
-    Fupp(2:7) = 0;
-    %Multiplier and state of design variable x and function F
+    %Multiplier and state of design variable x
     xmul = zeros(length(lb), 1); %Lagrange multipliers
     xstate = zeros(length(lb), 1);
-    Fmul = zeros(7, 1); %Lagrange multipliers
-    Fstate = zeros(7, 1);
+    if OptObj==1
+        %bounds on objective function
+        Flow=zeros(7, 1);
+        Fupp=zeros(7, 1);
+        Flow(1) = 0;
+        Fupp(1) = ub(end);%inf;
+        %bounds of constraints
+        Flow(2:7) = 0;
+        Fupp(2:7) = 0;
+        %Multiplier and state of function F
+        Fmul = zeros(7, 1); %Lagrange multipliers
+        Fstate = zeros(7, 1);
+    elseif OptObj==2
+        %bounds on objective function
+        Flow(1) = 0;
+        Fupp(1) = ub(end);%inf;
+        %Multiplier and state of function F
+        Fmul = 0; %Lagrange multipliers
+        Fstate = 0;
+    end
     %SNOPT Optimization Routine
     ObjAdd =0; %Add value to objective Row
     ObjRow =1; %Tell the Optimizer which row of F is the objective function
     snscreen on;  
-    snsummary('SNOPt_summary.txt');
+    snsummary('SNOPT_summary.txt');
     %tolerance values, 1e-6 by default 
     snsetr('Major feasibility tolerance',Opt.MajorFeasibilityTolerance); 
     snsetr('Major optimality tolerance',Opt.MajorOptimalityTolerance);
     snsetr('Minor feasibility tolerance',1e-6);
     snsetr('Minor optimality tolerance',1e-6);
-    snseti('Time limit',Opt.OptimizationRunTimeLimit);%345600); %Sets time limit to 1 day (in seconds)
+    snseti('Time limit',Opt.OptimizationRunTimeLimit);% (in seconds)
     snseti('Major iteration limit',Opt.MajorIterationLimit);
-    snseti('Minor iteration limit',Opt.MajorIterationLimit*10000);
+    snseti('Minor iteration limit',Opt.MajorIterationLimit*1000000);
     snseti('Line search algorithm', 3)%More-Thuente line search, Seems to be faster than default line search
     load_gmat();
     tic
@@ -1070,6 +1146,6 @@ if Ans2 ~= 1
 else %Remove Optimizer Run files
     delete(destinationS);
     delete(destinationT); 
-    OutPut_Data=struct('Time',Time,'ThrustXYZ',ThrustVec,'Alpha',Alpha,'Beta',Beta,'X',x);
+    OutPut_DataStruct=struct('Time',Time,'ThrustXYZ',ThrustVec,'Alpha',Alpha,'Beta',Beta,'X',x);
 end
 end%END

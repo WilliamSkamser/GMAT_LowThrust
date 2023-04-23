@@ -7,10 +7,7 @@ ThrustVec=Th.*[cos(Thrust_beta).*cos(Thrust_alpha),cos(Thrust_beta).*sin(Thrust_
 Time = linspace(0,TOF,NumberOfSteps)';
 OutPut_Data=struct('Time',Time,'ThrustXYZ',ThrustVec,'Alpha',Thrust_alpha,'Beta',Thrust_beta,'X',x);
 end
-%3500*86400 UpperBoundTOF
-%0.00015 Th
-%[OutPut_Data]=X_interpreter(SAVE_Data.X,Th,UpperBoundTOF)
-%OutPut_Data=X_interpreter(SAVE_Data.X,0.00015,3500*86400)
+% Example: OutPut_Data=X_interpreter(SAVE_Data.X,0.00015,3500*86400)
 %
 % To save work when pausing SNOPT optimization 
 %   1) Save X with x_interpreter

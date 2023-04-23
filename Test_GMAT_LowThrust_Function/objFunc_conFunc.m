@@ -14,6 +14,7 @@ global TargetSetting
 global TargetSV
 global MassFOn
 global UpperBoundTOF
+global OptObj
 % Extract Design Variables
 Thrust_alpha = x(1:NumberOfSteps)*(2*pi);                   % rads
 Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps)*(2*pi);   % rads
@@ -93,7 +94,11 @@ con = [Vx/(AU/TU);
        Z/AU]; 
 Obj = TOF/UpperBoundTOF;
 end
-F(1) = Obj;
-F(2:7)=con;
+if OptObj==1
+    F(1) = Obj;
+    F(2:7)=con;
+elseif OptObj==2
+    F(1) = norm(con); 
+end
 G=[];
 end
