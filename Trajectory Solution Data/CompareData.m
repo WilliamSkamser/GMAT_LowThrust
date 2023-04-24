@@ -6,6 +6,9 @@ EtM50=load('EarthToMars50.mat').Op;
 EtM200=load('EarthToMars200.mat').OP;
 EtMnTOF=load('EarthToMars50NoTOFObj.mat').Op;
 EtJnTOF=load('EarthToJupiter50NoTOFObj.mat').OutPut_Data;
+EtMCS50=load('EtMCS50').Op;
+
+
 
 %% Jupiter
 figure(1)
@@ -46,6 +49,8 @@ hold on
 plot(EtM200.Time,EtM200.Alpha,"-D")
 hold on
 plot(EtMnTOF.Time,EtMnTOF.Alpha,"-D")
+hold on
+plot(EtMCS50.Time,EtMCS50.Alpha,"-D")
 legend('Earth to Mars 50','Earth to Mars 200','Earth to Mars 50 No TOF Obj')
 ylim([-2*pi 2*pi])
 xlim([0 EtMnTOF.Time(end)])
@@ -56,6 +61,8 @@ hold on
 plot(EtM200.Time,EtM200.Beta,"-D")
 hold on
 plot(EtMnTOF.Time,EtMnTOF.Beta,"-D")
+%hold on
+%plot(EtMCS50.Time,EtMCS50.Beta,"-D") %converged solution
 legend('Earth to Mars 50','Earth to Mars 200','Earth to Mars 50 No TOF Obj')
 ylim([-2*pi 2*pi])
 xlim([0 EtMnTOF.Time(end)])

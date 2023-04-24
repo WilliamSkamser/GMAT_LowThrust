@@ -132,9 +132,9 @@ else
     return   
 end
 defaultopt = struct( ...
-    'TOF_LowBound',500,'TOF_UpperBound',1000,'MajorFeasibilityTolerance',1e-6,...
+    'TOF_LowBound',200,'TOF_UpperBound',1000,'MajorFeasibilityTolerance',1e-6,...
     'MajorOptimalityTolerance',1e-6,'OptimizationRunTimeLimit',86400,...
-    'MajorIterationLimit',5000,'Obj','TOF');%'Cons');
+    'MajorIterationLimit',5000,'Obj','Cons');%'Cons');
     Opt=defaultopt;
     %Optimize=0;
     %LowBound =10; %in days
@@ -950,7 +950,7 @@ if Optimize==1
     elseif OptObj==2
         %bounds on objective function
         Flow(1) = 0;
-        Fupp(1) = 0;%ub(end);%inf;
+        Fupp(1) = ub(end);%inf;
         %Multiplier and state of function F
         Fmul = 0; %Lagrange multipliers
         Fstate = 0;

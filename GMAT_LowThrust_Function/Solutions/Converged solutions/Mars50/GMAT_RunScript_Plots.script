@@ -22,6 +22,8 @@ GMAT Sat.DragArea = 0;
 GMAT Sat.SRPArea = 0;
 GMAT Sat.SPADDragScaleFactor = 1;
 GMAT Sat.SPADSRPScaleFactor = 1;
+GMAT Sat.AtmosDensityScaleFactor = 1;
+GMAT Sat.ExtendedMassPropertiesModel = 'None';
 GMAT Sat.Tanks = {ETank};
 GMAT Sat.NAIFId = -10000001;
 GMAT Sat.NAIFIdReferenceFrame = -9000001;
@@ -36,6 +38,7 @@ GMAT Sat.SPADSRPInterpolationMethod = Bilinear;
 GMAT Sat.SPADSRPScaleFactorSigma = 1e+70;
 GMAT Sat.SPADDragInterpolationMethod = Bilinear;
 GMAT Sat.SPADDragScaleFactorSigma = 1e+70;
+GMAT Sat.AtmosDensityScaleFactorSigma = 1e+70;
 GMAT Sat.ModelFile = 'aura.3ds';
 GMAT Sat.ModelOffsetX = 0;
 GMAT Sat.ModelOffsetY = 0;
@@ -54,6 +57,7 @@ GMAT Sat.EulerAngleSequence = '321';
 Create ElectricTank ETank;
 GMAT ETank.AllowNegativeFuelMass = false;
 GMAT ETank.FuelMass = 1000;
+
 
 
 
@@ -114,14 +118,11 @@ GMAT ThrustSegment1.ThrustScaleFactorSigma = 1e+70;
 GMAT ThrustSegment1.ApplyThrustScaleToMassFlow = false;
 GMAT ThrustSegment1.MassFlowScaleFactor = 1;
 GMAT ThrustSegment1.MassSource = {'ETank'};
-
-%----------------------------------------
-%---------- Arrays, Variables, Strings
-%----------------------------------------
-
-Create Array Data[1,6];
-Create Variable RunTime;
-GMAT RunTime = 55081424.6726;
+GMAT ThrustSegment1.ThrustAngleConstraintVector = [ 0 0 1 ];
+GMAT ThrustSegment1.ThrustAngle1 = [ 0 ];
+GMAT ThrustSegment1.ThrustAngle2 = [ 0 ];
+GMAT ThrustSegment1.ThrustAngle1Sigma = [ 1e+70 ];
+GMAT ThrustSegment1.ThrustAngle2Sigma = [ 1e+70 ];
 
 
 
@@ -135,9 +136,9 @@ GMAT RunTime = 55081424.6726;
 
 Create OrbitView OrbitView1;
 GMAT OrbitView1.SolverIterations = Current;
-GMAT OrbitView1.UpperLeft = [ 0.003971405877680699 0 ];
-GMAT OrbitView1.Size = [ 0.7998411437648928 0.8501228501228502 ];
-GMAT OrbitView1.RelativeZOrder = 63;
+GMAT OrbitView1.UpperLeft = [ 0.003529411764705882 0 ];
+GMAT OrbitView1.Size = [ 0.7994117647058824 0.8501228501228502 ];
+GMAT OrbitView1.RelativeZOrder = 2;
 GMAT OrbitView1.Maximized = false;
 GMAT OrbitView1.Add = {Sat, Sun, Earth, Mars};
 GMAT OrbitView1.CoordinateSystem = CentralBodyICRF;
@@ -166,6 +167,15 @@ GMAT OrbitView1.EnableStars = Off;
 GMAT OrbitView1.EnableConstellations = On;
 
 %----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+
+Create Array Data[1,6];
+Create Variable RunTime;
+GMAT RunTime = 49476877.9852;
+
+
+%----------------------------------------
 %---------- Mission Sequence
 %----------------------------------------
 BeginMissionSequence;
@@ -181,6 +191,7 @@ GMAT Data(3) = Sat.CentralBodyICRF.VZ;
 GMAT Data(4) = Sat.CentralBodyICRF.X;
 GMAT Data(5) = Sat.CentralBodyICRF.Y;
 GMAT Data(6) = Sat.CentralBodyICRF.Z;
+
 
 
 
