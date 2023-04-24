@@ -1,6 +1,0 @@
-
- ==============================
- S N O P T  7.6.0    (Jan 2017)
- ==============================
- Line search algorithm                                            3
- XXX  Second keyword not recognized:  SEARCH

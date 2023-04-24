@@ -159,10 +159,7 @@ con = [Vx/(AU/TU);
        Z/AU]; 
 Obj = TOF/TU;
 end
-% delete the file when we're done
-%prevState = recycle('off'); % turn recycle off to permanently delete files
-%delete(file2)
-%recycle(prevState); % restore the state of recycl
+
 
 F(1) = Obj;
 F(2:7)=con;
