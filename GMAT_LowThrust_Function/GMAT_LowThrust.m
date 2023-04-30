@@ -132,9 +132,9 @@ else
     return   
 end
 defaultopt = struct( ...
-    'TOF_LowBound',500,'TOF_UpperBound',1000,'MajorFeasibilityTolerance',1e-6,...
+    'TOF_LowBound',1000,'TOF_UpperBound',5000,'MajorFeasibilityTolerance',1e-6,...
     'MajorOptimalityTolerance',1e-6,'OptimizationRunTimeLimit',86400,...
-    'MajorIterationLimit',5000,'Obj','TOF');%'Cons');
+    'MajorIterationLimit',5000,'Obj','Cons');%'Cons');
     Opt=defaultopt;
     %Optimize=0;
     %LowBound =10; %in days
@@ -143,7 +143,8 @@ defaultopt = struct( ...
     %MajorOptimalityTolerance=1e-6;
     %OptimizationRunTimeLimit= 86400; %Seconds 
     %MajorIterationLimit=5000; 
-    %'Obj' Objective Function is Time Of Flight or Minimize Constraints
+    %'Obj' Objective Function is Time Of Flight (TOF) or Minimize
+    %Constraints (Cons)
 if nargin>1
     Optimize=varargin{1};
     if (contains(class(Optimize),'string') || contains(class(Optimize),'char')) ...

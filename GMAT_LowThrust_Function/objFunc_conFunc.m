@@ -98,7 +98,7 @@ if OptObj==1
     F(1) = Obj;
     F(2:7)=con;
 elseif OptObj==2
-    F(1) = norm(con); 
+    F(1) = norm(con);
 end
 G=[];
 end

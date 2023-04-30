@@ -1,4 +1,4 @@
-function [OutPut_Data]=X_interpreter(x,Th,UpperBoundTOF)
+function [OutPut_Data]=X_interpreter(x,Th,UpperBoundTOF)%seconds TOF
 NumberOfSteps=(length(x)-1)/2;
 Thrust_alpha = x(1:NumberOfSteps)*(2*pi);                   % rads
 Thrust_beta = x(NumberOfSteps+1:2*NumberOfSteps)*(2*pi);   % rads
