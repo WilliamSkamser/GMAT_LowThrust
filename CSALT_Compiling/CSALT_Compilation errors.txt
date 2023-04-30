@@ -1,4 +1,0 @@
-Link to CSALT Compile: 
-https://gmat.atlassian.net/wiki/spaces/GW/pages/380273355/Compiling+GMAT+CMake+Build+System
-
-Files in folder are the error messages and fixes used in earlier steps of the CSALT compilation process. 

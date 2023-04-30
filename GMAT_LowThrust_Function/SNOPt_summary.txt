@@ -1,12 +1,5 @@
-
- ==============================
- S N O P T  7.6.0    (Jan 2017)
- ==============================
  Line search algorithm                                            3
  XXX  Second keyword not recognized:  SEARCH
- 
- SNMEMA EXIT 100 -- finished successfully
- SNMEMA INFO 104 -- memory requirements estimated
 
  Nonzero derivs  Jij       599
  Non-constant    Jij's     599     Constant Jij's           0
@@ -37,43 +30,63 @@
  Itn      0: Hessian set to a scaled identity matrix
 
         Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
-          100        -3.7E-01  1.0E+00  5.6E-17 -3.3183589E+01     99
+          100    472  2.5E+00  1.0E+00  0.0E+00 -2.6712063E+02     94
 
  Major Minors     Step   nObj Feasible  Optimal      Objective     nS
-     0    100               1           3.8E+00  6.9829582E-02     99   r  T
- Itn    100: Hessian set to a scaled identity matrix
+     0    105               1           4.3E+00  4.6511637E+00     99   r  T
+ Itn    105: Hessian set to a scaled identity matrix
 
         Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
-          100    372  2.7E-01  1.0E+00  5.6E-17 -3.7180185E+01    138
+          100    378 -4.3E+01  1.0E+00  0.0E+00 -1.2921441E+04     79
+          200    278 -6.0E+00  1.0E+00  0.0E+00 -1.3096659E+04    170
 
  Major Minors     Step   nObj Feasible  Optimal      Objective     nS
-     1    160  2.2E-03      2           1.3E+00  1.6343493E-02    198   r  T
+     1    234  1.0E+00      2           3.1E+00  4.1738053E+00    198   r  T
 
         Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
-          100    346  5.0E-01  1.0E+00  1.3E-15  2.5641435E-03    197
-          200        -1.0E-02  1.0E+00  1.5E-19  2.2667533E-03    297
+          100    282           1.0E+00  4.5E-28  1.3416402E+03    255
 
  Major Minors     Step   nObj Feasible  Optimal      Objective     nS
-     2    200  3.3E-04      3           3.4E+00  6.6971679E-03    297 s    T
+     2    146  1.7E-02      3           2.4E-01  4.0683043E+00    297 s    T
 
         Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
-          100        -8.0E-03  1.0E+00  1.3E-19  3.5589977E-03    396
+          100         8.5E-02  1.0E+00  2.9E-18  3.8993547E+00    396
 
  Major Minors     Step   nObj Feasible  Optimal      Objective     nS
-     3    100  1.0E+00      4           1.2E+00  5.5630668E-03    396      T
+     3    100  6.0E+00      4           5.4E-01  3.9021162E+00    396      T
 
         Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
-          100        -1.5E-03  1.0E+00  1.1E-19  3.1560587E-03    495
+          100         2.9E-02  1.0E+00  6.9E-18  3.8913003E+00    495
 
  Major Minors     Step   nObj Feasible  Optimal      Objective     nS
-     4    100  1.0E+00      5           3.7E+00  3.2404312E-03    495      T
-
-        Minor NonOpt  QP mult  QP step   rgNorm   QP objective     nS
-          100        -1.0E-03  1.0E+00  2.7E-20  3.1395693E-03    594
+     4    100  1.0E+00      5           2.5E-01  3.8977091E+00    495      T
+     5     55  1.0E+00      6           2.9E-01  3.8874820E+00    549
+     6      7  1.0E+00      7           2.3E-01  3.8680680E+00    550
+     7     17  1.0E+00      8           2.4E-01  3.8509810E+00    562
+     8      7  1.0E+00      9           3.5E-01  3.8425953E+00    568
+     9      1  1.0E+00     10           3.2E-01  3.8415965E+00    568
 
  Major Minors     Step   nObj Feasible  Optimal      Objective     nS
-     5    100  1.0E+00      6           4.6E-01  3.1494960E-03    594      T
-     6      6  1.0E+00      7           5.0E-01  3.1365062E-03    599
-     7     18  1.0E+00      8           1.8E-01  3.1335649E-03    583
-     8     36  1.7E+00      9           1.4E-01  3.1232273E-03    550
-     9     49  3.3E+00     10           5.0E-01  3.0670152E-03    579
+    10      1  1.0E+00     11           2.6E-01  3.8406684E+00    568
+    11      2  1.0E+00     12           2.6E-01  3.8364520E+00    567
+ Itn    775: Hessian off-diagonals discarded
+    12     11  1.2E+00     13           2.5E-01  3.8213876E+00    577   R
+    13     10  1.0E+00     14           2.6E-01  3.8166776E+00    570 s
+    14      3  1.0E+00     15           3.5E-01  3.8105688E+00    568
+    15     11  1.2E+00     16           3.1E-01  3.8087138E+00    561
+    16      5  1.0E+00     17           1.6E+00  3.7922344E+00    565
+    17      8  1.0E+00     18           1.2E+00  3.7773679E+00    560
+    18      7  1.0E+00     19           3.4E-01  3.7327311E+00    557
+    19     18  1.0E+00     20           1.6E+00  3.6461991E+00    567
+
+ Major Minors     Step   nObj Feasible  Optimal      Objective     nS
+    20     10  1.0E+00     21           1.9E+00  3.5836238E+00    569
+    21      2  1.0E+00     22           3.1E-01  3.4223625E+00    569
+    22      7  1.1E+00     23           3.1E-01  3.2447790E+00    570
+ Itn    867: Hessian off-diagonals discarded
+    23      4  4.9E-02     24           2.4E-01  3.2439512E+00    573   R
+    24      1  2.3E-01     25           2.7E-01  3.2437444E+00    573 s
+    25      2  1.0E+00     26           1.7E-01  3.2434839E+00    573
+    26      4  1.0E+00     27           2.0E-01  3.2430663E+00    571
+    27      3  1.0E+00     28           2.5E-01  3.2422499E+00    570
+    28      7  1.0E+00     29           3.1E-01  3.2394113E+00    569
