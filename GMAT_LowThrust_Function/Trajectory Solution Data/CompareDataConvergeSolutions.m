@@ -14,7 +14,7 @@ EtMCS50=load('EtMCS50').Op;
 
 EtJCS50=load('EarthToJupiter50CS.mat').FinalStruct;
 EtJCS150=load('EarthToJupiter150CS.mat').SaveData;
-
+EtJCS300=load('EarthToJupiter300CS.mat').OutPut_Data;
 
 
 %% Jupiter
@@ -24,7 +24,9 @@ ax1=nexttile;
 plot(EtJCS50.Time,EtJCS50.Alpha,"-D")
 hold on
 plot(EtJCS150.Time,EtJCS150.Alpha,"-D")
-legend('Earth to Jupiter 50','Earth to Jupiter 150')
+hold on
+plot(EtJCS300.Time,EtJCS300.Alpha,"-D")
+legend('Earth to Jupiter 50','Earth to Jupiter 150','Earth to Jupiter 300')
 ylim([-2*pi 2*pi])
 xlim([0 EtJCS50.Time(end)])
 
@@ -32,7 +34,9 @@ ax2=nexttile;
 plot(EtJCS50.Time,EtJCS50.Beta,"-D")
 hold on
 plot(EtJCS150.Time,EtJCS150.Beta,"-D")
-legend('Earth to Jupiter 50','Earth to Jupiter 150')
+hold on
+plot(EtJCS300.Time,EtJCS300.Beta,"-D")
+legend('Earth to Jupiter 50','Earth to Jupiter 150','Earth to Jupiter 300')
 ylim([-2*pi 2*pi])
 xlim([0 EtJCS50.Time(end)])
 

@@ -1,0 +1,327 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2023-02-28 19:34:12
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+Create Spacecraft Sat;
+GMAT Sat.DateFormat = A1ModJulian;
+GMAT Sat.Epoch = '32929.5';
+GMAT Sat.CoordinateSystem = CentralBodyICRF;
+GMAT Sat.DisplayStateType = Cartesian;
+GMAT Sat.X = -141654272.817827;
+GMAT Sat.Y = 40291679.1139839;
+GMAT Sat.Z = 17466418.8028519;
+GMAT Sat.VX = -9.2950230352282;
+GMAT Sat.VY = -26.2060908514653;
+GMAT Sat.VZ = -11.3586642884688;
+GMAT Sat.DryMass = 0;
+GMAT Sat.Cd = 0;
+GMAT Sat.Cr = 0;
+GMAT Sat.DragArea = 0;
+GMAT Sat.SRPArea = 0;
+GMAT Sat.SPADDragScaleFactor = 1;
+GMAT Sat.SPADSRPScaleFactor = 1;
+GMAT Sat.AtmosDensityScaleFactor = 1;
+GMAT Sat.ExtendedMassPropertiesModel = 'None';
+GMAT Sat.Tanks = {ETank};
+GMAT Sat.NAIFId = -10000001;
+GMAT Sat.NAIFIdReferenceFrame = -9000001;
+GMAT Sat.OrbitColor = Red;
+GMAT Sat.TargetColor = Teal;
+GMAT Sat.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT Sat.CdSigma = 1e+70;
+GMAT Sat.CrSigma = 1e+70;
+GMAT Sat.Id = 'SatId';
+GMAT Sat.Attitude = CoordinateSystemFixed;
+GMAT Sat.SPADSRPInterpolationMethod = Bilinear;
+GMAT Sat.SPADSRPScaleFactorSigma = 1e+70;
+GMAT Sat.SPADDragInterpolationMethod = Bilinear;
+GMAT Sat.SPADDragScaleFactorSigma = 1e+70;
+GMAT Sat.AtmosDensityScaleFactorSigma = 1e+70;
+GMAT Sat.ModelFile = 'aura.3ds';
+GMAT Sat.ModelOffsetX = 0;
+GMAT Sat.ModelOffsetY = 0;
+GMAT Sat.ModelOffsetZ = 0;
+GMAT Sat.ModelRotationX = 0;
+GMAT Sat.ModelRotationY = 0;
+GMAT Sat.ModelRotationZ = 0;
+GMAT Sat.ModelScale = 1;
+GMAT Sat.AttitudeDisplayStateType = 'Quaternion';
+GMAT Sat.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT Sat.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT Sat.EulerAngleSequence = '321';
+%----------------------------------------
+%---------- Hardware Components
+%----------------------------------------
+Create ElectricTank ETank;
+GMAT ETank.AllowNegativeFuelMass = false;
+GMAT ETank.FuelMass = 1000;
+
+
+
+
+
+
+
+
+
+
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+Create ForceModel FM;
+GMAT FM.CentralBody = Sun;
+GMAT FM.PointMasses = {Sun};
+GMAT FM.Drag = None;
+GMAT FM.SRP = Off;
+GMAT FM.RelativisticCorrection = Off;
+GMAT FM.ErrorControl = RSSStep;
+
+
+
+
+
+
+
+
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+Create Propagator ThePropagator;
+GMAT ThePropagator.FM = FM;
+GMAT ThePropagator.Type = RungeKutta89;
+GMAT ThePropagator.InitialStepSize = 86400;
+GMAT ThePropagator.Accuracy = 1e-09;
+GMAT ThePropagator.MinStep = 86400;
+GMAT ThePropagator.MaxStep = 86400;
+GMAT ThePropagator.MaxStepAttempts = 50;
+GMAT ThePropagator.StopIfAccuracyIsViolated = false;
+
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+Create CoordinateSystem CentralBodyICRF;
+GMAT CentralBodyICRF.Origin = Sun;
+GMAT CentralBodyICRF.Axes = ICRF;
+
+%----------------------------------------
+%---------- Thrust History File
+%----------------------------------------
+Create ThrustHistoryFile ThrustHistoryFile1;
+GMAT ThrustHistoryFile1.FileName = 'C:\GMAT_Repo\GMAT_LowThrust_Function\Solutions\Converged solutions\Jupiter300\GMAT_ThrustProfileSolution.thrust';
+GMAT ThrustHistoryFile1.AddThrustSegment = {'ThrustSegment1'};
+
+Create ThrustSegment ThrustSegment1;
+GMAT ThrustSegment1.ThrustScaleFactor = 1;
+GMAT ThrustSegment1.ThrustScaleFactorSigma = 1e+70;
+GMAT ThrustSegment1.ApplyThrustScaleToMassFlow = false;
+GMAT ThrustSegment1.MassFlowScaleFactor = 1;
+GMAT ThrustSegment1.MassSource = {'ETank'};
+GMAT ThrustSegment1.ThrustAngleConstraintVector = [ 0 0 1 ];
+GMAT ThrustSegment1.ThrustAngle1 = [ 0 ];
+GMAT ThrustSegment1.ThrustAngle2 = [ 0 ];
+GMAT ThrustSegment1.ThrustAngle1Sigma = [ 1e+70 ];
+GMAT ThrustSegment1.ThrustAngle2Sigma = [ 1e+70 ];
+
+
+
+
+
+
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView OrbitView1;
+GMAT OrbitView1.SolverIterations = Current;
+GMAT OrbitView1.UpperLeft = [ 0.002352941176470588 0 ];
+GMAT OrbitView1.Size = [ 0.7994117647058824 0.8501228501228502 ];
+GMAT OrbitView1.RelativeZOrder = 14;
+GMAT OrbitView1.Maximized = false;
+GMAT OrbitView1.Add = {Sat, Sun, Earth, Jupiter};
+GMAT OrbitView1.CoordinateSystem = CentralBodyICRF;
+GMAT OrbitView1.DrawObject = [ true true true true true true true true true true true true ];
+GMAT OrbitView1.DataCollectFrequency = 1;
+GMAT OrbitView1.UpdatePlotFrequency = 50;
+GMAT OrbitView1.NumPointsToRedraw = 0;
+GMAT OrbitView1.ShowPlot = true;
+GMAT OrbitView1.MaxPlotPoints = 200000;
+GMAT OrbitView1.ShowLabels = true;
+GMAT OrbitView1.ViewPointReference = Sun;
+GMAT OrbitView1.ViewPointVector = [ 0 0 700000000 ];
+GMAT OrbitView1.ViewDirection = Sun;
+GMAT OrbitView1.ViewScaleFactor = 1;
+GMAT OrbitView1.ViewUpCoordinateSystem = CentralBodyICRF;
+GMAT OrbitView1.ViewUpAxis = Z;
+GMAT OrbitView1.EclipticPlane = Off;
+GMAT OrbitView1.XYPlane = Off;
+GMAT OrbitView1.WireFrame = Off;
+GMAT OrbitView1.Axes = Off;
+GMAT OrbitView1.Grid = Off;
+GMAT OrbitView1.SunLine = Off;
+GMAT OrbitView1.UseInitialView = On;
+GMAT OrbitView1.StarCount = 7000;
+GMAT OrbitView1.EnableStars = Off;
+GMAT OrbitView1.EnableConstellations = On;
+
+Create OpenFramesInterface OpenFrames1;
+GMAT OpenFrames1.SolverIterations = All;
+GMAT OpenFrames1.UpperLeft = [ 0.03529411764705882 0 ];
+GMAT OpenFrames1.Size = [ 0.4964705882352941 0.8869778869778869 ];
+GMAT OpenFrames1.RelativeZOrder = 12;
+GMAT OpenFrames1.Maximized = false;
+GMAT OpenFrames1.Add = {Sat, Earth, Jupiter, Sun};
+GMAT OpenFrames1.View = {CoordinateSystemView1, EarthView1, JupiterView1, SunView1, SatView1};
+GMAT OpenFrames1.CoordinateSystem = CentralBodyICRF;
+GMAT OpenFrames1.DrawObject = [ true true true true ];
+GMAT OpenFrames1.DrawTrajectory = [ true true true true ];
+GMAT OpenFrames1.DrawAxes = [ false false false false ];
+GMAT OpenFrames1.DrawXYPlane = [ false false false false ];
+GMAT OpenFrames1.DrawLabel = [ false true true true ];
+GMAT OpenFrames1.DrawUsePropLabel = [ false false false false ];
+GMAT OpenFrames1.DrawCenterPoint = [ true false false false ];
+GMAT OpenFrames1.DrawEndPoints = [ true false false false ];
+GMAT OpenFrames1.DrawVelocity = [ false false false false ];
+GMAT OpenFrames1.DrawGrid = [ false false false false ];
+GMAT OpenFrames1.DrawLineWidth = [ 2 2 2 2 ];
+GMAT OpenFrames1.DrawMarkerSize = [ 10 10 10 10 ];
+GMAT OpenFrames1.DrawFontSize = [ 14 14 14 14 ];
+GMAT OpenFrames1.Axes = Off;
+GMAT OpenFrames1.AxesLength = 12756.2726;
+GMAT OpenFrames1.AxesLabels = On;
+GMAT OpenFrames1.FrameLabel = Off;
+GMAT OpenFrames1.XYPlane = Off;
+GMAT OpenFrames1.EclipticPlane = Off;
+GMAT OpenFrames1.EnableStars = Off;
+GMAT OpenFrames1.StarCatalog = 'inp_StarsHYGv3.txt';
+GMAT OpenFrames1.StarCount = 40000;
+GMAT OpenFrames1.MinStarMag = -2;
+GMAT OpenFrames1.MaxStarMag = 6;
+GMAT OpenFrames1.MinStarPixels = 1;
+GMAT OpenFrames1.MaxStarPixels = 10;
+GMAT OpenFrames1.MinStarDimRatio = 0.5;
+GMAT OpenFrames1.ShowPlot = true;
+GMAT OpenFrames1.ShowToolbar = true;
+GMAT OpenFrames1.SolverIterLastN = 0;
+GMAT OpenFrames1.ShowVR = false;
+GMAT OpenFrames1.PlaybackTimeScale = 3600;
+GMAT OpenFrames1.MultisampleAntiAliasing = On;
+GMAT OpenFrames1.MSAASamples = 16;
+GMAT OpenFrames1.DrawFontPosition = {'Top-Right', 'Top-Right', 'Top-Right', 'Top-Right'};
+
+Create ReportFile DefaultReportFile;
+GMAT DefaultReportFile.SolverIterations = Current;
+GMAT DefaultReportFile.UpperLeft = [ 0 0 ];
+GMAT DefaultReportFile.Size = [ 0 0 ];
+GMAT DefaultReportFile.RelativeZOrder = 0;
+GMAT DefaultReportFile.Maximized = false;
+GMAT DefaultReportFile.Filename = 'DefaultReportFile.txt';
+GMAT DefaultReportFile.Precision = 16;
+GMAT DefaultReportFile.WriteHeaders = true;
+GMAT DefaultReportFile.LeftJustify = On;
+GMAT DefaultReportFile.ZeroFill = Off;
+GMAT DefaultReportFile.FixedWidth = true;
+GMAT DefaultReportFile.Delimiter = ' ';
+GMAT DefaultReportFile.ColumnWidth = 23;
+GMAT DefaultReportFile.WriteReport = true;
+
+%----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+
+Create Array Data[1,6];
+Create Variable RunTime;
+GMAT RunTime = 183269543.3058849;
+
+
+
+%----------------------------------------
+%---------- User Objects
+%----------------------------------------
+
+Create OpenFramesSensorMask NewMask1;
+GMAT NewMask1.Source = None Selected;
+GMAT NewMask1.Hardware = None Selected;
+GMAT NewMask1.Label = 'DefaultSensorMask';
+GMAT NewMask1.LengthType = Auto;
+
+Create OpenFramesView CoordinateSystemView1;
+GMAT CoordinateSystemView1.ViewFrame = CoordinateSystem;
+GMAT CoordinateSystemView1.ViewTrajectory = Off;
+GMAT CoordinateSystemView1.InertialFrame = Off;
+GMAT CoordinateSystemView1.SetDefaultLocation = Off;
+GMAT CoordinateSystemView1.SetCurrentLocation = On;
+GMAT CoordinateSystemView1.CurrentEye = [ 3732857.329375222 -232304577.3786337 966531435.9178851 ];
+GMAT CoordinateSystemView1.CurrentCenter = [ 47355231.12334175 194714383.1722043 -1389552.726650238 ];
+GMAT CoordinateSystemView1.CurrentUp = [ 0.3193787775080757 0.8616033169952508 0.3945084544344118 ];
+GMAT CoordinateSystemView1.FOVy = 45;
+
+Create OpenFramesView EarthView1;
+GMAT EarthView1.ViewFrame = Earth;
+GMAT EarthView1.ViewTrajectory = Off;
+GMAT EarthView1.InertialFrame = Off;
+GMAT EarthView1.SetDefaultLocation = Off;
+GMAT EarthView1.SetCurrentLocation = On;
+GMAT EarthView1.CurrentEye = [ -3603.852953173829 -186465.4372460899 63795.20551282749 ];
+GMAT EarthView1.CurrentCenter = [ -9.094947017729282e-13 2.91038304567337e-11 0 ];
+GMAT EarthView1.CurrentUp = [ 0.09874862029144615 0.3204164322051168 0.9421157147418142 ];
+GMAT EarthView1.FOVy = 45;
+
+Create OpenFramesView JupiterView1;
+GMAT JupiterView1.ViewFrame = Jupiter;
+GMAT JupiterView1.ViewTrajectory = Off;
+GMAT JupiterView1.InertialFrame = Off;
+GMAT JupiterView1.SetDefaultLocation = Off;
+GMAT JupiterView1.SetCurrentLocation = On;
+GMAT JupiterView1.CurrentEye = [ 149063083.61515 355241973.7446876 1387186881.301503 ];
+GMAT JupiterView1.CurrentCenter = [ 320840464.2627517 346948713.0307954 -637192.18140769 ];
+GMAT JupiterView1.CurrentUp = [ -0.9502195185376402 -0.2892293288787136 -0.1158846922870489 ];
+GMAT JupiterView1.FOVy = 45;
+
+Create OpenFramesView SunView1;
+GMAT SunView1.ViewFrame = Sun;
+GMAT SunView1.ViewTrajectory = Off;
+GMAT SunView1.InertialFrame = Off;
+GMAT SunView1.SetDefaultLocation = Off;
+GMAT SunView1.SetCurrentLocation = Off;
+GMAT SunView1.FOVy = 45;
+
+Create OpenFramesView SatView1;
+GMAT SatView1.ViewFrame = Sat;
+GMAT SatView1.ViewTrajectory = Off;
+GMAT SatView1.InertialFrame = Off;
+GMAT SatView1.SetDefaultLocation = Off;
+GMAT SatView1.SetCurrentLocation = On;
+GMAT SatView1.CurrentEye = [ 1003227218.375478 -5166331910.295975 -712103558.3667197 ];
+GMAT SatView1.CurrentCenter = [ -3.576278686523438e-07 0 7.152557373046875e-07 ];
+GMAT SatView1.CurrentUp = [ -0.6456825398718988 -0.2259221348572304 0.7294198014080265 ];
+GMAT SatView1.FOVy = 45;
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+BeginMissionSequence;
+BeginScript 'Step1'
+   BeginFileThrust ThrustHistoryFile1(Sat);
+   Propagate ThePropagator(Sat) {Sat.ElapsedSecs = RunTime};
+   EndFileThrust ThrustHistoryFile1(Sat);
+EndScript;
+
+GMAT Data(1) = Sat.CentralBodyICRF.VX;
+GMAT Data(2) = Sat.CentralBodyICRF.VY;
+GMAT Data(3) = Sat.CentralBodyICRF.VZ;
+GMAT Data(4) = Sat.CentralBodyICRF.X;
+GMAT Data(5) = Sat.CentralBodyICRF.Y;
+GMAT Data(6) = Sat.CentralBodyICRF.Z;
+
+
+
+
+
+
+
