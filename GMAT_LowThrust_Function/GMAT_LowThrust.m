@@ -777,67 +777,39 @@ Saturn=find(contains(PointMasses,'Saturn'));
 Uranus=find(contains(PointMasses,'Uranus'));
 Neptune=find(contains(PointMasses,'Neptune'));
 Pluto=find(contains(PointMasses,'Pluto'));
-%The part below use to work. GMAT's API is terrible 
+%
+GravityPointMass="GMAT FM.PointMasses = {Sun"; 
 if Mercury >= 1
-    Mercurygrav = GMATAPI.Construct("PointMassForce");
-    Mercurygrav.SetField("BodyName","Mercury")
-    fm.AddForce(Mercurygrav);
-    gmat.gmat.Initialize();
+    GravityPointMass=GravityPointMass+", Mercury";
 end
 if Venus >= 1
-    Venusgrav = GMATAPI.Construct("PointMassForce");
-    Venusgrav.SetField("BodyName","Venus")
-    fm.AddForce(Venusgrav);
-    gmat.gmat.Initialize();
+    GravityPointMass=GravityPointMass+", Venus";
 end
 if Earth >= 1
-    Earthgrav = GMATAPI.Construct("PointMassForce");
-    Earthgrav.SetField("BodyName","Earth")
-    fm.AddForce(Earthgrav);
-    gmat.gmat.Initialize();
+    GravityPointMass=GravityPointMass+", Earth";
 end
 if Luna >= 1
-    Lunagrav = GMATAPI.Construct("PointMassForce");
-    Lunagrav.SetField("BodyName","Luna")
-    fm.AddForce(Lunagrav);
-    gmat.gmat.Initialize();
+    GravityPointMass=GravityPointMass+", Luna";
 end
 if Mars >= 1
-    Marsgrav = GMATAPI.Construct("PointMassForce");
-    Marsgrav.SetField("BodyName","Mars")
-    fm.AddForce(Marsgrav);
-    gmat.gmat.Initialize();
+    GravityPointMass=GravityPointMass+", Mars";
 end
 if Jupiter >= 1
-    Jupitergrav = GMATAPI.Construct("PointMassForce");
-    Jupitergrav.SetField("BodyName","Jupiter")
-    fm.AddForce(Jupitergrav);
-    gmat.gmat.Initialize();
+    GravityPointMass=GravityPointMass+", Jupiter";
 end
 if Saturn >= 1
-    Saturngrav = GMATAPI.Construct("PointMassForce");
-    Saturngrav.SetField("BodyName","Saturn")
-    fm.AddForce(Saturngrav);
-    gmat.gmat.Initialize();
+    GravityPointMass=GravityPointMass+", Saturn";
 end
 if Uranus >= 1
-    Uranusgrav = GMATAPI.Construct("PointMassForce");
-    Uranusgrav.SetField("BodyName","Uranus")
-    fm.AddForce(Uranusgrav);
-    gmat.gmat.Initialize();
+    GravityPointMass=GravityPointMass+", Uranus";
 end
 if Neptune >= 1
-    Neptunegrav = GMATAPI.Construct("PointMassForce");
-    Neptunegrav.SetField("BodyName","Neptune")
-    fm.AddForce(Neptunegrav);
-    gmat.gmat.Initialize();
+    GravityPointMass=GravityPointMass+", Neptune";
 end
 if Pluto >= 1
-    Plutograv = GMATAPI.Construct("PointMassForce");
-    Plutograv.SetField("BodyName","Pluto")
-    fm.AddForce(Plutograv);
-    gmat.gmat.Initialize();
+    GravityPointMass=GravityPointMass+", Pluto";
 end
+GravityPointMass=GravityPointMass+"};";
 %Propagator
 prop= GMATAPI.Construct("Propagator", "ThePropagator");
 gator = GMATAPI.Construct("RungeKutta89");
@@ -885,7 +857,10 @@ end
 %CoordinateSystem
 %CentralBodyICRF = gmat.gmat.Construct("CoordinateSystem", "CentralBodyICRF", string(CentralBody), "ICRF");
 LineC0=find(contains(FileRead1,"GMAT CentralBodyICRF.Origin = Sun;"));
-FileRead1New{LineC0}="GMAT CentralBodyICRF.Origin = "+string(CentralBody)+";"; 
+FileRead1New{LineC0}="GMAT CentralBodyICRF.Origin = "+string(CentralBody)+";";
+%Updating point mass in gravity model
+LineC9=find(contains(FileRead1,"GMAT FM.PointMasses = {Sun};"));
+FileRead1New{LineC9}=GravityPointMass;
 %Rewrite File
 fid1 = fopen(destinationS, 'w');
 fprintf(fid1, '%s\n', FileRead1New{:});
