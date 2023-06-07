@@ -12,6 +12,13 @@
    SNOPT Matlab folder must be within the path variable for optimization to work. 
    The constraint / objective function is called using objFunc_conFunc.
    Need MATLAB 2020a or newer to work. It may work for older versions, but you would have to change how the function is reading the setup Excel table.
+   
+   #### Earth to Jupiter and Earth to Mars Low-Thrust Trajectories created with this function
+   <p float="center">
+   <img src="EarthToJupiter.jpg" width="43%" height="43%" title="Earth to Jupiter Trajectory"> <img src="Save200Mars.PNG" width="54%" height="54%" title="Earth to Mars Trajectory">
+   </p>
+
+
   ### Optimization Notes and Limitations
 
    1) Optimization assumes that thrust/acceleration magnitude remains
