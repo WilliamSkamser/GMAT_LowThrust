@@ -1,20 +1,21 @@
 # GMAT_LowThrust
   Still working on improving this readme document 
-  
-  
-  GMAT_LowThrust writes GMAT script files to propagate and optimize
+  GMAT_LowThrust.m is a MATLAB function that writes GMAT script files to propagate and optimize
    low-thrust trajectory problems.
-   
    Low_Thrust problems may be propagated as is or optimized.
    The bin folder of GMAT must be within your path variable for the API commands used in this function to work.
    Optimization is done using SNOPT 7.6 Matlab interface (Other versions
    may work).
+   SNOPT is an advanced nonlinear optimization tool.
    SNOPT Guide Link: 
    https://ccom.ucsd.edu/~optimizers/docs/snopt/interfaces.html#matlab
    https://ccom.ucsd.edu/~optimizers/static/pdfs/sndoc7.pdf
-   SNOPT Matlab folder must be within the path variable for optimization to work. 
+   It's license is proprietary and must be aquired from: https://ccom.ucsd.edu/~optimizers/
+   SNOPT is not required to generate low-thrust GMAT propagation scripts, but is required to optimize your trajectory. 
+   SNOPT Matlab folder must also be within the path variable for optimization to work. 
    The constraint / objective function is called using objFunc_conFunc.
-   Need MATLAB 2020a or newer to work. It may work for older versions, but you would have to change how the function is reading the setup Excel table.
+   GMAT_LowThrust.m uses MATLAB's table2array and readtable functions which seem to only work properly with MATLAB 2020a or newer.
+   To use older versions of MATLAB you will need to replace the method used to read in selected information from the Excel data table. 
    
    #### Earth to Jupiter and Earth to Mars Low-Thrust Trajectories created with this function
    <p float="center">
@@ -34,6 +35,8 @@
    to improve the performance of your problem. 
    4) Problems with more than 200 steps tend to take more than 10 hours to
    optimize for optimal time of flight. 
+   5) Running with a smaller number of steps first and interpolating solution 
+   as inital guess apears to decrease overall run time
 
    ### Function inputs and outputs
    ```
@@ -117,8 +120,10 @@
    LowThrustOutputStructToExcel-> can be used to regenerate the Excel set-up
    sheet using output struct. 
 
-   Known Errors:   'Minor iteration limit' is stuck at 10000
+   Known Errors:   
+   1) 'Minor iteration limit' is stuck at 10000
+   2) MATLAB's functions for reading the Excel table does not work for MATLAB 2019 or older
    
-   Future Work:
-   Replacing/Providing the option to optimize with GMAT's CSALT plugin
-   Improve run time of optimization
+   Protental Improvments:
+   1) Replacing/Providing the option to optimize with GMAT's CSALT plugin
+   2) Improve run time of optimization
