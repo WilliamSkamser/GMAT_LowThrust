@@ -1,5 +1,8 @@
 # GMAT_LowThrust
-   GMAT_LowThrust writes GMAT script files to propagate and optimize
+  Still working on improving this readme document 
+  
+  
+  GMAT_LowThrust writes GMAT script files to propagate and optimize
    low-thrust trajectory problems.
    
    Low_Thrust problems may be propagated as is or optimized.
