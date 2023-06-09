@@ -1,5 +1,5 @@
 # GMAT_LowThrust
-  Still working on improving this readme document 
+ 
   GMAT_LowThrust.m is a MATLAB function that writes GMAT script files to propagate and optimize
    low-thrust trajectory problems.
    Low_Thrust problems may be propagated as is or optimized.
