@@ -21,8 +21,10 @@
    <p float="center">
    <img src="EarthToJupiter.jpg" width="43%" height="43%" title="Earth to Jupiter Trajectory"> <img src="Save200Mars.PNG" width="54%" height="54%" title="Earth to Mars Trajectory">
    </p>
-
-
+    <p align="center">
+   <img src="EarthToJupiterOpenFrames.PNG" width="54%" height="54%" title="Earth to Mars Trajectory">
+   </p>
+   
   ### Optimization Notes and Limitations
 
    1) Optimization assumes that thrust/acceleration magnitude remains
